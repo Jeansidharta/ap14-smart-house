@@ -1,0 +1,6 @@
+# This is a configuration file for deploying in Netlify. If you're not using Netlify,
+# you can delete this file.
+
+# Plugin for faster nextjs builds
+[[plugins]]
+package = "netlify-plugin-cache-nextjs"
