@@ -19,9 +19,11 @@
     "upgrade": "npx npm-check-updates -u"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
     "next": "^10.0.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-toastify": "^6.2.0",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {

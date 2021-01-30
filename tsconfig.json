@@ -73,6 +73,12 @@
     "**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "out",
+    ".next",
+    ".git",
+    "public",
+    ".vscode",
+    "scripts"
   ]
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import type { DefaultTheme } from 'styled-components';
 import styled from 'styled-components';
+import Spinner from '../spinner';
 
 type ColorDescriptor = string | ((theme: DefaultTheme)=> string);
 
@@ -35,6 +36,11 @@ const Root = styled.button<{
 	}
 `;
 
+const Spacing = styled.div`
+	height: 1px;
+	width: 8px;
+`;
+
 type ButtonProps = React.PropsWithoutRef<{
 	/**
 	* The contents that will be rendered inside the button.
@@ -55,6 +61,7 @@ type ButtonProps = React.PropsWithoutRef<{
 	* If true, the button's width will be set to `100%`.
 	*/
 	fullWidth?: boolean,
+	isLoading?: boolean,
 }> & React.ComponentProps<'button'>;
 
 type ButtonComponent = React.FunctionComponent<ButtonProps>;
@@ -67,6 +74,7 @@ const Button: ButtonComponent = ({
 	backgroundColor = (theme: DefaultTheme) => theme.colors.action.main,
 	textColor = `rgba(0, 0, 0, 0.8)`,
 	ref,
+	isLoading,
 	...props
 }) => {
 
@@ -78,7 +86,7 @@ const Button: ButtonComponent = ({
 			backgroundColor={backgroundColor}
 			{...props}
 		>
-			{content}
+			{content}{isLoading && <><Spacing/><Spinner size={16} /></>}
 		</Root>
 	);
 };
