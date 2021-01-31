@@ -84,14 +84,14 @@ export const SelectHSV: SelectHSVComponent = ({
 		const canvas = canvasRef.current!;
 		const hue = (x / canvas.width) * MAX_HUE;
 		const saturation = MAX_SATURATION - (y / canvas.height) * MAX_SATURATION;
-		return { hue, saturation };
+		return { hue: Math.round(hue), saturation: Math.round(saturation) };
 	}
 
 	function HSVToCoords (hue: number, saturation: number) {
 		const canvas = canvasRef.current!;
 		const x = (hue / MAX_HUE) * canvas.width;
 		const y = canvas.height - (saturation / MAX_SATURATION) * canvas.height;
-		return { x, y };
+		return { x: Math.round(x), y: Math.round(y) };
 	}
 
 	React.useEffect(() => {
@@ -110,9 +110,9 @@ export const SelectHSV: SelectHSVComponent = ({
 				const dataIndex = (x + y * canvas.width) * 4;
 				const { hue, saturation } = coordsToHSV(x, y);
 				const [red, green, blue] = HSV2RGB(hue, saturation, MAX_VALUE);
-				data[dataIndex + 0] = red;
-				data[dataIndex + 1] = green;
-				data[dataIndex + 2] = blue;
+				data[dataIndex + 0] = Math.round(red);
+				data[dataIndex + 1] = Math.round(green);
+				data[dataIndex + 2] = Math.round(blue);
 				data[dataIndex + 3] = 255;
 			}
 		}
@@ -122,8 +122,8 @@ export const SelectHSV: SelectHSVComponent = ({
 	function handleMouseChange ({ x: clientX, y: clientY }: Coords) {
 		const canvas = canvasRef.current!;
 		const { top, left, width, height } = canvas.getBoundingClientRect();
-		const x = Math.max(Math.min(clientX - left, width), 0);
-		const y = Math.max(Math.min(clientY - top, height), 0);
+		const x = Math.max(Math.min(Math.round(clientX - left), width), 0);
+		const y = Math.max(Math.min(Math.round(clientY - top), height), 0);
 		const hsvObject = coordsToHSV(x, y);
 		currentColorRef.current = hsvObject;
 		updateInputValues();
@@ -133,15 +133,15 @@ export const SelectHSV: SelectHSVComponent = ({
 
 	function getHSVFromInputs () {
 		if (colorMode === 'hsv') {
-			const hue = Number(hueRef.current!.value);
-			const saturation = Number(saturationRef.current!.value);
+			const hue = Math.round(Number(hueRef.current!.value));
+			const saturation = Math.round(Number(saturationRef.current!.value));
 			return { hue, saturation };
 		} else {
-			const red = Number(redRef.current!.value);
-			const green = Number(greenRef.current!.value);
-			const blue = Number(blueRef.current!.value);
+			const red = Math.round(Number(redRef.current!.value));
+			const green = Math.round(Number(greenRef.current!.value));
+			const blue = Math.round(Number(blueRef.current!.value));
 			const [hue, saturation] = RGB2HSV(red, green, blue);
-			return { hue, saturation };
+			return { hue: Math.round(hue), saturation: Math.round(saturation) };
 		}
 	}
 

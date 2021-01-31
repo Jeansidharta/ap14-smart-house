@@ -3,12 +3,13 @@ import React from 'react';
 import styled from 'styled-components';
 import BrightnessLow from '@material-ui/icons/BrightnessLow';
 import BrightnessHigh from '@material-ui/icons/BrightnessHigh';
-import SelectLamps from '../../components/reusable/select-lamps';
 import Button from '../../components/reusable/button';
 import { useSendCommand } from '../../libs/use-send-command';
 import { useDebounce } from '../../libs/use-debounce';
 import { SelectHSV } from '../../components/reusable/select-hsv';
 import { useEffectAsync } from '../../libs/useEffectAsync';
+
+import { useLamps } from '../../contexts/lamps';
 
 const Root = styled.div`
 	display: flex;
@@ -39,7 +40,7 @@ type ControlPageComponent = React.FunctionComponent<ControlPageProps>;
 
 const ControlPage: ControlPageComponent = ({
 }) => {
-	const [targetLamps, setTargetLamps] = React.useState<string[]>([]);
+	const { findLampById, targetLamps, allLamps } = useLamps();
 	const [sendCommand] = useSendCommand();
 	const [targetBrightness, setTargetBrightness] = React.useState<number>(100);
 	const [colors, setColors] = React.useState<{ hue: number, saturation: number }>({ hue: 0, saturation: 0 });
@@ -65,6 +66,18 @@ const ControlPage: ControlPageComponent = ({
 		await sendCommand(targetLamps, 'set_power', [action, 'sudden', 30, 0]);
 	}
 
+	React.useEffect(() => {
+		if (targetLamps.length === 0) return;
+
+		const targetLamp = findLampById(targetLamps[0])!;
+		if (!targetLamp) return;
+
+		if (targetLamp.hue !== colors.hue || targetLamp.sat !== colors.saturation) {
+			setColors({ hue: targetLamp.hue, saturation: targetLamp.sat });
+		}
+		setTargetBrightness(targetLamp.bright);
+	}, [allLamps, targetLamps]);
+
 	return (
 		<Root>
 			<SliderContainer>
@@ -77,7 +90,6 @@ const ControlPage: ControlPageComponent = ({
 				<Button content='on' onClick={() => handleButtonClick('on')} />
 			</ButtonsContainer>
 			<SelectHSV onChange={useDebounce(setColors, 100)} />
-			<SelectLamps onChange={setTargetLamps} />
 		</Root>
 	);
 }

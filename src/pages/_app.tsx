@@ -10,6 +10,7 @@ import AppContainer from '../containers/_app';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import Services from '../services';
 
 type MyAppProps = React.PropsWithoutRef<{
 	// The following rule is being ignored because this type is not important and
@@ -54,6 +55,7 @@ const MyApp: MyAppComponent = ({ Component, pageProps }) => {
 			<FilledThemeProvider>
 				<Providers>
 					<AppContainer>
+						<Services />
 						<ToastContainer hideProgressBar />
 						<Component {...pageProps} />
 					</AppContainer>

@@ -5,10 +5,10 @@ import Footer from '../../components/layout/footer';
 import Select from '../../components/reusable/select';
 import { MethodNames } from '../../models/lamp-methods';
 import Button from '../../components/reusable/button';
-import { usePostData } from '../../libs/use-post-data';
 import { InputCommonProps, getMethodInputs } from './resolve-input-elements';
 import { toast } from 'react-toastify';
-import SelectLamps from '../../components/reusable/select-lamps';
+import { useLamps } from '../../contexts/lamps';
+import { useSendCommand } from '../../libs/use-send-command';
 
 const Main = styled.div`
 	width: 100%;
@@ -27,14 +27,14 @@ const Form = styled.form`
 `;
 
 export default function Home () {
-	const [targetLampsId, setTargetLampsId] = React.useState<string[]>([]);
+	const { targetLamps } = useLamps();
 	const [method, setMethod] = React.useState<string | null>(null);
 	const [argsValue, setArgsValue] = React.useState<Record<number, string | number | null>>({});
 	const [argumentsInputElements, setArgumentsInputElements] = (
 		React.useState<React.FunctionComponent<InputCommonProps>[]>([])
 	);
 
-	const [sendCommand, { loading: loadingCommand }] = usePostData('http://192.168.0.100:3232/lamp/rawmethod');
+	const [sendCommand, { loading: loadingCommand }] = useSendCommand();
 
 	React.useEffect(() => {
 		setArgsValue({});
@@ -82,7 +82,7 @@ export default function Home () {
 			toast.error('No method selected');
 			return;
 		}
-		await sendCommand('', { targets: targetLampsId, method, args });
+		await sendCommand(targetLamps, method, args);
 		toast.success('Command sent successful');
 	}
 
@@ -93,7 +93,6 @@ export default function Home () {
 			</Head>
 			<Main>
 				<Form onSubmit={handleSubmit}>
-					<SelectLamps onChange={setTargetLampsId} />
 					<Select
 						options={MethodNames}
 						onChangeValue={val => handleMethodChange(val as string | null)}

@@ -12,7 +12,7 @@ type Command = {
 export function useSendCommand<T>() {
 	const [rawSendCommand, { loading, error }] = usePostData(API_URL + '/lamp/rawmethod');
 
-	async function sendCommand (targets: string[], method: string, args: any[]) {
+	async function sendCommand (targets: number[], method: string, args: any[]) {
 		return rawSendCommand('', { targets, method, args });
 	}
 

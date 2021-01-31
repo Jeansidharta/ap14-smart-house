@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Header from '../components/layout/header';
 
 const Root = styled.div`
 	height: 100%;
@@ -18,6 +19,7 @@ type AppContainerComponent = React.FunctionComponent<AppContainerProps>;
 const AppContainer: AppContainerComponent = ({ children }) => {
 	return (
 		<Root>
+			<Header />
 			{children}
 		</Root>
 	);
