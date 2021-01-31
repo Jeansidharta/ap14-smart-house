@@ -1,110 +1,97 @@
+import { Slider } from '@material-ui/core';
 import React from 'react';
-import Head from 'next/head';
 import styled from 'styled-components';
-import Footer from '../../components/layout/footer';
-import Select from '../../components/reusable/select';
-import { MethodNames } from '../../models/lamp-methods';
+import BrightnessLow from '@material-ui/icons/BrightnessLow';
+import BrightnessHigh from '@material-ui/icons/BrightnessHigh';
 import Button from '../../components/reusable/button';
-import { InputCommonProps, getMethodInputs } from './resolve-input-elements';
-import { toast } from 'react-toastify';
-import { useLamps } from '../../contexts/lamps';
 import { useSendCommand } from '../../libs/use-send-command';
+import { useDebounce } from '../../libs/use-debounce';
+import { SelectHSV } from '../../components/reusable/select-hsv';
+import { useEffectAsync } from '../../libs/useEffectAsync';
 
-const Main = styled.div`
-	width: 100%;
-	height: 100%;
-	overflow-y: auto;
-	padding: 16px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
+import { useLamps } from '../../contexts/lamps';
 
-const Form = styled.form`
+const Root = styled.div`
 	display: flex;
 	flex-direction: column;
-	max-width: 600px;
+	align-items: center;
+	width: 100%;
 `;
 
-export default function Home () {
-	const { targetLamps } = useLamps();
-	const [method, setMethod] = React.useState<string | null>(null);
-	const [argsValue, setArgsValue] = React.useState<Record<number, string | number | null>>({});
-	const [argumentsInputElements, setArgumentsInputElements] = (
-		React.useState<React.FunctionComponent<InputCommonProps>[]>([])
-	);
+const SliderContainer = styled.div`
+	display: grid;
+	grid-template-columns: max-content auto max-content;
+	column-gap: 1rem;
+	margin: 2rem;
+	width: 100%;
+	max-width: 300px;
+`;
 
-	const [sendCommand, { loading: loadingCommand }] = useSendCommand();
+const ButtonsContainer = styled.div`
+	display: grid;
+	grid-template-columns: max-content max-content;
+	column-gap: 1rem;
+`;
+
+type ControlPageProps = React.PropsWithoutRef<{
+}>;
+
+type ControlPageComponent = React.FunctionComponent<ControlPageProps>;
+
+const ControlPage: ControlPageComponent = ({
+}) => {
+	const { findLampById, targetLamps, allLamps } = useLamps();
+	const [sendCommand] = useSendCommand();
+	const [targetBrightness, setTargetBrightness] = React.useState<number>(100);
+	const [colors, setColors] = React.useState<{ hue: number, saturation: number }>({ hue: 0, saturation: 0 });
+
+	useEffectAsync(async () => {
+		await sendCommand(targetLamps, 'set_bright', [targetBrightness]);
+	}, [targetBrightness]);
+
+	useEffectAsync(async () => {
+		await sendCommand(targetLamps, 'set_hsv', [colors.hue, colors.saturation]);
+	}, [colors]);
+
+	const handleBrightness = useDebounce((_event: React.ChangeEvent<{}>, newValue: number | number[]) => {
+		if (newValue instanceof Array) {
+			console.log('wtf did I just receive');
+			return;
+		}
+
+		setTargetBrightness(newValue);
+	}, 100);
+
+	async function handleButtonClick (action: string) {
+		await sendCommand(targetLamps, 'set_power', [action, 'sudden', 30, 0]);
+	}
 
 	React.useEffect(() => {
-		setArgsValue({});
-		if (!method) {
-			setArgumentsInputElements([]);
-			return;
-		}
-		const inputElements = getMethodInputs(method);
-		if (!inputElements) {
-			setArgumentsInputElements([]);
-			return;
-		}
-		setArgumentsInputElements(inputElements);
-	}, [method]);
+		if (targetLamps.length === 0) return;
 
-	function handleMethodChange (value: string | null) {
-		setMethod(value);
-	}
+		const targetLamp = findLampById(targetLamps[0])!;
+		if (!targetLamp) return;
 
-	function handleArgumentChange (value: string | number | null, index: number) {
-		setArgsValue({ ...argsValue, [index]: value });
-	}
-
-	function getArgumentsArray () {
-		let argsArray: (string | number)[] = [];
-		if (!argsValue[0]) return argsArray;
-		argsArray.push(argsValue[0]);
-		if (!argsValue[1]) return argsArray;
-		argsArray.push(argsValue[1]);
-		if (!argsValue[2]) return argsArray;
-		argsArray.push(argsValue[2]);
-		if (!argsValue[3]) return argsArray;
-		argsArray.push(argsValue[3]);
-		return argsArray;
-	}
-
-	async function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
-		event.preventDefault();
-		if (loadingCommand) {
-			toast.error('Already sending request');
-			return;
+		if (targetLamp.hue !== colors.hue || targetLamp.sat !== colors.saturation) {
+			setColors({ hue: targetLamp.hue, saturation: targetLamp.sat });
 		}
-		const args = getArgumentsArray();
-		if (!method) {
-			toast.error('No method selected');
-			return;
-		}
-		await sendCommand(targetLamps, method, args);
-		toast.success('Command sent successful');
-	}
+		setTargetBrightness(targetLamp.bright);
+	}, [allLamps, targetLamps]);
 
 	return (
-		<>
-			<Head>
-				<title>Controller home</title>
-			</Head>
-			<Main>
-				<Form onSubmit={handleSubmit}>
-					<Select
-						options={MethodNames}
-						onChangeValue={val => handleMethodChange(val as string | null)}
-						label="Method"
-					/>
-					{argumentsInputElements.map((InputElement, index) => (
-						<InputElement onChange={value => handleArgumentChange(value, index)} key={index} />
-					))}
-					<Button isLoading={loadingCommand} content="Submit" type="submit" />
-				</Form>
-			</Main>
-			<Footer />
-		</>
+		<Root>
+			<SliderContainer>
+				<BrightnessLow />
+				<Slider min={1} onChange={handleBrightness} />
+				<BrightnessHigh />
+			</SliderContainer>
+			<ButtonsContainer>
+				<Button content='off' onClick={() => handleButtonClick('off')} />
+				<Button content='on' onClick={() => handleButtonClick('on')} />
+			</ButtonsContainer>
+			<SelectHSV onChange={useDebounce(setColors, 100)} />
+		</Root>
 	);
 }
+
+export default ControlPage;
