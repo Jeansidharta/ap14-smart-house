@@ -13,6 +13,7 @@ type SelectProps = React.ComponentProps<typeof MUISelect> & React.PropsWithoutRe
 	label?: string,
 	fullWidth?: boolean,
 	className?: string,
+	defaultValue?: string,
 }>;
 
 type SelectComponent = React.FunctionComponent<SelectProps>;
@@ -23,10 +24,11 @@ const Select: SelectComponent = ({
 	label,
 	className,
 	fullWidth = false,
+	defaultValue = '',
 	ref,
 	...props
 }) => {
-	const [selectedId, setSelectedId] = React.useState<string>('');
+	const [selectedId, setSelectedId] = React.useState<string>(defaultValue);
 
 	function handleChange (newValue: unknown) {
 		const option = options.find(option => parseOption(option).id === newValue);

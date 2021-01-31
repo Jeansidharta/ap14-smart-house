@@ -5,6 +5,16 @@
 *                                                                          *
 ************************************************************************** */
 
+/** ************************** Module types **************** */
+/* Types related to un-typed modules */
+
+declare module "hsv-rgb" {
+	export default (hue: number, saturation: number, value: number) => [number, number, number];
+}
+declare module "rgb-hsv" {
+	export default (red: number, green: number, blue: number) => [number, number, number];
+}
+
 /** ************************** Image-import related types **************** */
 /* This section exists solely to allow for import of image-related types without
  * the compiler complaining. Don't think too much about it */

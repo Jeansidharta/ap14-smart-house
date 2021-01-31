@@ -5,14 +5,10 @@ import Footer from '../../components/layout/footer';
 import Select from '../../components/reusable/select';
 import { MethodNames } from '../../models/lamp-methods';
 import Button from '../../components/reusable/button';
-import { useGetData } from '../../libs/use-get-data';
 import { usePostData } from '../../libs/use-post-data';
-import Checkbox from '../../components/reusable/checkbox';
-import Spinner from '../../components/reusable/spinner';
-import { LampState } from '../../models/lamp-state';
 import { InputCommonProps, getMethodInputs } from './resolve-input-elements';
-import { useLocalStorage } from '../../libs/use-local-storage';
 import { toast } from 'react-toastify';
+import SelectLamps from '../../components/reusable/select-lamps';
 
 const Main = styled.div`
 	width: 100%;
@@ -30,20 +26,14 @@ const Form = styled.form`
 	max-width: 600px;
 `;
 
-const CheckboxContainer = styled.div`
-	display: flex;
-
-`;
-
 export default function Home () {
-	const [targetLampsId, setTargetLampsId] = useLocalStorage<Record<string, true>>('selected-lamps', {});
+	const [targetLampsId, setTargetLampsId] = React.useState<string[]>([]);
 	const [method, setMethod] = React.useState<string | null>(null);
 	const [argsValue, setArgsValue] = React.useState<Record<number, string | number | null>>({});
 	const [argumentsInputElements, setArgumentsInputElements] = (
 		React.useState<React.FunctionComponent<InputCommonProps>[]>([])
 	);
 
-	const [allLamps, loadingLamps] = useGetData<LampState[]>('http://192.168.0.100:3232/lamp');
 	const [sendCommand, { loading: loadingCommand }] = usePostData('http://192.168.0.100:3232/lamp/rawmethod');
 
 	React.useEffect(() => {
@@ -92,16 +82,8 @@ export default function Home () {
 			toast.error('No method selected');
 			return;
 		}
-		const targets = Object.keys(targetLampsId);
-		await sendCommand('', { targets, method, args });
+		await sendCommand('', { targets: targetLampsId, method, args });
 		toast.success('Command sent successful');
-	}
-
-	function handleTargetLampChange (lampId: number, newValue: boolean) {
-		const newTargetLampsId = { ...targetLampsId };
-		if (newValue) newTargetLampsId[lampId] = true;
-		else delete newTargetLampsId[lampId];
-		setTargetLampsId(newTargetLampsId);
 	}
 
 	return (
@@ -111,17 +93,7 @@ export default function Home () {
 			</Head>
 			<Main>
 				<Form onSubmit={handleSubmit}>
-					Send to whom?
-					{loadingLamps && <Spinner />}
-					{allLamps?.map(lamp => (
-						<CheckboxContainer defaultChecked key={lamp.id}>
-							<Checkbox
-								onChange={val => handleTargetLampChange(lamp.id, val)}
-								value={targetLampsId[lamp.id] || false}
-								label={lamp.name}
-							/>
-						</CheckboxContainer>
-					))}
+					<SelectLamps onChange={setTargetLampsId} />
 					<Select
 						options={MethodNames}
 						onChangeValue={val => handleMethodChange(val as string | null)}
