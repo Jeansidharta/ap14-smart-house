@@ -13,7 +13,7 @@ const Backdrop = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 64px;
+	padding: 16px;
 `;
 
 const ElementContainer = styled.div`
