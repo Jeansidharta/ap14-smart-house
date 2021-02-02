@@ -5,15 +5,11 @@
 module.exports = {
 	apps: [{
 		// TODO - add application name here
-		name: 'YOU-APP-NAME-HERE',
+		name: 'Yeelight-frontend',
 
 		// The serve script will simply serve the contents of the folder specified in the.
 		// arguments
 		script: 'serve',
-
-		// Serves the `out` folder, which is where the site will be staticaly generated.
-		// This folder will be generated when you run `npm run build-export`.
-		args: 'out/',
 
 		// If `watch` is true, a file watcher will be attached to the whole project.
 		// Whenever any file in the project is changed, `pm2` will reload this process.
@@ -21,5 +17,9 @@ module.exports = {
 
 		// Adds timestamp for logs
 		time: true,
+		env: {
+			PM2_SERVE_PATH: 'out/',
+			PM2_SERVE_PORT: 3055
+		}
 	}],
 };

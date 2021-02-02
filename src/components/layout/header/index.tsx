@@ -4,13 +4,17 @@ import RawLampIcon from '@material-ui/icons/WbIncandescent';
 import { useModal } from '../../../contexts/modal';
 import SetTargetLampModal from '../../modals/set-target-lamps';
 
+import Kitchen from '@material-ui/icons/Kitchen';
+import Tv from '@material-ui/icons/Tv';
+import GroupButton from './group-button';
+import { LAMP_ID_JEAN, LAMP_ID_MIDDLE, LAMP_ID_RAFA, LAMP_ID_TV, LAMP_ID_WINDOW } from '../../../constants/lamp-ids';
+
 const Root = styled.div`
 	width: 100%;
 	background-color: lightblue;
 	display: flex;
-	flex-direction: row-reverse;
+	justify-content: flex-end;
 	align-items: center;
-	padding: 16px;
 `;
 
 const LampIcon = styled(RawLampIcon)`
@@ -31,6 +35,21 @@ const Header: HeaderComponent = ({  }) => {
 
 	return (
 		<Root>
+			<GroupButton lampIds={[LAMP_ID_JEAN]}>
+				J
+			</GroupButton>
+			<GroupButton lampIds={[LAMP_ID_RAFA]}>
+				R
+			</GroupButton>
+			<GroupButton lampIds={[LAMP_ID_MIDDLE, LAMP_ID_WINDOW]}>
+				<Kitchen />
+			</GroupButton>
+			<GroupButton lampIds={[LAMP_ID_TV]}>
+				<Tv />
+			</GroupButton>
+			<GroupButton lampIds={[LAMP_ID_JEAN, LAMP_ID_RAFA, LAMP_ID_TV, LAMP_ID_MIDDLE, LAMP_ID_WINDOW]}>
+				All
+			</GroupButton>
 			<LampIcon onClick={handleClick} />
 		</Root>
 	);

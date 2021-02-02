@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import Footer from '../../components/layout/footer';
 import Select from '../../components/reusable/select';
 import { MethodNames } from '../../models/lamp-methods';
 import Button from '../../components/reusable/button';
@@ -12,7 +11,7 @@ import { useSendCommand } from '../../libs/use-send-command';
 
 const Main = styled.div`
 	width: 100%;
-	height: 100%;
+	min-height: 100vh;
 	overflow-y: auto;
 	padding: 16px;
 	display: flex;
@@ -104,7 +103,6 @@ export default function RawPage () {
 					<Button isLoading={loadingCommand} content="Submit" type="submit" />
 				</Form>
 			</Main>
-			<Footer />
 		</>
 	);
 }

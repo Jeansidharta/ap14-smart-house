@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Footer from '../components/layout/footer';
 import Header from '../components/layout/header';
 
 const Root = styled.div`
@@ -7,6 +8,10 @@ const Root = styled.div`
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+`;
+
+const ChildrenContainer = styled.div`
+	height: 100%;
 `;
 
 type AppContainerProps = React.PropsWithoutRef<{}>;
@@ -20,7 +25,10 @@ const AppContainer: AppContainerComponent = ({ children }) => {
 	return (
 		<Root>
 			<Header />
-			{children}
+			<ChildrenContainer>
+				{children}
+			</ChildrenContainer>
+			<Footer />
 		</Root>
 	);
 };
