@@ -24,6 +24,12 @@ type MyAppProps = React.PropsWithoutRef<{
 type MyAppComponent = React.FunctionComponent<MyAppProps>;
 
 const MyApp: MyAppComponent = ({ Component, pageProps }) => {
+	React.useEffect(() => {
+		if('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/sw.js').then(() => console.log("Service Worker Registered"));
+		}
+	}, []);
+
 	return (
 		<>
 			<Head>
@@ -49,7 +55,14 @@ const MyApp: MyAppComponent = ({ Component, pageProps }) => {
 				<meta property='og:site-name' content='My page site name' />
 				<meta property='og:description' content='My page description' />
 				<meta property='og:image' content={`${ImageURLs.logoPng}`} />
-				{/* <meta property='og:url' content={deployedUrl + '/'} /> */}
+				{/* <meta property='og:url' content={deployedUrl + '/'} /> */}'
+
+				{/* PWA stuff */}
+				<meta name="apple-mobile-web-app-capable" content="yes" />
+				<link rel="apple-touch-icon" href="single-page-icon.png" />
+				<meta name="apple-mobile-web-app-title" content="Ap 14 remote" />
+				<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+				<link rel="manifest" href="manifest.json" />
 			</Head>
 
 			<FilledThemeProvider>

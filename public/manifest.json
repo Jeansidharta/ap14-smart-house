@@ -1,0 +1,16 @@
+{
+  "short_name": "Ap 14 remote",
+  "name": "Ap 14 remote",
+  "icons": [
+    {
+      "src": "/house.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#3367D6",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#3367D6"
+}
