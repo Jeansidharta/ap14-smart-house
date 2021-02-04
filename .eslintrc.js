@@ -776,8 +776,9 @@ module.exports = {
 		'react/jsx-sort-default-props': [OFF],
 		/** Enforce props alphabetical sorting (fixable) */
 		'react/jsx-sort-props': [OFF],
+		// DEPRECATED
 		/** Validate spacing before closing bracket in JSX (fixable) */
-		'react/jsx-space-before-closing': [WARN, `always`],
+		//'react/jsx-space-before-closing': [WARN, `always`],
 		/** Validate whitespace in and around the JSX opening and closing brackets (fixable) */
 		// DEPRECATED
 		// 'react/jsx-tag-spacing': [OFF],

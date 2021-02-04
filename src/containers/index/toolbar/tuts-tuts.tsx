@@ -36,13 +36,13 @@ const TutsTuts: TutsTutsComponent = ({
 	function handleTutsTutsChange(event: any) {
 		const checked = event.target.checked;
 		setIsTutsTutsOn(checked);
-		switchTutsTutsOnLamps(checked, tutsTutsAreIndependent, tutsFrequencia);
+		triggerTutsTutsInterval(checked, tutsTutsAreIndependent, tutsFrequencia);
 	}
 
 	function handleTutsTutsIndependentChange(event: any) {
 		const checked = event.target.checked;
 		setTutsTutsAreIndependent(checked);
-		switchTutsTutsOnLamps(isTutsTutsOn, checked, tutsFrequencia);
+		triggerTutsTutsInterval(isTutsTutsOn, checked, tutsFrequencia);
 	}
 
 	function handleTutsFrequencia(_event: React.ChangeEvent<{}>, newValue: number | number[]) {
@@ -52,12 +52,12 @@ const TutsTuts: TutsTutsComponent = ({
 		}
 		const newFreq = newValue * 1000;
 		setTutsFrequencia(newFreq);
-		switchTutsTutsOnLamps(isTutsTutsOn, tutsTutsAreIndependent, newFreq);
+		triggerTutsTutsInterval(isTutsTutsOn, tutsTutsAreIndependent, newFreq);
 	}
 
-	const switchTutsTutsOnLamps = (tutsTuts: boolean, tutsTutsAreIndependent: boolean, tutsFrequencia: number) => {
+	const triggerTutsTutsInterval = (tutsTuts: boolean, tutsTutsAreIndependent: boolean, tutsFrequencia: number) => {
+		clearInterval(intervalHandle || 0);
 		if (tutsTuts) {
-			clearInterval(intervalHandle || 0);
 			let intervalHandler;
 			if (tutsTutsAreIndependent) {
 				intervalHandler = () => {
@@ -82,7 +82,7 @@ const TutsTuts: TutsTutsComponent = ({
 	}, [intervalHandle]);
 
 	useEffect(() => {
-		switchTutsTutsOnLamps(isTutsTutsOn, tutsTutsAreIndependent, tutsFrequencia);
+		triggerTutsTutsInterval(isTutsTutsOn, tutsTutsAreIndependent, tutsFrequencia);
 	}, [targetLamps.toString()]);
 
 	return (
