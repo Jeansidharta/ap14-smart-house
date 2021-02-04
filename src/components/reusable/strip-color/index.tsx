@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Coords, useMouseDrag } from '../../../libs/use-mouse-drag';
+import { Coords, useMouseDrag } from '../../../libs/hooks/use-mouse-drag';
 
 const Root = styled.div`
 `;

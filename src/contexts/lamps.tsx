@@ -1,6 +1,6 @@
 import React from 'react';
 import { API_URL } from '../constants/api-url';
-import { useLocalStorage } from '../libs/use-local-storage';
+import { useLocalStorage } from '../libs/hooks/use-local-storage';
 import { LampState } from '../models/lamp-state';
 
 type DictLamps = Record<number, LampState>;

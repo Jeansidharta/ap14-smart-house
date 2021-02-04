@@ -4,7 +4,7 @@ import RGB2HSV from 'rgb-hsv';
 import styled from 'styled-components';
 import Select from '../select';
 import Crosshair from '@material-ui/icons/Add';
-import { Coords, useMouseDrag } from '../../../libs/use-mouse-drag';
+import { Coords, useMouseDrag } from '../../../libs/hooks/use-mouse-drag';
 
 const CROSSHAIR_SIZE = 14;
 const CANVAS_WIDTH = 300;
