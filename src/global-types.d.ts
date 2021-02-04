@@ -9,10 +9,13 @@
 /* Types related to un-typed modules */
 
 declare module "hsv-rgb" {
-	export default (hue: number, saturation: number, value: number) => [number, number, number];
+	export default (hue: number, saturation: number, value: number) => [0, 0, 0] as [number, number, number];
+}
+declare module "color-temperature" {
+	export const colorTemperature2rgb = (temperature: number) => ({ red: 0, green: 0, blue: 0 } as { red: number, green: number, blue: number });
 }
 declare module "rgb-hsv" {
-	export default (red: number, green: number, blue: number) => [number, number, number];
+	export default (red: number, green: number, blue: number) => [0, 0, 0] as [number, number, number];
 }
 
 /** ************************** Image-import related types **************** */

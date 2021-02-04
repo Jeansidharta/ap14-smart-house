@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Footer from '../components/layout/footer';
 import Header from '../components/layout/header';
 
 const Root = styled.div`
@@ -28,7 +27,6 @@ const AppContainer: AppContainerComponent = ({ children }) => {
 			<ChildrenContainer>
 				{children}
 			</ChildrenContainer>
-			<Footer />
 		</Root>
 	);
 };
