@@ -7,7 +7,7 @@ import Button from '../../components/reusable/button';
 import { InputCommonProps, getMethodInputs } from './resolve-input-elements';
 import { toast } from 'react-toastify';
 import { useLamps } from '../../contexts/lamps';
-import { useSendCommand } from '../../libs/use-send-command';
+import { useSendCommand } from '../../libs/hooks/use-send-command';
 
 const Main = styled.div`
 	width: 100%;

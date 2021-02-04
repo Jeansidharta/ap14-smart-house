@@ -1,13 +1,14 @@
-import BrightnessLow from '@material-ui/icons/BrightnessLow';
+import { Slider } from '@material-ui/core';
 import BrightnessHigh from '@material-ui/icons/BrightnessHigh';
+import BrightnessLow from '@material-ui/icons/BrightnessLow';
 import React from 'react';
 import styled from 'styled-components';
-import { Slider } from '@material-ui/core';
-import { useDebounce } from '../../../libs/use-debounce';
-import { useSendCommand } from '../../../libs/use-send-command';
 import { useLamps } from '../../../contexts/lamps';
+import { useDebounce } from '../../../libs/hooks/use-debounce';
+import { useSendCommand } from '../../../libs/hooks/use-send-command';
 import ColorSelector from './color-selector';
 import TemperatureSelector from './temperature-selector';
+import TutsTuts from './tuts-tuts';
 
 const Root = styled.div`
 	padding: 0 16px;
@@ -70,6 +71,10 @@ const Toolbar: ToolbarComponent = ({  }) => {
 				<Slider onChange={handleBrightness} />
 				<BrightnessHigh />
 			</SliderContainer>
+			<TutsTuts
+				minFreq={0.2}
+				maxFreq={5}
+			/>
 		</Root>
 	);
 }

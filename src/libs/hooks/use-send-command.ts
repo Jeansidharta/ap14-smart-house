@@ -1,4 +1,4 @@
-import { API_URL } from '../constants/api-url';
+import { API_URL } from '../../constants/api-url';
 import { usePostData } from './use-post-data';
 
 export function useSendCommand() {
