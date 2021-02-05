@@ -7,7 +7,6 @@ import { useLamps } from '../../../contexts/lamps';
 import { useDebounce } from '../../../libs/hooks/use-debounce';
 import { useSendCommand } from '../../../libs/hooks/use-send-command';
 import ColorSelector from './color-selector';
-import TemperatureSelector from './temperature-selector';
 
 const Root = styled.div`
 	padding: 0 16px;
@@ -55,9 +54,9 @@ const Toolbar: ToolbarComponent = ({ }) => {
 		await sendCommand(targetLamps, `set_hsv`, [hue, saturation]);
 	}, 1000);
 
-	const handleTemperatureChange = useDebounce(async (temperature: number) => {
-		await sendCommand(targetLamps, `set_ct_abx`, [temperature]);
-	}, 1000);
+	// Const handleTemperatureChange = useDebounce(async (temperature: number) => {
+	// 	Await sendCommand(targetLamps, `set_ct_abx`, [temperature]);
+	// }, 1000);
 
 	if (targetLamps.length === 0) return null;
 
