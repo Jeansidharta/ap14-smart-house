@@ -5,7 +5,7 @@ type DebounceOptions = {
 };
 
 export function useDebounce <T extends (
-	...args: unknown[]) => unknown> (
+	...args: never[]) => unknown> (
 	func: T,
 	time: number,
 	options: DebounceOptions = {},

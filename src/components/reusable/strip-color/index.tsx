@@ -31,7 +31,7 @@ const CANVAS_HEIGHT = 1;
 
 type StripColorProps = React.PropsWithoutRef<{
 	onChange?: (newValue: number) => void,
-	getColor: (percentX: number) => [number, number, number]
+	getColor: (percentX: number) => readonly [number, number, number]
 }>;
 
 type StripColorComponent = React.FunctionComponent<StripColorProps>;
