@@ -316,7 +316,7 @@ module.exports = {
 		/** Disallow Initializing to undefined */
 		'no-undef-init': [OFF],
 		/** Disallow Use of undefined Variable */
-		'no-undefined': [ERROR],
+		'no-undefined': [OFF],
 		/** Disallow Unused Variables */
 		// DISABLED DUE TO TYPESCRIPT REPLACEMENT
 		// 'no-unused-vars': [WARN],
@@ -432,7 +432,7 @@ module.exports = {
 		/** Disallow if statements as the only statement in else blocks */
 		'no-lonely-if': [WARN],
 		/** Disallow mixes of different operators */
-		'no-mixed-operators': [WARN],
+		'no-mixed-operators': [OFF],
 		/** Disallow mixed spaces and tabs for indentation */
 		'no-mixed-spaces-and-tabs': [WARN],
 		/** Disallow Use of Chained Assignment Expressions */
@@ -746,7 +746,7 @@ module.exports = {
 		/** Enforce a new line after jsx elements and expressions (fixable) */
 		'react/jsx-newline': [OFF],
 		/** Prevents usage of Function.prototype.bind and arrow functions in React component props */
-		'react/jsx-no-bind': [WARN],
+		'react/jsx-no-bind': [OFF],
 		/** Comments inside children section of tag should be placed inside braces */
 		'react/jsx-no-comment-textnodes': [WARN],
 		/** Prevents JSX context provider values from taking values that will cause
@@ -778,7 +778,7 @@ module.exports = {
 		'react/jsx-sort-props': [OFF],
 		// DEPRECATED
 		/** Validate spacing before closing bracket in JSX (fixable) */
-		//'react/jsx-space-before-closing': [WARN, `always`],
+		// 'react/jsx-space-before-closing': [WARN, `always`],
 		/** Validate whitespace in and around the JSX opening and closing brackets (fixable) */
 		// DEPRECATED
 		// 'react/jsx-tag-spacing': [OFF],
@@ -1032,7 +1032,18 @@ module.exports = {
 		/** Sets preference level for triple slash directives versus ES6-style import declarations */
 		'@typescript-eslint/triple-slash-reference': [OFF],
 		/** Require consistent spacing around type annotations */
-		'@typescript-eslint/type-annotation-spacing': [WARN, { before: false, after: true }],
+		'@typescript-eslint/type-annotation-spacing': [
+			WARN,
+			{
+				before: true,
+				after: true,
+				overrides: {
+					colon: { before: false, after: true },
+					variable: { before: false, after: true },
+					parameter: { before: false, after: true },
+				},
+			},
+		],
 		/** Requires type annotations to exist */
 		'@typescript-eslint/typedef': [OFF],
 		/** Enforces unbound methods are called with their expected scope */
@@ -1096,7 +1107,7 @@ module.exports = {
 		/** Disallow unused variables */
 		'@typescript-eslint/no-unused-vars': [WARN, { ignoreRestSiblings: true }],
 		/** Disallow the use of variables before they are defined */
-		'@typescript-eslint/no-use-before-define': [ERROR],
+		'@typescript-eslint/no-use-before-define': [OFF],
 		/** Disallow unnecessary constructors */
 		'@typescript-eslint/no-useless-constructor': [WARN],
 		/** Enforce the consistent use of either backticks, double, or single quotes */

@@ -7,7 +7,7 @@ function useLocalStorageWithInitialValue <T> (key: string, initialValue: T | (()
 	}
 
 	const [value, rawSetValue] = React.useState<T>(() => {
-		if (typeof localStorage === 'undefined') return getInitialValue();
+		if (typeof localStorage === `undefined`) return getInitialValue();
 
 		const value = localStorage.getItem(key);
 		if (value === null) return getInitialValue();
@@ -17,11 +17,10 @@ function useLocalStorageWithInitialValue <T> (key: string, initialValue: T | (()
 	React.useEffect(() => {
 		const value = localStorage.getItem(key);
 		if (value === null) {
-			const initialValue = getInitialValue()
+			const initialValue = getInitialValue();
 			rawSetValue(initialValue);
 			localStorage.setItem(key, JSON.stringify(initialValue));
-		}
-		else rawSetValue(JSON.parse(value));
+		} else rawSetValue(JSON.parse(value));
 	}, [key]);
 
 	function setValue (newValue: T) {
@@ -34,7 +33,7 @@ function useLocalStorageWithInitialValue <T> (key: string, initialValue: T | (()
 
 function useLocalStorageWithoutInitialValue <T> (key: string) {
 	const [value, rawSetValue] = React.useState<T | null>(() => {
-		if (typeof localStorage === 'undefined') return null;
+		if (typeof localStorage === `undefined`) return null;
 
 		const value = localStorage.getItem(key);
 		if (value === null) return null;
@@ -56,8 +55,12 @@ function useLocalStorageWithoutInitialValue <T> (key: string) {
 	return [value, setValue];
 }
 
-export function useLocalStorage <T extends Object> (key: string): [T | null, (newValue: T | null) => void];
-export function useLocalStorage <T extends Object> (key: string, initialValue: T | (() => T)): [T, (newValue: T) => void];
+export function useLocalStorage <T extends Object>
+(key: string): [T | null, (newValue: T | null) => void];
+
+export function useLocalStorage <T extends Object>
+(key: string, initialValue: T | (() => T)): [T, (newValue: T) => void];
+
 export function useLocalStorage <T extends Object> (key: string, initialValue?: T | (() => T)) {
 	if (initialValue) return useLocalStorageWithInitialValue(key, initialValue);
 	else return useLocalStorageWithoutInitialValue(key);

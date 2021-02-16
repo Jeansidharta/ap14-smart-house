@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useLamps } from '../../../contexts/lamps';
 
 const Root = styled.button<{ isSelected: boolean }>`
-	background-color: ${props => props.isSelected ? 'rgba(0, 0, 0, 0.3)' : ''};
+	background-color: ${props => props.isSelected ? `rgba(0, 0, 0, 0.3)` : ``};
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -34,6 +34,6 @@ const GroupButton: GroupButtonComponent = ({ lampIds, children }) => {
 			{children}
 		</Root>
 	);
-}
+};
 
 export default GroupButton;

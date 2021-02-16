@@ -23,31 +23,32 @@ type TutsTutsComponent = React.FunctionComponent<TutsTutsProps>;
 
 const TutsTuts: TutsTutsComponent = ({
 	maxFreq,
-	minFreq
+	minFreq,
 }) => {
 
-	const {targetLamps} = useLamps();
+	const { targetLamps } = useLamps();
 	const [sendCommand] = useSendCommand();
 	const [isTutsTutsOn, setIsTutsTutsOn] = useState(false);
 	const [tutsTutsAreIndependent, setTutsTutsAreIndependent] = useState(false);
 	const [tutsFrequencia, setTutsFrequencia] = useState(1000);
 	const [intervalHandle, setIntervalHandle] = useState<number | null>(null);
 
-	function handleTutsTutsChange(event: any) {
-		const checked = event.target.checked;
+	function handleTutsTutsChange (_event: React.ChangeEvent<HTMLElement>, checked: boolean) {
 		setIsTutsTutsOn(checked);
 		triggerTutsTutsInterval(checked, tutsTutsAreIndependent, tutsFrequencia);
 	}
 
-	function handleTutsTutsIndependentChange(event: any) {
-		const checked = event.target.checked;
+	function handleTutsTutsIndependentChange (
+		_event: React.ChangeEvent<HTMLElement>,
+		checked: boolean,
+	) {
 		setTutsTutsAreIndependent(checked);
 		triggerTutsTutsInterval(isTutsTutsOn, checked, tutsFrequencia);
 	}
 
-	function handleTutsFrequencia(_event: React.ChangeEvent<{}>, newValue: number | number[]) {
+	function handleTutsFrequencia (_event: React.ChangeEvent<{}>, newValue: number | number[]) {
 		if (newValue instanceof Array) {
-			console.log('wtf did I just receive');
+			console.warn(`wtf did I just receive`);
 			return;
 		}
 		const newFreq = newValue * 1000;
@@ -55,24 +56,34 @@ const TutsTuts: TutsTutsComponent = ({
 		triggerTutsTutsInterval(isTutsTutsOn, tutsTutsAreIndependent, newFreq);
 	}
 
-	const triggerTutsTutsInterval = (tutsTuts: boolean, tutsTutsAreIndependent: boolean, tutsFrequencia: number) => {
+	function triggerTutsTutsInterval (
+		tutsTuts: boolean,
+		tutsTutsAreIndependent: boolean,
+		tutsFrequencia: number,
+	) {
 		clearInterval(intervalHandle || 0);
 		if (tutsTuts) {
 			let intervalHandler;
 			if (tutsTutsAreIndependent) {
 				intervalHandler = () => {
-					targetLamps.forEach((targetLamp) => sendCommand([targetLamp], 'set_hsv', [getRandomInt(0, 360), getRandomInt(0, 101), 'sudden', 30]));
+					targetLamps.forEach(targetLamp => sendCommand(
+						[targetLamp],
+						`set_hsv`,
+						[getRandomInt(0, 360), getRandomInt(0, 101), `sudden`, 30],
+					));
 				};
-			}
-			else {
+			} else {
 				intervalHandler = () => {
-					sendCommand(targetLamps, 'set_hsv', [getRandomInt(0, 360), getRandomInt(0, 101), 'sudden', 30]);
+					sendCommand(
+						targetLamps,
+						`set_hsv`,
+						[getRandomInt(0, 360), getRandomInt(0, 101), `sudden`, 30],
+					);
 				};
 			}
 			const newIntervalHandle = setInterval(intervalHandler, tutsFrequencia);
 			setIntervalHandle(newIntervalHandle as unknown as number);
-		}
-		else {
+		} else {
 			setIntervalHandle(null);
 		}
 	}
@@ -91,16 +102,16 @@ const TutsTuts: TutsTutsComponent = ({
 			<Switch
 				checked={isTutsTutsOn}
 				onChange={handleTutsTutsChange}
-				name="setTutsTuts"
-				color="primary"
+				name='setTutsTuts'
+				color='primary'
 			/>
 			<br/>
 			Tuts tuts independentes
 			<Switch
 				checked={tutsTutsAreIndependent}
 				onChange={handleTutsTutsIndependentChange}
-				name="setTutsTutsIndependent"
-				color="primary"
+				name='setTutsTutsIndependent'
+				color='primary'
 			/>
 			<br/>
 			Tutsfrequencia:
@@ -109,15 +120,15 @@ const TutsTuts: TutsTutsComponent = ({
 				<Slider
 					min={minFreq}
 					max={maxFreq}
-					valueLabelDisplay="auto"
+					valueLabelDisplay='auto'
 					defaultValue={1}
 					step={0.1}
 					onChange={handleTutsFrequencia}
-					/>
+				/>
 				{maxFreq}s
 			</SliderContainer>
 		</Root>
 	);
-}
+};
 
 export default TutsTuts;

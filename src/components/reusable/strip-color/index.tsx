@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Coords, useMouseDrag } from '../../../libs/hooks/use-mouse-drag';
+import type { Coords } from '../../../libs/hooks/use-mouse-drag';
+import { useMouseDrag } from '../../../libs/hooks/use-mouse-drag';
 
 const Root = styled.div`
 `;
@@ -49,19 +50,19 @@ const StripColor: StripColorComponent = ({
 		const { left, width } = canvas.getBoundingClientRect();
 		const x = Math.max(Math.min(Math.round(clientX - left), width), 0);
 		const percentage = x / canvasRef.current!.width;
-		sliderRef.current!.style.left = x + 'px';
+		sliderRef.current!.style.left = `${x}px`;
 		onChange(percentage);
 	}
 
 	React.useEffect(() => {
 		const canvas = canvasRef.current!;
 		canvas.width = canvas.getBoundingClientRect().width;
-		const ctx = canvas.getContext('2d');
+		const ctx = canvas.getContext(`2d`);
 
-		if (!ctx) return console.error('Failed to get canvas context');
+		if (!ctx) return console.error(`Failed to get canvas context`);
 
 		const imageData = ctx.createImageData(canvas.width, CANVAS_HEIGHT);
-		const data = imageData.data;
+		const { data } = imageData;
 		for (let x = 0; x < canvas.width; x ++) {
 			const dataIndex = x * 4;
 			const [red, green, blue] = getColor(x / canvas.width);
@@ -81,6 +82,6 @@ const StripColor: StripColorComponent = ({
 			</CanvasContainer>
 		</Root>
 	);
-}
+};
 
 export default StripColor;

@@ -3,7 +3,7 @@ import type { DefaultTheme } from 'styled-components';
 import styled from 'styled-components';
 import Spinner from '../spinner';
 
-type ColorDescriptor = string | ((theme: DefaultTheme)=> string);
+type ColorDescriptor = string | ((theme: DefaultTheme) => string);
 
 const Root = styled.button<{
 	fullWidth: boolean,

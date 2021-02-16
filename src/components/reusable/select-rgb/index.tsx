@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const Root = styled.div`
 	display: flex;
 `;
-;
+
 type rgbObject = {
 	red: number,
 	green: number,
@@ -18,9 +18,7 @@ type SelectRGBProps = React.PropsWithoutRef<{
 
 type SelectRGBComponent = React.FunctionComponent<SelectRGBProps>;
 
-const SelectRGB: SelectRGBComponent = ({
-	onChange = () => {},
-}) => {
+const SelectRGB: SelectRGBComponent = ({ onChange = () => {} }) => {
 	const [red, setRed] = React.useState<number | null>(null);
 	const [green, setGreen] = React.useState<number | null>(null);
 	const [blue, setBlue] = React.useState<number | null>(null);
@@ -35,14 +33,14 @@ const SelectRGB: SelectRGBComponent = ({
 
 	function makeHandler (stateSetter: (state: number | null) => void) {
 		return (event: React.ChangeEvent<HTMLInputElement>) => {
-			const value = event.target.value;
+			const { value } = event.target;
 			const number = Number(value);
 			if (isNaN(number) || !isFinite(number)) {
 				stateSetter(null);
 			} else {
 				stateSetter(number);
 			}
-		}
+		};
 	}
 
 	React.useEffect(() => {
@@ -71,6 +69,6 @@ const SelectRGB: SelectRGBComponent = ({
 			/>
 		</Root>
 	);
-}
+};
 
 export default SelectRGB;

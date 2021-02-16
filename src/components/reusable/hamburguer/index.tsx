@@ -22,9 +22,9 @@ const Bar = Styled.div<{ animationTime: number }>`
 
 type HamburguerProps = React.PropsWithRef<{
 	/** Callback called when the hamburguer is opened */
-	onOpen?: ()=> void,
+	onOpen?: () => void,
 	/** Callback called when the hamburguer is closed */
-	onClose?: ()=> void,
+	onClose?: () => void,
 	/** Time (in milisseconds) it takes to animate the hamburguer */
 	animationTime?: number,
 	/** If value is provided, it will override the hamburguer's internal state */

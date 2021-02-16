@@ -132,20 +132,20 @@ function useMouseDrag (elemRef: React.RefObject<HTMLElement | null>, eventHandle
 	}
 
 	React.useEffect(() => {
-		document.addEventListener('mousedown', handleMouseDown);
-		document.addEventListener('mousemove', handleMouseMove);
-		document.addEventListener('mouseup', handleMouseUp);
-		document.addEventListener('touchstart', handleTouchStart);
-		document.addEventListener('touchend', handleTouchEnd);
-		document.addEventListener('touchmove', handleTouchMove);
+		document.addEventListener(`mousedown`, handleMouseDown);
+		document.addEventListener(`mousemove`, handleMouseMove);
+		document.addEventListener(`mouseup`, handleMouseUp);
+		document.addEventListener(`touchstart`, handleTouchStart);
+		document.addEventListener(`touchend`, handleTouchEnd);
+		document.addEventListener(`touchmove`, handleTouchMove);
 		return () => {
-			document.removeEventListener('mousedown', handleMouseDown);
-			document.removeEventListener('mousemove', handleMouseMove);
-			document.removeEventListener('mouseup', handleMouseUp);
-			document.removeEventListener('touchstart', handleTouchStart);
-			document.removeEventListener('touchend', handleTouchEnd);
-			document.removeEventListener('touchmove', handleTouchMove);
-		}
+			document.removeEventListener(`mousedown`, handleMouseDown);
+			document.removeEventListener(`mousemove`, handleMouseMove);
+			document.removeEventListener(`mouseup`, handleMouseUp);
+			document.removeEventListener(`touchstart`, handleTouchStart);
+			document.removeEventListener(`touchend`, handleTouchEnd);
+			document.removeEventListener(`touchmove`, handleTouchMove);
+		};
 	}, [eventHandlers]);
 }
 

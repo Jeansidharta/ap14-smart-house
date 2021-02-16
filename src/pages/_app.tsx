@@ -25,8 +25,10 @@ type MyAppComponent = React.FunctionComponent<MyAppProps>;
 
 const MyApp: MyAppComponent = ({ Component, pageProps }) => {
 	React.useEffect(() => {
-		if('serviceWorker' in navigator) {
-			navigator.serviceWorker.register('/sw.js').then(() => console.log("Service Worker Registered"));
+		if (`serviceWorker` in navigator) {
+			navigator.serviceWorker.register(`/sw.js`).then(() => {
+				console.warn(`Service Worker Registered`);
+			});
 		}
 	}, []);
 
@@ -58,11 +60,11 @@ const MyApp: MyAppComponent = ({ Component, pageProps }) => {
 				{/* <meta property='og:url' content={deployedUrl + '/'} /> */}'
 
 				{/* PWA stuff */}
-				<meta name="apple-mobile-web-app-capable" content="yes" />
-				<link rel="apple-touch-icon" href="single-page-icon.png" />
-				<meta name="apple-mobile-web-app-title" content="Ap 14 remote" />
-				<meta name="apple-mobile-web-app-status-bar-style" content="default" />
-				<link rel="manifest" href="manifest.json" />
+				<meta name='apple-mobile-web-app-capable' content='yes' />
+				<link rel='apple-touch-icon' href='single-page-icon.png' />
+				<meta name='apple-mobile-web-app-title' content='Ap 14 remote' />
+				<meta name='apple-mobile-web-app-status-bar-style' content='default' />
+				<link rel='manifest' href='manifest.json' />
 			</Head>
 
 			<FilledThemeProvider>

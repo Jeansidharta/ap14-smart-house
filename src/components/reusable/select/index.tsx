@@ -24,7 +24,7 @@ const Select: SelectComponent = ({
 	label,
 	className,
 	fullWidth = false,
-	defaultValue = '',
+	defaultValue = ``,
 	ref,
 	...props
 }) => {
@@ -32,7 +32,7 @@ const Select: SelectComponent = ({
 
 	function handleChange (newValue: unknown) {
 		const option = options.find(option => parseOption(option).id === newValue);
-		if (!option) throw new Error('wtf, my option disappeared');
+		if (!option) throw new Error(`wtf, my option disappeared`);
 
 		const { value, id } = parseOption(option);
 		onChangeValue(value);
@@ -40,9 +40,10 @@ const Select: SelectComponent = ({
 	}
 
 	function parseOption (option: Option) {
-		if (typeof option === 'string') return { text: option, value: option, id: option };
-		if (option.id !== undefined) return { text: option.text, id: option.id, value: option.value };
-		else return { text: option.text, value: option.value, id: option.value };
+		if (typeof option === `string`) return { text: option, value: option, id: option };
+		if (option.id === undefined) {
+			return { text: option.text, value: option.value, id: option.value };
+		} else return { text: option.text, id: option.id, value: option.value };
 	}
 
 	return (
@@ -56,11 +57,11 @@ const Select: SelectComponent = ({
 			>
 				{options.map(option => {
 					const { text, id } = parseOption(option);
-					return <MenuItem key={id} value={id}>{text}</MenuItem>
+					return <MenuItem key={id} value={id}>{text}</MenuItem>;
 				})}
 			</MUISelect>
 		</FormControl>
 	);
-}
+};
 
 export default Select;

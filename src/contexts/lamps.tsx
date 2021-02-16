@@ -46,7 +46,7 @@ const LampsProvider = ({ ...props }) => {
 
 	function removeTargetLamp (lampId: number) {
 		const newTargetLamps = { ...targetLamps };
-		delete newTargetLamps[lampId];	
+		delete newTargetLamps[lampId];
 		rawSetTargetLamps(newTargetLamps);
 	}
 

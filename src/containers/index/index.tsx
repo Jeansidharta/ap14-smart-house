@@ -30,7 +30,7 @@ type ControlPageProps = React.PropsWithoutRef<{
 
 type ControlPageComponent = React.FunctionComponent<ControlPageProps>;
 
-const ControlPage: ControlPageComponent = ({}) => {
+const ControlPage: ControlPageComponent = () => {
 	const { findLampById, addTargetLamp, removeTargetLamp, isLampSetAsTarget } = useLamps();
 
 	function handleClick (lampId: number) {

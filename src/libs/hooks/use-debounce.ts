@@ -4,11 +4,14 @@ type DebounceOptions = {
 	startOnCooldown?: boolean,
 };
 
-export function useDebounce <T extends (...args: any[]) => any> (func: T, time: number, options: DebounceOptions = {}) {
+export function useDebounce <T extends (
+	...args: unknown[]) => unknown> (
+	func: T,
+	time: number,
+	options: DebounceOptions = {},
+) {
 	const timeoutHandler = React.useRef<number>(0);
-	const lastExecution = React.useRef(
-		options.startOnCooldown ? Date.now() : new Date(0).getTime()
-	);
+	const lastExecution = React.useRef(options.startOnCooldown ? Date.now() : new Date(0).getTime());
 
 	return (...args: Parameters<T>) => {
 		const timeDiff = Date.now() - lastExecution.current;
@@ -22,5 +25,5 @@ export function useDebounce <T extends (...args: any[]) => any> (func: T, time: 
 				lastExecution.current = Date.now();
 			}, time - timeDiff) as unknown as number;
 		}
-	}
+	};
 }

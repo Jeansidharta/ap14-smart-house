@@ -1,10 +1,11 @@
 import React from 'react';
-import HSV2RGB from 'hsv-rgb';
-import RGB2HSV from 'rgb-hsv';
+import hsv2RGB from 'hsv-rgb';
+import rgb2hsv from 'rgb-hsv';
 import styled from 'styled-components';
 import Select from '../select';
 import Crosshair from '@material-ui/icons/Add';
-import { Coords, useMouseDrag } from '../../../libs/hooks/use-mouse-drag';
+import type { Coords } from '../../../libs/hooks/use-mouse-drag';
+import { useMouseDrag } from '../../../libs/hooks/use-mouse-drag';
 
 const CROSSHAIR_SIZE = 14;
 const CANVAS_WIDTH = 300;
@@ -55,15 +56,13 @@ type HSVObject = {
 };
 
 type SelectHSVProps = React.PropsWithoutRef<{
-	onChange?: (value: HSVObject) => void,
+	onChange?: (value: HSVObject)=> void,
 }>;
 
 type SelectHSVComponent = React.FunctionComponent<SelectHSVProps>;
 
-export const SelectHSV: SelectHSVComponent = ({
-	onChange = () => {},
-}) => {
-	const [colorMode, setColorMode] = React.useState<'rgb' | 'hsv'>('hsv');
+export const SelectHSV: SelectHSVComponent = ({ onChange = () => {} }) => {
+	const [colorMode, setColorMode] = React.useState<'rgb' | 'hsv'>(`hsv`);
 	const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
 	const currentColorRef = React.useRef<HSVObject>({ hue: 0, saturation: 0 });
@@ -76,40 +75,38 @@ export const SelectHSV: SelectHSVComponent = ({
 	const greenRef = React.useRef<HTMLInputElement | null>(null);
 	const blueRef = React.useRef<HTMLInputElement | null>(null);
 
-	useMouseDrag(canvasRef, {
-		onMouseChange: handleMouseChange
-	});
+	useMouseDrag(canvasRef, { onMouseChange: handleMouseChange });
 
 	function coordsToHSV (x: number, y: number) {
 		const canvas = canvasRef.current!;
-		const hue = (x / canvas.width) * MAX_HUE;
-		const saturation = MAX_SATURATION - (y / canvas.height) * MAX_SATURATION;
+		const hue = x / canvas.width * MAX_HUE;
+		const saturation = MAX_SATURATION - y / canvas.height * MAX_SATURATION;
 		return { hue: Math.round(hue), saturation: Math.round(saturation) };
 	}
 
-	function HSVToCoords (hue: number, saturation: number) {
+	function hsvToCoords (hue: number, saturation: number) {
 		const canvas = canvasRef.current!;
-		const x = (hue / MAX_HUE) * canvas.width;
-		const y = canvas.height - (saturation / MAX_SATURATION) * canvas.height;
+		const x = hue / MAX_HUE * canvas.width;
+		const y = canvas.height - saturation / MAX_SATURATION * canvas.height;
 		return { x: Math.round(x), y: Math.round(y) };
 	}
 
 	React.useEffect(() => {
 		const canvas = canvasRef.current!;
-		const ctx = canvas.getContext('2d');
+		const ctx = canvas.getContext(`2d`);
 
 		if (!ctx) {
-			console.error('Failed to get canvas context');
+			console.error(`Failed to get canvas context`);
 			return;
 		}
 
 		const imageData = ctx.createImageData(canvas.width, canvas.height);
-		const data = imageData.data;
+		const { data } = imageData;
 		for (let y = 0; y < canvas.height; y ++) {
 			for (let x = 0; x < canvas.width; x ++) {
 				const dataIndex = (x + y * canvas.width) * 4;
 				const { hue, saturation } = coordsToHSV(x, y);
-				const [red, green, blue] = HSV2RGB(hue, saturation, MAX_VALUE);
+				const [red, green, blue] = hsv2RGB(hue, saturation, MAX_VALUE);
 				data[dataIndex + 0] = Math.round(red);
 				data[dataIndex + 1] = Math.round(green);
 				data[dataIndex + 2] = Math.round(blue);
@@ -132,7 +129,7 @@ export const SelectHSV: SelectHSVComponent = ({
 	}
 
 	function getHSVFromInputs () {
-		if (colorMode === 'hsv') {
+		if (colorMode === `hsv`) {
 			const hue = Math.round(Number(hueRef.current!.value));
 			const saturation = Math.round(Number(saturationRef.current!.value));
 			return { hue, saturation };
@@ -140,18 +137,18 @@ export const SelectHSV: SelectHSVComponent = ({
 			const red = Math.round(Number(redRef.current!.value));
 			const green = Math.round(Number(greenRef.current!.value));
 			const blue = Math.round(Number(blueRef.current!.value));
-			const [hue, saturation] = RGB2HSV(red, green, blue);
+			const [hue, saturation] = rgb2hsv(red, green, blue);
 			return { hue: Math.round(hue), saturation: Math.round(saturation) };
 		}
 	}
 
 	function updateInputValues () {
 		const { hue, saturation } = currentColorRef.current;
-		if (colorMode === 'hsv') {
+		if (colorMode === `hsv`) {
 			hueRef.current!.value = Math.round(hue).toString();
 			saturationRef.current!.value = Math.round(saturation).toString();
 		} else {
-			const [red, green, blue] = HSV2RGB(hue, saturation, 100);
+			const [red, green, blue] = hsv2RGB(hue, saturation, 100);
 			redRef.current!.value = Math.round(red).toString();
 			greenRef.current!.value = Math.round(green).toString();
 			blueRef.current!.value = Math.round(blue).toString();
@@ -166,14 +163,14 @@ export const SelectHSV: SelectHSVComponent = ({
 	}
 
 	function updateCrosshairFromCoords (x: number, y: number) {
-		const style = crosshairRef.current!.style;
+		const { style } = crosshairRef.current!;
 		style.top = `${y}px`;
 		style.left = `${x}px`;
 	}
 
 	function updateCrosshairFromColor () {
-		const style = crosshairRef.current!.style;
-		const { x, y } = HSVToCoords(currentColorRef.current.hue, currentColorRef.current.saturation);
+		const { style } = crosshairRef.current!;
+		const { x, y } = hsvToCoords(currentColorRef.current.hue, currentColorRef.current.saturation);
 		style.top = `${y}px`;
 		style.left = `${x}px`;
 	}
@@ -191,13 +188,13 @@ export const SelectHSV: SelectHSVComponent = ({
 				</CrosshairContainer>
 			</CanvasContainer>
 			<Select
-				options={['rgb', 'hsv']}
+				options={[`rgb`, `hsv`]}
 				onChangeValue={mode => setColorMode(mode as typeof colorMode)}
 				defaultValue={colorMode}
 			/>
 			<InputsContainer>
-				{colorMode === 'hsv'
-					? <>
+				{colorMode === `hsv` ?
+					<>
 						<Input
 							type='number'
 							min={0}
@@ -239,9 +236,8 @@ export const SelectHSV: SelectHSVComponent = ({
 							onChange={handleInputChange}
 							ref={blueRef}
 						/>
-					</>
-				}
+					</>}
 			</InputsContainer>
 		</Root>
 	);
-}
+};

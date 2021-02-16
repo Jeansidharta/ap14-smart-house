@@ -30,6 +30,6 @@ const Checkbox: CheckboxComponent = ({
 			label={label}
 		/>
 	);
-}
+};
 
 export default Checkbox;
