@@ -19,10 +19,11 @@ function useMouseDrag (elemRef: React.RefObject<HTMLElement | null>, eventHandle
 	const mousePosition = React.useRef<Coords>({ x: 0, y: 0 });
 
 	function wasEventOnElement (target: HTMLElement) {
-		while(target !== elemRef.current){
-			//  the click was not on a desireable element.
-			if (target === document.body) return false;
-			target = target.parentElement!;
+		let targetVariable = target;
+		while (targetVariable !== elemRef.current) {
+			//  The click was not on a desireable element.
+			if (targetVariable === document.body) return false;
+			targetVariable = targetVariable.parentElement!;
 		}
 		return true;
 	}
@@ -92,7 +93,10 @@ function useMouseDrag (elemRef: React.RefObject<HTMLElement | null>, eventHandle
 
 	function handleTouchEnd (event: TouchEvent) {
 		if (isMouseDownRef.current === false) return;
-		if (typeof(isMouseDownRef.current) !== 'number') return;
+		if (isMouseDownRef.current === true) {
+			console.warn(`Received touch end event, user was previously using a mouse.`);
+			return;
+		}
 		const touch = findTouchWithIdentifier(event.changedTouches, isMouseDownRef.current);
 		if (!touch) return;
 		const { clientX: x, clientY: y } = touch;
@@ -102,7 +106,10 @@ function useMouseDrag (elemRef: React.RefObject<HTMLElement | null>, eventHandle
 
 	function handleTouchMove (event: TouchEvent) {
 		if (isMouseDownRef.current === false) return;
-		if (typeof(isMouseDownRef.current) !== 'number') return;
+		if (isMouseDownRef.current === true) {
+			console.warn(`Received touch move event, user was previously using a mouse.`);
+			return;
+		}
 		const touch = findTouchWithIdentifier(event.changedTouches, isMouseDownRef.current);
 		if (!touch) return;
 		const { clientX: x, clientY: y } = touch;
@@ -123,7 +130,6 @@ function useMouseDrag (elemRef: React.RefObject<HTMLElement | null>, eventHandle
 			eventHandlers.onMouseChange(mousePosition.current);
 		}
 	}
-
 
 	React.useEffect(() => {
 		document.addEventListener('mousedown', handleMouseDown);
