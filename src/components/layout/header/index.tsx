@@ -1,16 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Kitchen from '@material-ui/icons/Kitchen';
-import Tv from '@material-ui/icons/Tv';
-import GroupButton from './group-button';
-import {
-	LAMP_ID_JEAN,
-	LAMP_ID_MIDDLE,
-	LAMP_ID_RAFA,
-	LAMP_ID_TV,
-	LAMP_ID_WINDOW,
-} from '../../../constants/lamp-ids';
+import MoreVert from '@material-ui/icons/MoreVert';
+import { useModal } from '../../../contexts/modal';
+import SettingsModal from '../../modals/settings';
 
 const Root = styled.div`
 	width: 100%;
@@ -20,36 +13,26 @@ const Root = styled.div`
 	align-items: center;
 `;
 
+const MoreButton = styled(MoreVert)`
+	margin: 1rem;
+	cursor: pointer;
+`;
+
 type HeaderProps = React.PropsWithoutRef<{
 }>;
 
 type HeaderComponent = React.FunctionComponent<HeaderProps>;
 
 const Header: HeaderComponent = () => {
+	const { openModal } = useModal();
+
+	function handleOptionsOpen () {
+		openModal(<SettingsModal />);
+	}
+
 	return (
 		<Root>
-			<GroupButton lampIds={[LAMP_ID_JEAN]}>
-				J
-			</GroupButton>
-			<GroupButton lampIds={[LAMP_ID_RAFA]}>
-				R
-			</GroupButton>
-			<GroupButton lampIds={[LAMP_ID_MIDDLE, LAMP_ID_WINDOW]}>
-				<Kitchen />
-			</GroupButton>
-			<GroupButton lampIds={[LAMP_ID_TV]}>
-				<Tv />
-			</GroupButton>
-			<GroupButton lampIds={[
-				LAMP_ID_JEAN,
-				LAMP_ID_RAFA,
-				LAMP_ID_TV,
-				LAMP_ID_MIDDLE,
-				LAMP_ID_WINDOW,
-			]}
-			>
-				All
-			</GroupButton>
+			<MoreButton onClick={handleOptionsOpen} />
 		</Root>
 	);
 };

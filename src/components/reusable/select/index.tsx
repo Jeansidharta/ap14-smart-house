@@ -2,14 +2,14 @@ import { FormControl, Select as MUISelect, InputLabel, MenuItem } from '@materia
 import React from 'react';
 
 type Option = (
-	{ text: string, value: string | number, id: undefined } |
-	{ text: string, value: unknown, id: string } |
+	{ text: string, value: string | number } |
+	{ text: string, value: never, id: string } |
 	string
 );
 
 type SelectProps = React.ComponentProps<typeof MUISelect> & React.PropsWithoutRef<{
 	options: readonly Option[],
-	onChangeValue?: (newValue: unknown) => void,
+	onChangeValue?: (newValue: never) => void,
 	label?: string,
 	fullWidth?: boolean,
 	className?: string,
@@ -30,7 +30,7 @@ const Select: SelectComponent = ({
 }) => {
 	const [selectedId, setSelectedId] = React.useState<string>(defaultValue);
 
-	function handleChange (newValue: unknown) {
+	function handleChange (newValue: never) {
 		const option = options.find(option => parseOption(option).id === newValue);
 		if (!option) throw new Error(`wtf, my option disappeared`);
 
