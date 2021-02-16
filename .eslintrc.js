@@ -448,13 +448,7 @@ module.exports = {
 		/** Disallow the unary operators ++ and -- */
 		'no-plusplus': [OFF],
 		/** Disallow specified syntax */
-		'no-restricted-syntax': [
-			ERROR,
-			{
-				selector: `SwitchStatement`,
-				message: `No switch statements! Use else-if chains.`,
-			},
-		],
+		'no-restricted-syntax': [OFF],
 		/** Disallow all tabs */
 		'no-tabs': [OFF],
 		/** Disallow ternary operators */

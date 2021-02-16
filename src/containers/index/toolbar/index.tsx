@@ -3,7 +3,9 @@ import BrightnessHigh from '@material-ui/icons/BrightnessHigh';
 import BrightnessLow from '@material-ui/icons/BrightnessLow';
 import React from 'react';
 import styled from 'styled-components';
+import Button from '../../../components/reusable/button';
 import { useLamps } from '../../../contexts/lamps';
+import { useSettings } from '../../../contexts/settings';
 import { useDebounce } from '../../../libs/hooks/use-debounce';
 import { useSendCommand } from '../../../libs/hooks/use-send-command';
 import ColorSelector from './color-selector';
@@ -21,6 +23,14 @@ const SliderContainer = styled.div`
 	column-gap: 1rem;
 `;
 
+const OnOffContainer = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 8px;
+	margin: 8px 0;
+	width: 100%;
+`;
+
 type ToolbarProps = React.PropsWithoutRef<{
 }>;
 
@@ -30,6 +40,7 @@ const Toolbar: ToolbarComponent = () => {
 	const { targetLamps } = useLamps();
 	const [sendCommand] = useSendCommand();
 	const oldBrightness = React.useRef(0);
+	const { settings } = useSettings();
 
 	React.useEffect(() => {
 		oldBrightness.current = 0;
@@ -69,6 +80,14 @@ const Toolbar: ToolbarComponent = () => {
 		]);
 	}, 1000);
 
+	async function handleLampOff () {
+		await sendCommand(targetLamps, `set_power`, [`off`, `sudden`, 30, 0]);
+	}
+
+	async function handleLampOn () {
+		await sendCommand(targetLamps, `set_power`, [`on`, `sudden`, 30, 0]);
+	}
+
 	if (targetLamps.length === 0) return null;
 
 	return (
@@ -83,6 +102,24 @@ const Toolbar: ToolbarComponent = () => {
 				<Slider onChange={handleBrightness} />
 				<BrightnessHigh />
 			</SliderContainer>
+			{settings.showOnOff && <OnOffContainer>
+				<Button
+					backgroundColor={theme => theme.colors.error.main}
+					textColor='white'
+					fullWidth
+					onClick={handleLampOff}
+				>
+					Off
+				</Button>
+				<Button
+					backgroundColor={theme => theme.colors.success.main}
+					textColor='white'
+					fullWidth
+					onClick={handleLampOn}
+				>
+					On
+				</Button>
+			</OnOffContainer>}
 			{/* <TutsTuts
 				minFreq={0.2}
 				maxFreq={5}

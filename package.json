@@ -4,7 +4,6 @@
   "private": true,
   "husky": {
     "hooks": {
-      "pre-push": "npm run lint"
     }
   },
   "scripts": {

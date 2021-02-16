@@ -43,11 +43,6 @@ const Spacing = styled.div`
 
 type ButtonProps = React.PropsWithoutRef<{
 	/**
-	* The contents that will be rendered inside the button.
-	*/
-	content: React.ReactNode,
-
-	/**
 	* How much will the button's size increase/decrease when the user hovers/clicks
 	* on it.
 	*/
@@ -68,7 +63,7 @@ type ButtonComponent = React.FunctionComponent<ButtonProps>;
 
 /** This is the application's default button. */
 const Button: ButtonComponent = ({
-	content,
+	children,
 	fullWidth = false,
 	hoverScaleOffset = 0.1,
 	backgroundColor = (theme: DefaultTheme) => theme.colors.action.main,
@@ -86,7 +81,7 @@ const Button: ButtonComponent = ({
 			backgroundColor={backgroundColor}
 			{...props}
 		>
-			{content}{isLoading && <><Spacing/><Spinner size={16} /></>}
+			{children}{isLoading && <><Spacing/><Spinner size={16} /></>}
 		</Root>
 	);
 };

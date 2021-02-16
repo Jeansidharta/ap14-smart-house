@@ -28,7 +28,9 @@ const LampsProvider = ({ ...props }) => {
 		const lamps = await response.json() as LampState[];
 
 		const lampsDict: DictLamps = Object.create(null);
-		for (const lamp of lamps) lampsDict[lamp.id] = lamp;
+		for (const lamp of lamps) {
+			lampsDict[lamp.id] = lamp;
+		}
 		setAllLamps(lampsDict);
 	}
 
