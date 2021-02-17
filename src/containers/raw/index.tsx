@@ -98,7 +98,7 @@ export default function RawPage () {
 					/>
 					{argumentsInputElements.map((InputElement, index) =>
 						<InputElement onChange={value => handleArgumentChange(value, index)} key={index} />)}
-					<Button isLoading={loadingCommand} content='Submit' type='submit' />
+					<Button isLoading={loadingCommand} type='submit'>Submit</Button>
 				</Form>
 			</Main>
 		</>

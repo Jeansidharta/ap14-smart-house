@@ -2,7 +2,7 @@ import { FormControl, Select as MUISelect, InputLabel, MenuItem } from '@materia
 import React from 'react';
 
 type Option = (
-	{ text: string, value: string | number } |
+	{ text: string, value: string | number, id?: undefined } |
 	{ text: string, value: never, id: string } |
 	string
 );
@@ -30,19 +30,19 @@ const Select: SelectComponent = ({
 }) => {
 	const [selectedId, setSelectedId] = React.useState<string>(defaultValue);
 
-	function handleChange (newValue: never) {
+	function handleChange (newValue: unknown) {
 		const option = options.find(option => parseOption(option).id === newValue);
 		if (!option) throw new Error(`wtf, my option disappeared`);
 
 		const { value, id } = parseOption(option);
-		onChangeValue(value);
+		onChangeValue(value as unknown as never);
 		setSelectedId(id.toString());
 	}
 
 	function parseOption (option: Option) {
 		if (typeof option === `string`) return { text: option, value: option, id: option };
 		if (option.id === undefined) {
-			return { text: option.text, value: option.value, id: option.value };
+			return { text: option.text, value: option.value as string | number, id: option.value };
 		} else return { text: option.text, id: option.id, value: option.value };
 	}
 
