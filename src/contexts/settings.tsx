@@ -12,7 +12,7 @@ type SettingsContext = {
 };
 
 const defaultSettings: Settings = {
-	colorMode: `rgb`,
+	colorMode: `temperature`,
 	showOnOff: false,
 };
 
