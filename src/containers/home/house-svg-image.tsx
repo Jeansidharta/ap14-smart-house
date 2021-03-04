@@ -3,16 +3,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { useLamps } from '../../contexts/lamps';
 import { toast } from 'react-toastify';
-import { LAMP_ID_RAFA, LAMP_ID_JEAN, LAMP_ID_TV, LAMP_ID_MIDDLE, LAMP_ID_WINDOW } from '../../constants/lamp-ids';
-import Toolbar from './toolbar';
+import {
+	LAMP_ID_RAFA,
+	LAMP_ID_JEAN,
+	LAMP_ID_TV,
+	LAMP_ID_MIDDLE,
+	LAMP_ID_WINDOW,
+} from '../../constants/lamp-ids';
 
 const Root = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-	height: 100%;
-	padding: 16px;
 `;
 
 const Svg = styled.svg`
@@ -25,13 +24,19 @@ const RoomRect = styled.rect<{ color: string }>`
 	cursor: pointer;
 `;
 
-type ControlPageProps = React.PropsWithoutRef<{
+type HouseSVGImageProps = React.PropsWithoutRef<{
 }>;
 
-type ControlPageComponent = React.FunctionComponent<ControlPageProps>;
+type HouseSVGImageComponent = React.FunctionComponent<HouseSVGImageProps>;
 
-const ControlPage: ControlPageComponent = () => {
-	const { findLampById, addTargetLamp, removeTargetLamp, isLampSetAsTarget } = useLamps();
+const HouseSVGImage: HouseSVGImageComponent = () => {
+	const {
+		findLampById,
+		addTargetLamp,
+		removeTargetLamp,
+		isLampSetAsTarget,
+		targetLamps,
+	} = useLamps();
 
 	function handleClick (lampId: number) {
 		if (!findLampById(lampId)) return toast.error(`Esta lâmpada está desligada`);
@@ -105,9 +110,8 @@ const ControlPage: ControlPageComponent = () => {
 				<use href='#light' x='65' y='70' width='10' height='10' />
 				<use href='#light' x='65' y='15' width='10' height='10' />
 			</Svg>
-			<Toolbar />
 		</Root>
 	);
 };
 
-export default ControlPage;
+export default HouseSVGImage;

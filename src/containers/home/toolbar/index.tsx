@@ -10,11 +10,11 @@ import { useDebounce } from '../../../libs/hooks/use-debounce';
 import { useSendCommand } from '../../../libs/hooks/use-send-command';
 import ColorSelector from './color-selector';
 
-const Root = styled.div`
+const ToolbarRoot = styled.div`
 	padding: 0 16px;
 	width: 100%;
 	max-width: 300px;
-	margin: 1rem 0;
+	margin: 1rem 0l
 `;
 
 const SliderContainer = styled.div`
@@ -91,7 +91,7 @@ const Toolbar: ToolbarComponent = () => {
 	if (targetLamps.length === 0) return null;
 
 	return (
-		<Root>
+		<ToolbarRoot>
 			<ColorSelector
 				onChangeHSV={handleColorChange}
 				onChangeTemperature={handleTemperatureChange}
@@ -124,7 +124,7 @@ const Toolbar: ToolbarComponent = () => {
 				minFreq={0.2}
 				maxFreq={5}
 			/> */}
-		</Root>
+		</ToolbarRoot>
 	);
 };
 

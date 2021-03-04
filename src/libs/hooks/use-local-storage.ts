@@ -6,21 +6,12 @@ function useLocalStorageWithInitialValue <T> (key: string, initialValue: T | (()
 		else return initialValue;
 	}
 
-	const [value, rawSetValue] = React.useState<T>(() => {
-		if (typeof localStorage === `undefined`) return getInitialValue();
-
-		const value = localStorage.getItem(key);
-		if (value === null) return getInitialValue();
-		else return JSON.parse(value) as T;
-	});
+	const [value, rawSetValue] = React.useState<T>(initialValue);
 
 	React.useEffect(() => {
 		const value = localStorage.getItem(key);
-		if (value === null) {
-			const initialValue = getInitialValue();
-			rawSetValue(initialValue);
-			localStorage.setItem(key, JSON.stringify(initialValue));
-		} else rawSetValue(JSON.parse(value));
+		if (value === null) setValue(getInitialValue());
+		else rawSetValue(JSON.parse(value));
 	}, [key]);
 
 	function setValue (newValue: T) {
@@ -32,17 +23,11 @@ function useLocalStorageWithInitialValue <T> (key: string, initialValue: T | (()
 }
 
 function useLocalStorageWithoutInitialValue <T> (key: string) {
-	const [value, rawSetValue] = React.useState<T | null>(() => {
-		if (typeof localStorage === `undefined`) return null;
-
-		const value = localStorage.getItem(key);
-		if (value === null) return null;
-		else return JSON.parse(value) as T;
-	});
+	const [value, rawSetValue] = React.useState<T | null>(null);
 
 	React.useEffect(() => {
 		const value = localStorage.getItem(key);
-		if (value === null) rawSetValue(null);
+		if (value === null) setValue(null);
 		else rawSetValue(JSON.parse(value));
 	}, [key]);
 
