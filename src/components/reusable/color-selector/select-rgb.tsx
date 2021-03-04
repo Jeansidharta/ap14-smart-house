@@ -25,20 +25,17 @@ const SelectRGB: SelectRGBComponent = ({
 
 	function handleRedChange (red: number) {
 		rgbValue.current.red = Math.max(0, Math.min(MAX_RED, Math.round(red * MAX_RED)));
-		const rgb = rgbValue.current;
-		onChange({ ...rgb });
+		onChange({ ...rgbValue.current });
 	}
 
 	function handleGreenChange (green: number) {
 		rgbValue.current.green = Math.max(0, Math.min(MAX_GREEN, Math.round(green * MAX_GREEN)));
-		const rgb = rgbValue.current;
-		onChange({ ...rgb });
+		onChange({ ...rgbValue.current });
 	}
 
 	function handleBlueChange (blue: number) {
 		rgbValue.current.blue = Math.max(0, Math.min(MAX_BLUE, Math.round(blue * MAX_BLUE)));
-		const rgb = rgbValue.current;
-		onChange({ ...rgb });
+		onChange({ ...rgbValue.current });
 	}
 
 	return (

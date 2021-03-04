@@ -15,6 +15,7 @@ const ColorSample = styled.div`
 	width: 10px;
 	height: 100%;
 	margin-right: 8px;
+	border: 1px solid rgba(0, 0, 0, 0.3);
 `;
 
 const ColorSelectorsContainer = styled.div`

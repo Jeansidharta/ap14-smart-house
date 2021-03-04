@@ -12,7 +12,9 @@ const Root = styled.div`
 	padding: 0 16px;
 	width: 100%;
 	max-width: 300px;
-	margin: 1rem 0l
+	margin: 1rem 0;
+	display: flex;
+	flex-direction: column;
 `;
 
 const OnOffContainer = styled.div`
