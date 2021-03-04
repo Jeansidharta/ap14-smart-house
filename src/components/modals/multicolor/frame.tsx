@@ -175,6 +175,7 @@ const Frame: FrameComponent = ({
 				fullWidth
 				onChangeValue={handleChangeColorMode}
 				defaultValue={React.useMemo(() => number2ColorMode(initialFrameData.mode || null)?.toString(), [])}
+				label='Modo de cor'
 				options={[
 					{ text: `RGB`, value: `rgb` },
 					{ text: `HSV`, value: `hsv` },
