@@ -1,26 +1,20 @@
-import { Slider } from '@material-ui/core';
-import BrightnessHigh from '@material-ui/icons/BrightnessHigh';
-import BrightnessLow from '@material-ui/icons/BrightnessLow';
 import React from 'react';
 import styled from 'styled-components';
+import BrightnessSlider from '../../../components/reusable/brightness-slider';
 import Button from '../../../components/reusable/button';
+import ColorSelector from '../../../components/reusable/color-selector';
 import { useLamps } from '../../../contexts/lamps';
 import { useSettings } from '../../../contexts/settings';
 import { useDebounce } from '../../../libs/hooks/use-debounce';
 import { useSendCommand } from '../../../libs/hooks/use-send-command';
-import ColorSelector from './color-selector';
 
 const Root = styled.div`
 	padding: 0 16px;
 	width: 100%;
 	max-width: 300px;
 	margin: 1rem 0;
-`;
-
-const SliderContainer = styled.div`
-	display: grid;
-	grid-template-columns: max-content auto max-content;
-	column-gap: 1rem;
+	display: flex;
+	flex-direction: column;
 `;
 
 const OnOffContainer = styled.div`
@@ -37,6 +31,7 @@ type ToolbarProps = React.PropsWithoutRef<{
 type ToolbarComponent = React.FunctionComponent<ToolbarProps>;
 
 const Toolbar: ToolbarComponent = () => {
+	const { settings: { colorMode } } = useSettings();
 	const { targetLamps } = useLamps();
 	const [sendCommand] = useSendCommand();
 	const oldBrightness = React.useRef(0);
@@ -47,11 +42,7 @@ const Toolbar: ToolbarComponent = () => {
 	}, [targetLamps.toString()]);
 
 	const handleBrightness = useDebounce(
-		async (_event: React.ChangeEvent<{}>, newValue: number | number[]) => {
-			if (newValue instanceof Array) {
-				console.warn(`wtf did I just receive`);
-				return;
-			}
+		async (newValue: number) => {
 			const oldValue = oldBrightness.current;
 			oldBrightness.current = newValue;
 
@@ -96,12 +87,9 @@ const Toolbar: ToolbarComponent = () => {
 				onChangeHSV={handleColorChange}
 				onChangeTemperature={handleTemperatureChange}
 				onChangeRGB={handleRGBChange}
+				colorMode={colorMode}
 			/>
-			<SliderContainer>
-				<BrightnessLow />
-				<Slider onChange={handleBrightness} />
-				<BrightnessHigh />
-			</SliderContainer>
+			<BrightnessSlider onChange={handleBrightness} />
 			{settings.showOnOff && <OnOffContainer>
 				<Button
 					backgroundColor={theme => theme.colors.error.main}

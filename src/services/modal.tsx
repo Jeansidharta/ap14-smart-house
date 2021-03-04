@@ -42,6 +42,6 @@ const Modal: ModalComponent = () => {
 			<ElementContainer onClick={handleElementContainerClick}>{_element}</ElementContainer>
 		</Backdrop>
 	);
-}
+};
 
 export default Modal;

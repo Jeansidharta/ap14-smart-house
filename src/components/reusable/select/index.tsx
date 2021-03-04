@@ -2,8 +2,8 @@ import { FormControl, Select as MUISelect, InputLabel, MenuItem } from '@materia
 import React from 'react';
 
 type Option = (
-	{ text: string, value: string | number, id?: undefined } |
-	{ text: string, value: never, id: string } |
+	{ text: string, value: string | number | null, id?: undefined } |
+	{ text: string, value: unknown, id: string } |
 	string
 );
 

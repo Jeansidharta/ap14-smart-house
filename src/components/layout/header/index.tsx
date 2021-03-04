@@ -7,7 +7,7 @@ import SettingsModal from '../../modals/settings';
 
 const Root = styled.div`
 	width: 100%;
-	background-color: lightblue;
+	background-color: ${props => props.theme.colors.primary.main};
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;

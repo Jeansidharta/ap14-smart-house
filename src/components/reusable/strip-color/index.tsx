@@ -31,7 +31,8 @@ const CANVAS_HEIGHT = 1;
 
 type StripColorProps = React.PropsWithoutRef<{
 	onChange?: (newValue: number) => void,
-	getColor: (percentX: number) => readonly [number, number, number]
+	getColor: (percentX: number) => readonly [number, number, number],
+	defaultValue?: number,
 }>;
 
 type StripColorComponent = React.FunctionComponent<StripColorProps>;
@@ -39,6 +40,7 @@ type StripColorComponent = React.FunctionComponent<StripColorProps>;
 const StripColor: StripColorComponent = ({
 	onChange = () => {},
 	getColor,
+	defaultValue,
 }) => {
 	const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 	const sliderRef = React.useRef<HTMLDivElement | null>(null);
@@ -53,6 +55,12 @@ const StripColor: StripColorComponent = ({
 		sliderRef.current!.style.left = `${x}px`;
 		onChange(percentage);
 	}
+
+	React.useEffect(() => {
+		if (!defaultValue) return;
+		const x = Math.floor(defaultValue * Math.floor(canvasRef.current!.getBoundingClientRect().width));
+		sliderRef.current!.style.left = `${x}px`;
+	}, []);
 
 	React.useEffect(() => {
 		const canvas = canvasRef.current!;

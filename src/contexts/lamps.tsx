@@ -36,8 +36,8 @@ const LampsProvider = ({ ...props }) => {
 
 	React.useEffect(() => {
 		fetchLamps();
-		const interval = setInterval(fetchLamps, 3000);
-		return () => clearInterval(interval);
+		// const interval = setInterval(fetchLamps, 3000);
+		// return () => clearInterval(interval);
 	}, []);
 
 	function addTargetLamp (lampId: number) {
