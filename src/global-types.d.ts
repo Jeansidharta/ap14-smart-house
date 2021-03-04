@@ -13,6 +13,7 @@ declare module "hsv-rgb" {
 }
 declare module "color-temperature" {
 	export const colorTemperature2rgb = (temperature: number) => ({ red: 0, green: 0, blue: 0 } as { red: number, green: number, blue: number });
+	export const rgb2colorTemperature = ({ red: number, green: number, blue: number }) => 0 as number;
 }
 declare module "rgb-hsv" {
 	export default (red: number, green: number, blue: number) => [0, 0, 0] as [number, number, number];

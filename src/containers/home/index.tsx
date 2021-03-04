@@ -4,7 +4,7 @@ import Toolbar from './toolbar';
 import FloatingMenu from './floating-menu';
 import HouseSVGImage from './house-svg-image';
 
-const HomeRoot = styled.div`
+const Root = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -20,11 +20,11 @@ type ControlPageComponent = React.FunctionComponent<ControlPageProps>;
 
 const ControlPage: ControlPageComponent = () => {
 	return (
-		<HomeRoot>
+		<Root>
 			<HouseSVGImage />
 			<Toolbar />
 			<FloatingMenu shouldAppear />
-		</HomeRoot>
+		</Root>
 	);
 };
 

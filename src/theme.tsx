@@ -120,7 +120,7 @@ const EMPTY_COLOR = ``;
 const theme: DefaultTheme = {
 	colors: {
 		primary: {
-			main: EMPTY_COLOR,
+			main: `#FFAEBC`,
 			dark: EMPTY_COLOR,
 			darker: EMPTY_COLOR,
 			light: EMPTY_COLOR,
