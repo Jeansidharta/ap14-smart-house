@@ -42,7 +42,7 @@ const Select: SelectComponent = ({
 	function parseOption (option: Option) {
 		if (typeof option === `string`) return { text: option, value: option, id: option };
 		if (option.id === undefined) {
-			return { text: option.text, value: option.value as string | number, id: option.value };
+			return { text: option.text, value: option.value as string | number, id: option.value! };
 		} else return { text: option.text, id: option.id, value: option.value };
 	}
 

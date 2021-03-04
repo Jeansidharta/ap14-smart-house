@@ -23,7 +23,7 @@ const ControlPage: ControlPageComponent = () => {
 		<Root>
 			<HouseSVGImage />
 			<Toolbar />
-			<FloatingMenu shouldAppear />
+			<FloatingMenu />
 		</Root>
 	);
 };

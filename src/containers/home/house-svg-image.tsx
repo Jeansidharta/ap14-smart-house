@@ -35,7 +35,6 @@ const HouseSVGImage: HouseSVGImageComponent = () => {
 		addTargetLamp,
 		removeTargetLamp,
 		isLampSetAsTarget,
-		targetLamps,
 	} = useLamps();
 
 	function handleClick (lampId: number) {

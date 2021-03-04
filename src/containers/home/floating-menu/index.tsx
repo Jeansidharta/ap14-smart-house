@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Looks from '@material-ui/icons/Looks';
 import { useModal } from '../../../contexts/modal';
 import MulticolorModal from '../../../components/modals/multicolor';
+import { useLamps } from '../../../contexts/lamps';
 
 const Root = styled.div`
 	position: fixed;
@@ -11,13 +12,12 @@ const Root = styled.div`
 	bottom: 16px;
 `;
 
-type FloatingMenuProps = React.PropsWithoutRef<{
-	shouldAppear?: boolean;
-}>;
+type FloatingMenuProps = React.PropsWithoutRef<{}>;
 
 type FloatingMenuComponent = React.FunctionComponent<FloatingMenuProps>;
 
-const FloatingMenu: FloatingMenuComponent = ({ shouldAppear }) => {
+const FloatingMenu: FloatingMenuComponent = () => {
+	const { targetLamps } = useLamps();
 	const [isOpen, setIsOpen] = React.useState(false);
 	const { openModal } = useModal();
 
@@ -39,7 +39,7 @@ const FloatingMenu: FloatingMenuComponent = ({ shouldAppear }) => {
 			<SpeedDial
 				ariaLabel='SpeedDial example'
 				icon={<SpeedDialIcon />}
-				hidden={!shouldAppear}
+				hidden={targetLamps.length === 0}
 				onClose={handleClose}
 				onOpen={handleOpen}
 				open={isOpen}
