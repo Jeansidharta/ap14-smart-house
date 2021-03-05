@@ -7,6 +7,7 @@ import { useLamps } from '../../../contexts/lamps';
 import { useSettings } from '../../../contexts/settings';
 import { useDebounce } from '../../../libs/hooks/use-debounce';
 import { useSendCommand } from '../../../libs/hooks/use-send-command';
+import { useSendCommandMusicMode } from '../../../libs/hooks/use-send-command-music-mode';
 
 const Root = styled.div`
 	padding: 0 16px;
@@ -34,6 +35,7 @@ const Toolbar: ToolbarComponent = () => {
 	const { settings: { colorMode } } = useSettings();
 	const { targetLamps } = useLamps();
 	const [sendCommand] = useSendCommand();
+	const [sendCommandMusicMode] = useSendCommandMusicMode();
 	const oldBrightness = React.useRef(0);
 	const { settings } = useSettings();
 
@@ -79,6 +81,14 @@ const Toolbar: ToolbarComponent = () => {
 		await sendCommand(targetLamps, `set_power`, [`on`, `sudden`, 30, 0]);
 	}
 
+	async function handleMusicModeOn () {
+		await sendCommandMusicMode(targetLamps, 'on');
+	}
+
+	async function handleMusicModeOff () {
+		await sendCommandMusicMode(targetLamps, 'off');
+	}
+
 	if (targetLamps.length === 0) return null;
 
 	return (
@@ -89,6 +99,22 @@ const Toolbar: ToolbarComponent = () => {
 				onChangeRGB={handleRGBChange}
 				colorMode={colorMode}
 			/>
+			<Button
+				backgroundColor={theme => theme.colors.error.main}
+				textColor='white'
+				fullWidth
+				onClick={handleMusicModeOn}
+			>
+				Music Mode On
+			</Button>
+			<Button
+				backgroundColor={theme => theme.colors.error.main}
+				textColor='white'
+				fullWidth
+				onClick={handleMusicModeOff}
+			>
+				Music Mode Off
+			</Button>
 			<BrightnessSlider onChange={handleBrightness} />
 			{settings.showOnOff && <OnOffContainer>
 				<Button

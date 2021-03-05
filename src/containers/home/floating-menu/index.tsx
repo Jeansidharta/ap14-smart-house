@@ -2,9 +2,12 @@ import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@material-ui/lab';
 import React from 'react';
 import styled from 'styled-components';
 import Looks from '@material-ui/icons/Looks';
+import MusicNote from '@material-ui/icons/MusicNote';
 import { useModal } from '../../../contexts/modal';
 import MulticolorModal from '../../../components/modals/multicolor';
 import { useLamps } from '../../../contexts/lamps';
+import { useMusicListener } from '../../../contexts/music-listener';
+import { makeStyles } from '@material-ui/core';
 
 const Root = styled.div`
 	position: fixed;
@@ -17,6 +20,8 @@ type FloatingMenuProps = React.PropsWithoutRef<{}>;
 type FloatingMenuComponent = React.FunctionComponent<FloatingMenuProps>;
 
 const FloatingMenu: FloatingMenuComponent = () => {
+	const classes = useStyles();
+	const { isListening, setIsListening } = useMusicListener();
 	const { targetLamps } = useLamps();
 	const [isOpen, setIsOpen] = React.useState(false);
 	const { openModal } = useModal();
@@ -32,6 +37,10 @@ const FloatingMenu: FloatingMenuComponent = () => {
 	function handleOpenMulticolor () {
 		openModal(<MulticolorModal />);
 		setIsOpen(false);
+	}
+
+	function handleMusicListenerClick () {
+		setIsListening(!isListening);
 	}
 
 	return (
@@ -50,9 +59,26 @@ const FloatingMenu: FloatingMenuComponent = () => {
 					tooltipTitle='Tuts tuts'
 					onClick={handleOpenMulticolor}
 				/>
+				<SpeedDialAction
+					icon={<MusicNote />}
+					tooltipTitle='Music listener'
+					classes={{
+						fab: isListening ? classes.fab : '',
+					}}
+					onClick={handleMusicListenerClick}
+				/>
 			</SpeedDial>
 		</Root>
 	);
 };
+
+const useStyles = makeStyles(() => ({
+	fab: {
+		backgroundColor: '#FFAEBC',
+		'&:hover': {
+			backgroundColor: '#FFAEBC',
+		}
+	},
+}));
 
 export default FloatingMenu;
