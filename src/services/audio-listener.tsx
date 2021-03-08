@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { useLamps } from '../contexts/lamps';
 import { useMusicListener } from '../contexts/music-listener';
@@ -71,7 +72,7 @@ function getVolume (event: AudioProcessingEvent) {
 }
 
 const AudioListenerService: AudioListenerServiceComponent = ({  }) => {
-	const { isListening } = useMusicListener();
+	const { isListening, setIsListening } = useMusicListener();
 	const [sendCommand] = useSendCommand();
 	const { targetLamps } = useLamps();
 	const [userMediaStream, setUserMediaStream] = React.useState<MediaStream | null>(null);
@@ -102,21 +103,38 @@ const AudioListenerService: AudioListenerServiceComponent = ({  }) => {
 	});
 
 	async function aboveThreshold () {
-		if (Date.now() - lastThresholdPass.current < 400) return;
+		if (Date.now() - lastThresholdPass.current < 200) return;
 		lastThresholdPass.current = Date.now();
 		await sendCommand(targetLamps, `set_power`, [`on`, `sudden`, 30, 0]);
-		await sleep(200);
+		await sleep(100);
 		await sendCommand(targetLamps, `set_power`, [`off`, `sudden`, 30, 0]);
 	}
 
 	useEffectAsync(async () => {
-		if (!navigator?.mediaDevices?.getUserMedia) {
-			console.log('Microphone not suported!');
+		if (!isListening) {
+			if (!userMediaStream) return;
+			userMediaStream.getTracks().forEach(track => track.stop());
 			return;
 		}
 
-		setUserMediaStream(await navigator.mediaDevices.getUserMedia ({ audio: true }));
-	}, []);
+		if (!navigator?.mediaDevices?.getUserMedia) {
+			toast.error('Your device does not support microphones');
+			setIsListening(false);
+			return;
+		}
+
+		try {
+			setUserMediaStream(await navigator.mediaDevices.getUserMedia ({ audio: true }));
+		} catch (e) {
+			if (e.message === 'Permission denied') {
+				toast.error('Permission to access your microphone was denied.');
+			} else {
+				toast.error('Error requestion user permission do microphone');
+				console.error(e);
+			}
+			setIsListening(false);
+		}
+	}, [isListening]);
 
 	React.useEffect(() => {
 		if (!userMediaStream || !isListening) return;
