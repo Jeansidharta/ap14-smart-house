@@ -13,9 +13,6 @@ export function usePostData<T> (baseUrl: string) {
 				body: JSON.stringify(body),
 				headers: { 'Content-Type': `application/json` },
 			});
-			if (response.status < 200 || response.status > 299) {
-				throw new Error(`Non-200 response`);
-			}
 			const data = await response.json();
 			setError(null);
 			setData(data);

@@ -14,6 +14,7 @@ type LampsContext = {
 	findLampById: (lampId: number) => LampState | undefined;
 	allLamps: LampState[],
 	isLampSetAsTarget: (id: number) => boolean,
+	updateLampData: (newStates: { id: number, state: LampState }[]) => void,
 };
 
 const context = React.createContext<LampsContext>(null as any);
@@ -34,10 +35,16 @@ const LampsProvider = ({ ...props }) => {
 		setAllLamps(lampsDict);
 	}
 
+	function updateLampData (newStates: { id: number, state: LampState }[]) {
+		const newAllLamps = { ...allLamps };
+		newStates.forEach(({ id, state }) => {
+			newAllLamps[id] = state;
+		});
+		setAllLamps(newAllLamps);
+	}
+
 	React.useEffect(() => {
 		fetchLamps();
-		// const interval = setInterval(fetchLamps, 3000);
-		// return () => clearInterval(interval);
 	}, []);
 
 	function addTargetLamp (lampId: number) {
@@ -76,6 +83,7 @@ const LampsProvider = ({ ...props }) => {
 		isLampSetAsTarget,
 		findLampById,
 		targetLamps: Object.values(targetLamps),
+		updateLampData,
 	}} {...props} />;
 }
 

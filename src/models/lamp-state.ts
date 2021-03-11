@@ -6,10 +6,10 @@ export type LampState = {
 	supportedMethods: string[],
 	isPowerOn: boolean,
 	bright: number,
-	colorMode: 1 | 2 | 3 ,
+	colorMode: 'rgb' | 'temperature' | 'hsv' ,
 	colorTemperature: number,
 	rgb: number,
 	hue: number,
-	sat: number,
+	saturation: number,
 	name: string,
 };
