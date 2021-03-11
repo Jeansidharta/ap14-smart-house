@@ -7,6 +7,7 @@ export function usePostData<T> (baseUrl: string) {
 
 	async function postData (url: string, body: Object) {
 		let response: Response;
+		setLoading(true);
 		try {
 			response = await fetch(baseUrl + url, {
 				method: `POST`,

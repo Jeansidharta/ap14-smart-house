@@ -1,6 +1,7 @@
 import { API_URL } from '../../constants/api-url';
 import { useLamps } from '../../contexts/lamps';
 import { LampState } from '../../models/lamp-state';
+import { useEffectUpdate } from './use-effect-update';
 import { usePostData } from './use-post-data';
 
 type LampStateResponse = {
@@ -18,20 +19,22 @@ function isLampErrorResponse (a: any): a is LampErrorResponse {
 
 export function useSendCommandMusicMode () {
 	const { updateLampData } = useLamps();
-	const [rawSendCommand, { loading, error }] = usePostData(`${API_URL}/lamp/music-mode`);
+	const [rawSendCommand, { loading, error, data }] = usePostData<(LampStateResponse | LampErrorResponse)[]>(`${API_URL}/lamp/music-mode`);
 
 	async function sendCommand (targets: number[], method: 'on' | 'off') {
-		const lampStates: (LampStateResponse | LampErrorResponse)[] = (
-			await rawSendCommand(``, { targets, method })
-		);
+		await rawSendCommand(``, { targets, method });
+	}
 
-		const newStates = lampStates.map(lampStateResponse => {
+	useEffectUpdate(([oldLoading]) => {
+		if (loading || !oldLoading || !data) return;
+
+		const newStates = data.map(lampStateResponse => {
 			if (isLampErrorResponse(lampStateResponse)) return console.error('Error on lamp method:', lampStateResponse);
 			else return lampStateResponse;
 		}).filter(e => e) as LampStateResponse[];
 
 		updateLampData(newStates);
-	}
+	}, [loading]);
 
-	return [sendCommand, { loading, error }] as const;
+	return [sendCommand, { loading, error, data }] as const;
 }

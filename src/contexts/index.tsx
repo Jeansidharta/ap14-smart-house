@@ -2,6 +2,7 @@ import React from 'react';
 import LampsProvider from './lamps';
 import ModalProvider from './modal';
 import MusicListenerProvider from './music-listener';
+import MusicModeProvider from './music-mode';
 import SettingsProvider from './settings';
 
 /** Place your React's context providers inside this component. They will automatically
@@ -11,7 +12,9 @@ const Providers: React.FunctionComponent<React.PropsWithChildren<{}>> = ({ child
 		<ModalProvider>
 			<SettingsProvider>
 				<MusicListenerProvider>
-					{children}
+					<MusicModeProvider>
+						{children}
+					</MusicModeProvider>
 				</MusicListenerProvider>
 			</SettingsProvider>
 		</ModalProvider>

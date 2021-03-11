@@ -6,8 +6,8 @@ import MusicNote from '@material-ui/icons/MusicNote';
 import { useModal } from '../../../contexts/modal';
 import MulticolorModal from '../../../components/modals/multicolor';
 import { useLamps } from '../../../contexts/lamps';
-import { useMusicListener } from '../../../contexts/music-listener';
 import { makeStyles } from '@material-ui/core';
+import { useMusicMode } from '../../../contexts/music-mode';
 
 const Root = styled.div`
 	position: fixed;
@@ -21,7 +21,7 @@ type FloatingMenuComponent = React.FunctionComponent<FloatingMenuProps>;
 
 const FloatingMenu: FloatingMenuComponent = () => {
 	const classes = useStyles();
-	const { isListening, setIsListening } = useMusicListener();
+	const { musicMode, setMusicMode } = useMusicMode();
 	const { targetLamps } = useLamps();
 	const [isOpen, setIsOpen] = React.useState(false);
 	const { openModal } = useModal();
@@ -40,7 +40,7 @@ const FloatingMenu: FloatingMenuComponent = () => {
 	}
 
 	function handleMusicListenerClick () {
-		setIsListening(!isListening);
+		setMusicMode(!musicMode);
 	}
 
 	return (
@@ -63,7 +63,7 @@ const FloatingMenu: FloatingMenuComponent = () => {
 					icon={<MusicNote />}
 					tooltipTitle='Music listener'
 					classes={{
-						fab: isListening ? classes.fab : '',
+						fab: musicMode ? classes.fab : '',
 					}}
 					onClick={handleMusicListenerClick}
 				/>

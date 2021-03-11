@@ -4,6 +4,7 @@ import BrightnessSlider from '../../../components/reusable/brightness-slider';
 import Button from '../../../components/reusable/button';
 import ColorSelector from '../../../components/reusable/color-selector';
 import { useLamps } from '../../../contexts/lamps';
+import { useMusicMode } from '../../../contexts/music-mode';
 import { useSettings } from '../../../contexts/settings';
 import { useDebounce } from '../../../libs/hooks/use-debounce';
 import { useSendCommand } from '../../../libs/hooks/use-send-command';
@@ -36,6 +37,9 @@ const Toolbar: ToolbarComponent = () => {
 	const [sendCommand] = useSendCommand();
 	const oldBrightness = React.useRef(0);
 	const { settings } = useSettings();
+	const { musicMode } = useMusicMode();
+
+	const debounceTime = musicMode ? 100 : 1000;
 
 	React.useEffect(() => {
 		oldBrightness.current = 0;
@@ -52,16 +56,16 @@ const Toolbar: ToolbarComponent = () => {
 				await sendCommand(targetLamps, `set_bright`, [newValue]);
 			}
 		},
-		1000,
+		debounceTime,
 	);
 
 	const handleColorChange = useDebounce(async (hue: number, saturation: number) => {
 		await sendCommand(targetLamps, `set_hsv`, [hue, saturation]);
-	}, 1000);
+	}, debounceTime);
 
 	const handleTemperatureChange = useDebounce(async (temperature: number) => {
 		await sendCommand(targetLamps, `set_ct_abx`, [temperature]);
-	}, 1000);
+	}, debounceTime);
 
 	const handleRGBChange = useDebounce(async (r: number, g: number, b: number) => {
 		await sendCommand(targetLamps, `set_rgb`, [
@@ -69,7 +73,7 @@ const Toolbar: ToolbarComponent = () => {
 			`smooth`,
 			200,
 		]);
-	}, 1000);
+	}, debounceTime);
 
 	async function handleLampOff () {
 		await sendCommand(targetLamps, `set_power`, [`off`, `sudden`, 30, 0]);
