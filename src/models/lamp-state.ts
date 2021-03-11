@@ -12,4 +12,7 @@ export type LampState = {
 	hue: number,
 	saturation: number,
 	name: string,
+	flowing: boolean,
+	flowParams?: [number, number, number, number][],
+	isMusicModeOn: boolean,
 };

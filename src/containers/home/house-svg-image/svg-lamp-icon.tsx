@@ -22,12 +22,13 @@ const SVGLampIcon: SVGLampIconComponent = ({
 }) => {
 	const { findLampById } = useLamps();
 
+	const lamp = findLampById(lampId);
+
 	function calculateLampColor () {
 		function number2hex (num: number) {
 			return num.toString(16).padStart(2, '0');
 		}
 
-		const lamp = findLampById(lampId);
 		if (!lamp) return 'transparent';
 		let color: string;
 		if (lamp.colorMode === 'rgb') color = lamp.rgb.toString(16).padStart(6, '0');
@@ -42,7 +43,6 @@ const SVGLampIcon: SVGLampIconComponent = ({
 	}
 
 	function calculateLampBrightnessStage () {
-		const lamp = findLampById(lampId);
 		if (!lamp) return 0;
 
 		if (!lamp.isPowerOn) return 0;
@@ -74,6 +74,17 @@ const SVGLampIcon: SVGLampIconComponent = ({
 		return ticks;
 	}
 
+	function renderMusicNote () {
+		if (!lamp || !lamp.isMusicModeOn) return null;
+		return <use
+			href='#music-note'
+			x={x + 2.5}
+			y={y + 11}
+			width='5'
+			height='5'
+		/>
+	}
+
 	return (
 		<>
 			<use
@@ -84,6 +95,7 @@ const SVGLampIcon: SVGLampIconComponent = ({
 				width='10'
 				height='10'
 			/>
+			{renderMusicNote()}
 			{renderTicks()}
 		</>
 	);
