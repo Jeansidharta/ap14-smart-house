@@ -5,7 +5,7 @@ import hsv2Rgb from 'hsv-rgb';
 import { colorTemperature2rgb } from 'color-temperature';
 
 const TOTAL_BRIGHTNESS_STAGES = 30;
-const TICK_SIZE = 0.2;
+const TICK_SIZE = 0.05;
 
 type SVGLampIconProps = React.PropsWithoutRef<{
 	x: number,
