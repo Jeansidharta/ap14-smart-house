@@ -15,11 +15,8 @@ const MusicModeProvider = ({ ...props }) => {
 	const [sendCommandMusicMode] = useSendCommandMusicMode();
 
 	React.useEffect(() => {
-		console.log(musicMode, allLamps);
 		const targetLampsToSwitch = targetLamps.filter(lamp => findLampById(lamp)?.isMusicModeOn !== musicMode);
 		const nonTargetLampsToSwitch = allLamps.filter(lamp => !targetLamps.find(id => id === lamp.id) && lamp.isMusicModeOn === true);
-		console.log({ targetLampsToSwitch });
-		console.log({ nonTargetLampsToSwitch });
 		if (targetLampsToSwitch.length > 0) {
 			sendCommandMusicMode(targetLampsToSwitch, musicMode ? 'on' : 'off');
 		}

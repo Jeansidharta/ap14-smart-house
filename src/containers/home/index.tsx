@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Toolbar from './toolbar';
 import FloatingMenu from './floating-menu';
 import HouseSVGImage from './house-svg-image';
+import Head from 'next/head';
 
 const Root = styled.div`
 	display: flex;
@@ -21,6 +22,9 @@ type ControlPageComponent = React.FunctionComponent<ControlPageProps>;
 const ControlPage: ControlPageComponent = () => {
 	return (
 		<Root>
+			<Head>
+				<title>Controle Remoto</title>
+			</Head>
 			<HouseSVGImage />
 			<Toolbar />
 			<FloatingMenu />
