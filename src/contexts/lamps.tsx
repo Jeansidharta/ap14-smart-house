@@ -15,6 +15,7 @@ type LampsContext = {
 	allLamps: LampState[],
 	isLampSetAsTarget: (id: number) => boolean,
 	updateLampData: (newStates: { id: number, state: LampState }[]) => void,
+	fetchLamps: () => Promise<void>,
 };
 
 const context = React.createContext<LampsContext>(null as any);
@@ -84,6 +85,7 @@ const LampsProvider = ({ ...props }) => {
 		findLampById,
 		targetLamps: Object.values(targetLamps),
 		updateLampData,
+		fetchLamps,
 	}} {...props} />;
 }
 

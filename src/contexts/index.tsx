@@ -1,4 +1,5 @@
 import React from 'react';
+import LampStateSyncerProvider from './lamp-state-syncer';
 import LampsProvider from './lamps';
 import ModalProvider from './modal';
 import MusicListenerProvider from './music-listener';
@@ -13,7 +14,9 @@ const Providers: React.FunctionComponent<React.PropsWithChildren<{}>> = ({ child
 			<SettingsProvider>
 				<MusicListenerProvider>
 					<MusicModeProvider>
-						{children}
+						<LampStateSyncerProvider>
+							{children}
+						</LampStateSyncerProvider>
 					</MusicModeProvider>
 				</MusicListenerProvider>
 			</SettingsProvider>
