@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocalStorage } from '../libs/hooks/use-local-storage';
 
 type LampStateSyncer = {
 	shouldSync: boolean,
@@ -7,30 +8,29 @@ type LampStateSyncer = {
 
 type LampStateSyncerContext = {
 	lampStateSyncer: LampStateSyncer,
-	changeSyncInterval: (neInterval: number) => void,
-	toggleShouldSync: () => void,
+	updateShouldSync: (shouldSync: boolean) => void,
+	setLampStateSyncer: (newLampStateSyncer: LampStateSyncer) => void,
 };
 
 const context = React.createContext<LampStateSyncerContext>(null as unknown as LampStateSyncerContext);
 
 const LampStateSyncerProvider = ({ ...props }) => {
-	const [lampStateSyncer, setLampStateSyncer] = React.useState<LampStateSyncer>({
-		shouldSync: true,
-		syncInterval: 5,
-	});
+	const [lampStateSyncer, setLampStateSyncer] = useLocalStorage<LampStateSyncer>(
+		'lamp-state-syncer',
+		{
+			shouldSync: true,
+			syncInterval: 5,
+		}
+	);
 
-	function changeSyncInterval (newInterval: number) {
-		setLampStateSyncer({ ...lampStateSyncer, syncInterval: newInterval });
-	}
-
-	function toggleShouldSync () {
-		setLampStateSyncer({ ...lampStateSyncer, shouldSync: !lampStateSyncer.shouldSync });
+	function updateShouldSync (shouldSync: boolean) {
+		setLampStateSyncer({ ...lampStateSyncer, shouldSync });
 	}
 
 	return <context.Provider value={React.useMemo(() => ({
 		lampStateSyncer,
-		changeSyncInterval,
-		toggleShouldSync,
+		updateShouldSync,
+		setLampStateSyncer,
 	}), [lampStateSyncer])} {...props} />;
 }
 
