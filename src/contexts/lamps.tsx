@@ -1,5 +1,5 @@
 import React from 'react';
-import { API_URL } from '../constants/api-url';
+import { LAMP_API } from '../constants/api-url';
 import { useLocalStorage } from '../libs/hooks/use-local-storage';
 import { LampState } from '../models/lamp-state';
 
@@ -25,7 +25,7 @@ const LampsProvider = ({ ...props }) => {
 	const [targetLamps, rawSetTargetLamps] = useLocalStorage<DictSelectedLamps>('selected-lamps', {});
 
 	async function fetchLamps () {
-		const response = await fetch (API_URL + '/lamp');
+		const response = await fetch (LAMP_API + '/lamp');
 		if (response.status < 200 || response.status > 299) throw new Error('Non-200 response');
 		const lamps = await response.json() as LampState[];
 

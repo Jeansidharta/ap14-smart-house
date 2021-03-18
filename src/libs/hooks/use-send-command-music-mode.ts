@@ -1,4 +1,4 @@
-import { API_URL } from '../../constants/api-url';
+import { LAMP_API } from '../../constants/api-url';
 import { useLamps } from '../../contexts/lamps';
 import { LampState } from '../../models/lamp-state';
 import { useEffectUpdate } from './use-effect-update';
@@ -19,7 +19,7 @@ function isLampErrorResponse (a: any): a is LampErrorResponse {
 
 export function useSendCommandMusicMode () {
 	const { updateLampData } = useLamps();
-	const [rawSendCommand, { loading, error, data }] = usePostData<(LampStateResponse | LampErrorResponse)[]>(`${API_URL}/lamp/music-mode`);
+	const [rawSendCommand, { loading, error, data }] = usePostData<(LampStateResponse | LampErrorResponse)[]>(`${LAMP_API}/lamp/music-mode`);
 
 	async function sendCommand (targets: number[], method: 'on' | 'off') {
 		await rawSendCommand(``, { targets, method });

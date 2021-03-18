@@ -1,4 +1,4 @@
-import { API_URL } from '../../constants/api-url';
+import { LAMP_API } from '../../constants/api-url';
 import { useLamps } from '../../contexts/lamps';
 import { LampState } from '../../models/lamp-state';
 import { usePostData } from './use-post-data';
@@ -18,7 +18,7 @@ function isLampErrorResponse (a: any): a is LampErrorResponse {
 
 export function useSendCommand () {
 	const { updateLampData } = useLamps();
-	const [rawSendCommand, { loading, error }] = usePostData(`${API_URL}/lamp/rawmethod`);
+	const [rawSendCommand, { loading, error }] = usePostData(`${LAMP_API}/lamp/rawmethod`);
 
 	async function sendCommand (targets: number[], method: string, args: unknown[]) {
 		const lampStates: (LampStateResponse | LampErrorResponse)[] = (
