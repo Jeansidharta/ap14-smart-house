@@ -18,6 +18,7 @@ const Root = styled.div`
 const Svg = styled.svg`
 	width: 250px;
 	height: auto;
+	background-color: white;
 `;
 
 const RoomRect = styled.rect<{ color: string }>`

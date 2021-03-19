@@ -61,7 +61,7 @@ const FloatingMenu: FloatingMenuComponent = () => {
 				/>
 				<SpeedDialAction
 					icon={<MusicNote />}
-					tooltipTitle='Music listener'
+					tooltipTitle='Music mode'
 					classes={{
 						fab: musicMode ? classes.fab : '',
 					}}
