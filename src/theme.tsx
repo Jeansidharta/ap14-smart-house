@@ -92,6 +92,9 @@ declare module "styled-components" {
 					strong: HoverableShadow,
 				},
 			},
+			listItem: {
+				medium: string,
+			},
 			/** Button shadows are shadows for clickable elements. They are usually
 			* sharper and more dynamic. */
 			button: {
@@ -213,6 +216,9 @@ const theme: DefaultTheme = {
 				normal: `-2px 2px 4px rgba(0, 0, 0, 0.2)`,
 				active: `-2px 2px 4px rgba(0, 0, 0, 0.2)`,
 			},
+		},
+		listItem: {
+			medium: `-2px 2px 4px rgba(0, 0, 0, 0.2)`,
 		},
 	},
 	mediaQueries: {

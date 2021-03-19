@@ -6,11 +6,14 @@ export type MouseDragEvent = {
 	mousePosition: Coords,
 	mouseStartPosition: Coords,
 	deltaMousePosition: Coords,
+	deltaFromStartMousePosition: Coords,
 };
 
 type EventHandlers = {
 	onDrag?: (event: MouseDragEvent) => void,
 	onMouseChange?: (coords: Coords) => void,
+	onMouseDown?: (coords: Coords) => void,
+	onMouseUp?: (coords: Coords) => void,
 };
 
 function useMouseDrag (elemRef: React.RefObject<HTMLElement | null>, eventHandlers: EventHandlers) {
@@ -36,6 +39,10 @@ function useMouseDrag (elemRef: React.RefObject<HTMLElement | null>, eventHandle
 		mouseStartPosition.current = { x, y };
 		isMouseDownRef.current = true;
 
+		if (eventHandlers.onMouseDown) {
+			eventHandlers.onMouseDown(mousePosition.current);
+		}
+
 		if (eventHandlers.onMouseChange) {
 			eventHandlers.onMouseChange(mousePosition.current);
 		}
@@ -56,10 +63,15 @@ function useMouseDrag (elemRef: React.RefObject<HTMLElement | null>, eventHandle
 			x: x - mousePosition.current.x,
 			y: y - mousePosition.current.y,
 		};
+		const deltaFromStartMousePosition = {
+			x: x - mouseStartPosition.current.x,
+			y: y - mouseStartPosition.current.y,
+		};
 		mousePosition.current = { x, y };
 		if (eventHandlers.onDrag) {
 			eventHandlers.onDrag({
 				mousePosition: mousePosition.current,
+				deltaFromStartMousePosition,
 				deltaMousePosition,
 				mouseStartPosition: mouseStartPosition.current,
 			});
@@ -74,6 +86,9 @@ function useMouseDrag (elemRef: React.RefObject<HTMLElement | null>, eventHandle
 		const { clientX: x, clientY: y } = event;
 		mousePosition.current = { x, y };
 		isMouseDownRef.current = false;
+		if (eventHandlers.onMouseUp) {
+			eventHandlers.onMouseUp(mousePosition.current);
+		}
 	}
 
 	function handleTouchStart (event: TouchEvent) {
@@ -85,6 +100,10 @@ function useMouseDrag (elemRef: React.RefObject<HTMLElement | null>, eventHandle
 		mousePosition.current = { x, y };
 		mouseStartPosition.current = { x, y };
 		isMouseDownRef.current = touch.identifier;
+
+		if (eventHandlers.onMouseDown) {
+			eventHandlers.onMouseDown(mousePosition.current);
+		}
 
 		if (eventHandlers.onMouseChange) {
 			eventHandlers.onMouseChange(mousePosition.current);
@@ -102,6 +121,10 @@ function useMouseDrag (elemRef: React.RefObject<HTMLElement | null>, eventHandle
 		const { clientX: x, clientY: y } = touch;
 		mousePosition.current = { x, y };
 		isMouseDownRef.current = false;
+
+		if (eventHandlers.onMouseUp) {
+			eventHandlers.onMouseUp(mousePosition.current);
+		}
 	}
 
 	function handleTouchMove (event: TouchEvent) {
@@ -117,10 +140,15 @@ function useMouseDrag (elemRef: React.RefObject<HTMLElement | null>, eventHandle
 			x: x - mousePosition.current.x,
 			y: y - mousePosition.current.y,
 		};
+		const deltaFromStartMousePosition = {
+			x: x - mouseStartPosition.current.x,
+			y: y - mouseStartPosition.current.y,
+		};
 		mousePosition.current = { x, y };
 		if (eventHandlers.onDrag) {
 			eventHandlers.onDrag({
 				mousePosition: mousePosition.current,
+				deltaFromStartMousePosition,
 				deltaMousePosition,
 				mouseStartPosition: mouseStartPosition.current,
 			});

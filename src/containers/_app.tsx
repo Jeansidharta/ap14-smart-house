@@ -7,6 +7,7 @@ const Root = styled.div`
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+	background-color: #EEEEEE;
 `;
 
 const ChildrenContainer = styled.div`
