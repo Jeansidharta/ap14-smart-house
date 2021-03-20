@@ -43,6 +43,7 @@ const MyApp: MyAppComponent = ({ Component, pageProps }) => {
 					}
 					* {
 						box-sizing: border-box;
+						user-select: none;
 					}
 				`}
 				</style>
