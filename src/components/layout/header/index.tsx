@@ -21,11 +21,9 @@ const Root = styled.div`
 	align-items: center;
 `;
 
-const RightSide = styled.div`
-`;
+const RightSide = styled.div``;
 
-const LeftSide = styled.div`
-`;
+const LeftSide = styled.div``;
 
 const MoreButton = styled(MoreVert)`
 	margin: 1rem 0.5rem;
@@ -47,8 +45,7 @@ const ShoppingButton = styled(ShoppingCart)`
 	cursor: pointer;
 `;
 
-type HeaderProps = React.PropsWithoutRef<{
-}>;
+type HeaderProps = React.PropsWithoutRef<{}>;
 
 type HeaderComponent = React.FunctionComponent<HeaderProps>;
 
@@ -57,42 +54,43 @@ const Header: HeaderComponent = () => {
 	const { fetchLamps } = useLamps();
 	const { openModal } = useModal();
 
-	function handleOptionsOpen () {
+	function handleOptionsOpen() {
 		openModal(<SettingsModal />);
 	}
 
-	function longPress () {
+	function longPress() {
 		setLongPressTimeoutHandler(null);
 		openModal(<LampSyncTimeoutModal />);
 	}
 
-	function shortPress () {
+	function shortPress() {
 		fetchLamps();
 	}
 
-	function handleReloadDown () {
-		const handler = setTimeout(longPress, LONG_PRESS_DELAY) as unknown as number;
+	function handleReloadDown() {
+		const handler = (setTimeout(longPress, LONG_PRESS_DELAY) as unknown) as number;
 		setLongPressTimeoutHandler(handler);
 	}
 
-	function handleReloadUp () {
+	function handleReloadUp() {
 		if (longPressTimeoutHandler !== null) {
 			shortPress();
-			clearTimeout(longPressTimeoutHandler)
+			clearTimeout(longPressTimeoutHandler);
 		}
 	}
 
 	return (
 		<Root>
 			<LeftSide>
-				<Link href='/'><LightsButton /></Link>
-				<Link href='/shopping'><ShoppingButton /></Link>
+				<Link href="/">
+					<LightsButton />
+				</Link>
+				<Link href="/shopping">
+					<ShoppingButton />
+				</Link>
 			</LeftSide>
 			<RightSide>
-				<ReloadButton
-					onMouseDown={handleReloadDown}
-					onMouseUp={handleReloadUp}
-				/>
+				<ReloadButton onMouseDown={handleReloadDown} onMouseUp={handleReloadUp} />
 				<MoreButton onClick={handleOptionsOpen} />
 			</RightSide>
 		</Root>

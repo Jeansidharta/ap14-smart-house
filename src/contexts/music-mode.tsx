@@ -3,11 +3,11 @@ import { useSendCommandMusicMode } from '../libs/hooks/use-send-command-music-mo
 import { useLamps } from './lamps';
 
 type MusicModeContext = {
-	musicMode: boolean,
-	setMusicMode: (newMusicMode: boolean) => void,
+	musicMode: boolean;
+	setMusicMode: (newMusicMode: boolean) => void;
 };
 
-const context = React.createContext<MusicModeContext>(null as unknown as MusicModeContext);
+const context = React.createContext<MusicModeContext>((null as unknown) as MusicModeContext);
 
 const MusicModeProvider = ({ ...props }) => {
 	const [musicMode, setMusicMode] = React.useState<boolean>(false);
@@ -15,8 +15,12 @@ const MusicModeProvider = ({ ...props }) => {
 	const [sendCommandMusicMode] = useSendCommandMusicMode();
 
 	React.useEffect(() => {
-		const targetLampsToSwitch = targetLamps.filter(lamp => findLampById(lamp)?.isMusicModeOn !== musicMode);
-		const nonTargetLampsToSwitch = allLamps.filter(lamp => !targetLamps.find(id => id === lamp.id) && lamp.isMusicModeOn === true);
+		const targetLampsToSwitch = targetLamps.filter(
+			lamp => findLampById(lamp)?.isMusicModeOn !== musicMode,
+		);
+		const nonTargetLampsToSwitch = allLamps.filter(
+			lamp => !targetLamps.find(id => id === lamp.id) && lamp.isMusicModeOn === true,
+		);
 		if (targetLampsToSwitch.length > 0) {
 			sendCommandMusicMode(targetLampsToSwitch, musicMode ? 'on' : 'off');
 		}
@@ -26,15 +30,23 @@ const MusicModeProvider = ({ ...props }) => {
 		}
 	}, [musicMode, targetLamps.length]);
 
-	return <context.Provider value={React.useMemo(() => ({
-		musicMode,
-		setMusicMode,
-	}), [musicMode])} {...props} />;
-}
+	return (
+		<context.Provider
+			value={React.useMemo(
+				() => ({
+					musicMode,
+					setMusicMode,
+				}),
+				[musicMode],
+			)}
+			{...props}
+		/>
+	);
+};
 
 const useMusicMode = () => {
 	return React.useContext(context);
-}
+};
 
 export { useMusicMode };
 export default MusicModeProvider;

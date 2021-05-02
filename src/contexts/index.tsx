@@ -7,21 +7,21 @@ import MusicModeProvider from './music-mode';
 import SettingsProvider from './settings';
 
 /** Place your React's context providers inside this component. They will automatically
-* be visible in your whole application. */
+ * be visible in your whole application. */
 const Providers: React.FunctionComponent<React.PropsWithChildren<{}>> = ({ children }) => {
-	return <LampsProvider>
-		<ModalProvider>
-			<SettingsProvider>
-				<MusicListenerProvider>
-					<MusicModeProvider>
-						<LampStateSyncerProvider>
-							{children}
-						</LampStateSyncerProvider>
-					</MusicModeProvider>
-				</MusicListenerProvider>
-			</SettingsProvider>
-		</ModalProvider>
-	</LampsProvider>;
+	return (
+		<LampsProvider>
+			<ModalProvider>
+				<SettingsProvider>
+					<MusicListenerProvider>
+						<MusicModeProvider>
+							<LampStateSyncerProvider>{children}</LampStateSyncerProvider>
+						</MusicModeProvider>
+					</MusicListenerProvider>
+				</SettingsProvider>
+			</ModalProvider>
+		</LampsProvider>
+	);
 };
 
 export default Providers;

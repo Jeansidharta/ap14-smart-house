@@ -22,19 +22,18 @@ const Title = styled.h1`
 	text-align: center;
 `;
 
-type SettingsModalProps = React.PropsWithoutRef<{
-}>;
+type SettingsModalProps = React.PropsWithoutRef<{}>;
 
 type SettingsModalComponent = React.FunctionComponent<SettingsModalProps>;
 
 const SettingsModal: SettingsModalComponent = () => {
 	const { updateSettings, settings } = useSettings();
 
-	function handleColorModeChange (colorMode: Settings['colorMode']) {
+	function handleColorModeChange(colorMode: Settings['colorMode']) {
 		updateSettings({ colorMode });
 	}
 
-	function handleRedundantButtonChange (showOnOff: boolean) {
+	function handleRedundantButtonChange(showOnOff: boolean) {
 		updateSettings({ showOnOff });
 	}
 
@@ -46,7 +45,7 @@ const SettingsModal: SettingsModalComponent = () => {
 					defaultValue={settings.colorMode}
 					onChangeValue={handleColorModeChange}
 					fullWidth
-					label='Tipo de seletor de cor'
+					label="Tipo de seletor de cor"
 					options={[
 						{ text: `RGB`, value: `rgb` },
 						{ text: `HSV`, value: `hsv` },
@@ -56,7 +55,7 @@ const SettingsModal: SettingsModalComponent = () => {
 				<Checkbox
 					defaultChecked={React.useMemo(() => settings.showOnOff, [])}
 					onChangeValue={handleRedundantButtonChange}
-					label='Usar botão redundante de on/off?'
+					label="Usar botão redundante de on/off?"
 				/>
 			</Form>
 		</Root>

@@ -22,27 +22,29 @@ const Button = styled.button<{ selected: boolean }>`
 	cursor: pointer;
 	border-radius: 4px;
 	transition: 200ms;
-	${props => props.selected ? `
+	${props =>
+		props.selected
+			? `
 		background-color: ${props.theme.colors.primary.main};
-	` : ''}
+	`
+			: ''}
 `;
 
-type LampSyncTimeoutModalProps = React.PropsWithoutRef<{
-}>;
+type LampSyncTimeoutModalProps = React.PropsWithoutRef<{}>;
 
 type LampSyncTimeoutModalComponent = React.FunctionComponent<LampSyncTimeoutModalProps>;
 
 const LampSyncTimeoutModal: LampSyncTimeoutModalComponent = () => {
 	const { updateShouldSync, lampStateSyncer, setLampStateSyncer } = useLampStateSyncer();
 
-	function handleClick (syncInterval: number) {
+	function handleClick(syncInterval: number) {
 		setLampStateSyncer({
 			shouldSync: true,
 			syncInterval,
 		});
 	}
 
-	function handleToggle () {
+	function handleToggle() {
 		updateShouldSync(false);
 	}
 
@@ -70,7 +72,9 @@ const LampSyncTimeoutModal: LampSyncTimeoutModalComponent = () => {
 					key={value}
 					selected={lampStateSyncer.shouldSync && lampStateSyncer.syncInterval === value}
 					onClick={() => handleClick(value)}
-				>{text}</Button>
+				>
+					{text}
+				</Button>
 			))}
 		</Root>
 	);

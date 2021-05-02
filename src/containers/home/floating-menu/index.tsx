@@ -26,42 +26,38 @@ const FloatingMenu: FloatingMenuComponent = () => {
 	const [isOpen, setIsOpen] = React.useState(false);
 	const { openModal } = useModal();
 
-	function handleOpen () {
+	function handleOpen() {
 		setIsOpen(true);
 	}
 
-	function handleClose () {
+	function handleClose() {
 		setIsOpen(false);
 	}
 
-	function handleOpenMulticolor () {
+	function handleOpenMulticolor() {
 		openModal(<MulticolorModal />);
 		setIsOpen(false);
 	}
 
-	function handleMusicListenerClick () {
+	function handleMusicListenerClick() {
 		setMusicMode(!musicMode);
 	}
 
 	return (
 		<Root>
 			<SpeedDial
-				ariaLabel='SpeedDial example'
+				ariaLabel="SpeedDial example"
 				icon={<SpeedDialIcon />}
 				hidden={targetLamps.length === 0}
 				onClose={handleClose}
 				onOpen={handleOpen}
 				open={isOpen}
-				direction='up'
+				direction="up"
 			>
-				<SpeedDialAction
-					icon={<Looks />}
-					tooltipTitle='Tuts tuts'
-					onClick={handleOpenMulticolor}
-				/>
+				<SpeedDialAction icon={<Looks />} tooltipTitle="Tuts tuts" onClick={handleOpenMulticolor} />
 				<SpeedDialAction
 					icon={<MusicNote />}
-					tooltipTitle='Music mode'
+					tooltipTitle="Music mode"
 					classes={{
 						fab: musicMode ? classes.fab : '',
 					}}
@@ -74,10 +70,10 @@ const FloatingMenu: FloatingMenuComponent = () => {
 
 const useStyles = makeStyles(() => ({
 	fab: {
-		backgroundColor: '#FFAEBC',
+		'backgroundColor': '#FFAEBC',
 		'&:hover': {
 			backgroundColor: '#FFAEBC',
-		}
+		},
 	},
 }));
 

@@ -26,13 +26,14 @@ const OnOffContainer = styled.div`
 	width: 100%;
 `;
 
-type ToolbarProps = React.PropsWithoutRef<{
-}>;
+type ToolbarProps = React.PropsWithoutRef<{}>;
 
 type ToolbarComponent = React.FunctionComponent<ToolbarProps>;
 
 const Toolbar: ToolbarComponent = () => {
-	const { settings: { colorMode } } = useSettings();
+	const {
+		settings: { colorMode },
+	} = useSettings();
 	const { targetLamps } = useLamps();
 	const [sendCommand] = useSendCommand();
 	const oldBrightness = React.useRef(0);
@@ -45,19 +46,16 @@ const Toolbar: ToolbarComponent = () => {
 		oldBrightness.current = 0;
 	}, [targetLamps.toString()]);
 
-	const handleBrightness = useDebounce(
-		async (newValue: number) => {
-			const oldValue = oldBrightness.current;
-			oldBrightness.current = newValue;
+	const handleBrightness = useDebounce(async (newValue: number) => {
+		const oldValue = oldBrightness.current;
+		oldBrightness.current = newValue;
 
-			if (newValue === 0) await sendCommand(targetLamps, `set_power`, [`off`, `sudden`, 30, 0]);
-			else {
-				if (oldValue === 0) await sendCommand(targetLamps, `set_power`, [`on`, `sudden`, 30, 0]);
-				await sendCommand(targetLamps, `set_bright`, [newValue]);
-			}
-		},
-		debounceTime,
-	);
+		if (newValue === 0) await sendCommand(targetLamps, `set_power`, [`off`, `sudden`, 30, 0]);
+		else {
+			if (oldValue === 0) await sendCommand(targetLamps, `set_power`, [`on`, `sudden`, 30, 0]);
+			await sendCommand(targetLamps, `set_bright`, [newValue]);
+		}
+	}, debounceTime);
 
 	const handleColorChange = useDebounce(async (hue: number, saturation: number) => {
 		await sendCommand(targetLamps, `set_hsv`, [hue, saturation]);
@@ -68,18 +66,14 @@ const Toolbar: ToolbarComponent = () => {
 	}, debounceTime);
 
 	const handleRGBChange = useDebounce(async (r: number, g: number, b: number) => {
-		await sendCommand(targetLamps, `set_rgb`, [
-			r * 0x010000 + g * 0x000100 + b,
-			`smooth`,
-			200,
-		]);
+		await sendCommand(targetLamps, `set_rgb`, [r * 0x010000 + g * 0x000100 + b, `smooth`, 200]);
 	}, debounceTime);
 
-	async function handleLampOff () {
+	async function handleLampOff() {
 		await sendCommand(targetLamps, `set_power`, [`off`, `sudden`, 30, 0]);
 	}
 
-	async function handleLampOn () {
+	async function handleLampOn() {
 		await sendCommand(targetLamps, `set_power`, [`on`, `sudden`, 30, 0]);
 	}
 
@@ -94,24 +88,26 @@ const Toolbar: ToolbarComponent = () => {
 				colorMode={colorMode}
 			/>
 			<BrightnessSlider onChange={handleBrightness} />
-			{settings.showOnOff && <OnOffContainer>
-				<Button
-					backgroundColor={theme => theme.colors.error.main}
-					textColor='white'
-					fullWidth
-					onClick={handleLampOff}
-				>
-					Off
-				</Button>
-				<Button
-					backgroundColor={theme => theme.colors.success.main}
-					textColor='white'
-					fullWidth
-					onClick={handleLampOn}
-				>
-					On
-				</Button>
-			</OnOffContainer>}
+			{settings.showOnOff && (
+				<OnOffContainer>
+					<Button
+						backgroundColor={theme => theme.colors.error.main}
+						textColor="white"
+						fullWidth
+						onClick={handleLampOff}
+					>
+						Off
+					</Button>
+					<Button
+						backgroundColor={theme => theme.colors.success.main}
+						textColor="white"
+						fullWidth
+						onClick={handleLampOn}
+					>
+						On
+					</Button>
+				</OnOffContainer>
+			)}
 			{/* <TutsTuts
 				minFreq={0.2}
 				maxFreq={5}

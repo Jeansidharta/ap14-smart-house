@@ -3,15 +3,13 @@ import styled from 'styled-components';
 import { useLampStateSyncer } from '../contexts/lamp-state-syncer';
 import { useLamps } from '../contexts/lamps';
 
-const Root = styled.div`
-`;
+const Root = styled.div``;
 
-type LampSyncerServiceProps = React.PropsWithoutRef<{
-}>;
+type LampSyncerServiceProps = React.PropsWithoutRef<{}>;
 
 type LampSyncerServiceComponent = React.FunctionComponent<LampSyncerServiceProps>;
 
-const LampSyncerService: LampSyncerServiceComponent = ({  }) => {
+const LampSyncerService: LampSyncerServiceComponent = ({}) => {
 	const { lampStateSyncer } = useLampStateSyncer();
 	const { fetchLamps } = useLamps();
 
@@ -22,10 +20,7 @@ const LampSyncerService: LampSyncerServiceComponent = ({  }) => {
 		return () => clearInterval(intervalHandler);
 	}, [lampStateSyncer.shouldSync, lampStateSyncer.syncInterval]);
 
-	return (
-		<Root>
-		</Root>
-	);
-}
+	return <Root></Root>;
+};
 
 export default LampSyncerService;

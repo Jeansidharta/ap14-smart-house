@@ -1,7 +1,10 @@
 import React from 'react';
 import { useEffectAsync } from './useEffectAsync';
 
-export function useEffectUpdate <T extends unknown[]> (effect: (lastDeps: T) => (void | Function), deps: T) {
+export function useEffectUpdate<T extends unknown[]>(
+	effect: (lastDeps: T) => void | Function,
+	deps: T,
+) {
 	const isFirstRender = React.useRef(true);
 	const lastDeps = React.useRef<any>();
 	useEffectAsync(() => {

@@ -13,17 +13,14 @@ const Root = styled.div`
 `;
 
 type BrightnessSliderProps = React.PropsWithoutRef<{
-	onChange?: (newBrightness: number) => void,
-	defaultValue?: number,
+	onChange?: (newBrightness: number) => void;
+	defaultValue?: number;
 }>;
 
 type BrightnessSliderComponent = React.FunctionComponent<BrightnessSliderProps>;
 
-const BrightnessSlider: BrightnessSliderComponent = ({
-	onChange = () => {},
-	defaultValue,
-}) => {
-	function handleChangeBrightness (_event: React.ChangeEvent<{}>, newValue: number | number[]) {
+const BrightnessSlider: BrightnessSliderComponent = ({ onChange = () => {}, defaultValue }) => {
+	function handleChangeBrightness(_event: React.ChangeEvent<{}>, newValue: number | number[]) {
 		if (newValue instanceof Array) {
 			console.warn(`wtf did I just receive`);
 			return;
@@ -36,7 +33,7 @@ const BrightnessSlider: BrightnessSliderComponent = ({
 			<BrightnessLow />
 			<Slider
 				onChange={handleChangeBrightness}
-				valueLabelDisplay='auto'
+				valueLabelDisplay="auto"
 				defaultValue={defaultValue || 0}
 			/>
 			<BrightnessHigh />

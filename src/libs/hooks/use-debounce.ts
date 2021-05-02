@@ -1,11 +1,10 @@
 import React from 'react';
 
 type DebounceOptions = {
-	startOnCooldown?: boolean,
+	startOnCooldown?: boolean;
 };
 
-export function useDebounce <T extends (
-	...args: never[]) => unknown> (
+export function useDebounce<T extends (...args: never[]) => unknown>(
 	func: T,
 	time: number,
 	options: DebounceOptions = {},
@@ -20,10 +19,10 @@ export function useDebounce <T extends (
 			lastExecution.current = Date.now();
 		} else {
 			clearTimeout(timeoutHandler.current);
-			timeoutHandler.current = setTimeout(() => {
+			timeoutHandler.current = (setTimeout(() => {
 				func(...args);
 				lastExecution.current = Date.now();
-			}, time - timeDiff) as unknown as number;
+			}, time - timeDiff) as unknown) as number;
 		}
 	};
 }

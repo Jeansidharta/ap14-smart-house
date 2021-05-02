@@ -14,8 +14,7 @@ const Root = styled.div`
 	padding: 16px;
 `;
 
-type ControlPageProps = React.PropsWithoutRef<{
-}>;
+type ControlPageProps = React.PropsWithoutRef<{}>;
 
 type ControlPageComponent = React.FunctionComponent<ControlPageProps>;
 

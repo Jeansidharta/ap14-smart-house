@@ -3,7 +3,7 @@ import AudioListenerService from './audio-listener';
 import LampSyncerService from './lamp-syncer';
 import Modal from './modal';
 
-const Services = ({  }) => {
+const Services = ({}) => {
 	return (
 		<>
 			<AudioListenerService />
@@ -11,6 +11,6 @@ const Services = ({  }) => {
 			<LampSyncerService />
 		</>
 	);
-}
+};
 
 export default Services;

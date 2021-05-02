@@ -1,20 +1,20 @@
 import { FormControl, Select as MUISelect, InputLabel, MenuItem } from '@material-ui/core';
 import React from 'react';
 
-type Option = (
-	{ text: string, value: string | number | null, id?: undefined } |
-	{ text: string, value: unknown, id: string } |
-	string
-);
+type Option =
+	| { text: string; value: string | number | null; id?: undefined }
+	| { text: string; value: unknown; id: string }
+	| string;
 
-type SelectProps = React.ComponentProps<typeof MUISelect> & React.PropsWithoutRef<{
-	options: readonly Option[],
-	onChangeValue?: (newValue: never) => void,
-	label?: string,
-	fullWidth?: boolean,
-	className?: string,
-	defaultValue?: string,
-}>;
+type SelectProps = React.ComponentProps<typeof MUISelect> &
+	React.PropsWithoutRef<{
+		options: readonly Option[];
+		onChangeValue?: (newValue: never) => void;
+		label?: string;
+		fullWidth?: boolean;
+		className?: string;
+		defaultValue?: string;
+	}>;
 
 type SelectComponent = React.FunctionComponent<SelectProps>;
 
@@ -30,16 +30,16 @@ const Select: SelectComponent = ({
 }) => {
 	const [selectedId, setSelectedId] = React.useState<string>(defaultValue);
 
-	function handleChange (newValue: unknown) {
+	function handleChange(newValue: unknown) {
 		const option = options.find(option => parseOption(option).id === newValue);
 		if (!option) throw new Error(`wtf, my option disappeared`);
 
 		const { value, id } = parseOption(option);
-		onChangeValue(value as unknown as never);
+		onChangeValue((value as unknown) as never);
 		setSelectedId(id.toString());
 	}
 
-	function parseOption (option: Option) {
+	function parseOption(option: Option) {
 		if (typeof option === `string`) return { text: option, value: option, id: option };
 		if (option.id === undefined) {
 			return { text: option.text, value: option.value as string | number, id: option.value! };
@@ -57,7 +57,11 @@ const Select: SelectComponent = ({
 			>
 				{options.map(option => {
 					const { text, id } = parseOption(option);
-					return <MenuItem key={id} value={id}>{text}</MenuItem>;
+					return (
+						<MenuItem key={id} value={id}>
+							{text}
+						</MenuItem>
+					);
 				})}
 			</MUISelect>
 		</FormControl>

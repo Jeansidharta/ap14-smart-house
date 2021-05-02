@@ -37,16 +37,13 @@ const DeleteButton = styled.button`
 `;
 
 type ListItemProps = React.PropsWithoutRef<{
-	item: ShoppingListItem,
-	onDelete?: () => void,
+	item: ShoppingListItem;
+	onDelete?: () => void;
 }>;
 
 type ListItemComponent = React.FunctionComponent<ListItemProps>;
 
-const ListItem: ListItemComponent = ({
-	item,
-	onDelete,
-}) => {
+const ListItem: ListItemComponent = ({ item, onDelete }) => {
 	const rootRef = React.useRef<HTMLDivElement | null>(null);
 
 	useMouseDrag(rootRef, {
@@ -79,14 +76,11 @@ const ListItem: ListItemComponent = ({
 	return (
 		<Root ref={rootRef}>
 			<Name>{item.name}</Name>
-			<DeleteButton
-				onMouseDown={event => event.stopPropagation()}
-				onClick={onDelete}
-			>
+			<DeleteButton onMouseDown={event => event.stopPropagation()} onClick={onDelete}>
 				<Clear />
 			</DeleteButton>
 		</Root>
 	);
-}
+};
 
 export default ListItem;

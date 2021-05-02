@@ -21,4 +21,4 @@ export const MethodNames = [
 	'adjust_color',
 ] as const;
 
-export type MethodNames = typeof MethodNames[number]
+export type MethodNames = typeof MethodNames[number];

@@ -22,12 +22,12 @@ const ColorSelectorsContainer = styled.div`
 	width: 100%;
 `;
 
-function hsv2rgb (hsv: HSV) {
+function hsv2rgb(hsv: HSV) {
 	const [red, green, blue] = rawHsv2rgb(hsv.hue, hsv.saturation, 100);
 	return limitRGB({ red, green, blue });
 }
 
-function rgb2hsv (rgb: RGB) {
+function rgb2hsv(rgb: RGB) {
 	const [hue, saturation] = rawRgb2hsv(rgb.red, rgb.green, rgb.blue);
 	return limitHSV({ hue, saturation });
 }
@@ -40,11 +40,11 @@ const MAX_BLUE = 255;
 const MIN_TEMPERATURE = 1700;
 const MAX_TEMPEARTURE = 6500;
 
-function limitTemperature (temperature: number) {
+function limitTemperature(temperature: number) {
 	return Math.min(MAX_TEMPEARTURE, Math.max(MIN_TEMPERATURE, Math.round(temperature)));
 }
 
-function limitRGB (rgb: RGB) {
+function limitRGB(rgb: RGB) {
 	return {
 		red: Math.min(MAX_RED, Math.max(0, Math.round(rgb.red))),
 		green: Math.min(MAX_GREEN, Math.max(0, Math.round(rgb.green))),
@@ -52,36 +52,38 @@ function limitRGB (rgb: RGB) {
 	};
 }
 
-function limitHSV (hsv: HSV) {
+function limitHSV(hsv: HSV) {
 	return {
 		hue: Math.min(MAX_HUE, Math.max(0, Math.round(hsv.hue))),
 		saturation: Math.min(MAX_SATURATION, Math.max(0, Math.round(hsv.saturation))),
 	};
 }
 
-export type RGB = { red: number, green: number, blue: number };
-export type HSV = { hue: number, saturation: number };
+export type RGB = { red: number; green: number; blue: number };
+export type HSV = { hue: number; saturation: number };
 export type Temperature = number;
 
 type ColorMode = 'hsv' | 'rgb' | 'temperature';
 
 type ColorSelectorProps = React.PropsWithoutRef<{
-	onChangeHSV?: (hue: number, saturation: number) => void,
-	onChangeRGB?: (red: number, green: number, blue: number) => void,
-	onChangeTemperature?: (temperature: number) => void,
-	colorMode: ColorMode,
-	defaultValue?: RGB | HSV | Temperature,
+	onChangeHSV?: (hue: number, saturation: number) => void;
+	onChangeRGB?: (red: number, green: number, blue: number) => void;
+	onChangeTemperature?: (temperature: number) => void;
+	colorMode: ColorMode;
+	defaultValue?: RGB | HSV | Temperature;
 }>;
 
-function isDefaultTypeRGB (defaultValue?: ColorSelectorProps['defaultValue']): defaultValue is RGB {
+function isDefaultTypeRGB(defaultValue?: ColorSelectorProps['defaultValue']): defaultValue is RGB {
 	return Boolean(defaultValue && (defaultValue as any).red !== undefined);
 }
 
-function isDefaultTypeHSV (defaultValue?: ColorSelectorProps['defaultValue']): defaultValue is HSV {
+function isDefaultTypeHSV(defaultValue?: ColorSelectorProps['defaultValue']): defaultValue is HSV {
 	return Boolean(defaultValue && (defaultValue as any).hue !== undefined);
 }
 
-function isDefaultTypeTemperature (defaultValue?: ColorSelectorProps['defaultValue']): defaultValue is Temperature {
+function isDefaultTypeTemperature(
+	defaultValue?: ColorSelectorProps['defaultValue'],
+): defaultValue is Temperature {
 	return typeof defaultValue === 'number';
 }
 
@@ -94,7 +96,7 @@ const ColorSelector: ColorSelectorComponent = ({
 	colorMode,
 	defaultValue,
 }) => {
-	function parseDefaultValue () {
+	function parseDefaultValue() {
 		let rgb: RGB = { red: 0, green: 0, blue: 0 };
 		let temperature: Temperature = limitTemperature(0);
 		let hsv: HSV = { hue: 0, saturation: 0 };
@@ -124,7 +126,7 @@ const ColorSelector: ColorSelectorComponent = ({
 	const hsvValue = React.useRef<HSV>(parsedDefaultValue.hsv);
 	const temperatureValue = React.useRef<number>(parsedDefaultValue.temperature);
 
-	function updateColorSample (colorModeVar: ColorMode = colorMode) {
+	function updateColorSample(colorModeVar: ColorMode = colorMode) {
 		const style = colorSampleRef.current!.style;
 		let rgb: RGB;
 		if (colorModeVar === 'hsv') {
@@ -141,7 +143,7 @@ const ColorSelector: ColorSelectorComponent = ({
 		updateColorSample();
 	}, [colorMode]);
 
-	function handleRGBChange (newRGB: RGB) {
+	function handleRGBChange(newRGB: RGB) {
 		rgbValue.current = newRGB;
 		updateColorSample();
 		hsvValue.current = rgb2hsv(newRGB);
@@ -149,7 +151,7 @@ const ColorSelector: ColorSelectorComponent = ({
 		onChangeRGB(newRGB.red, newRGB.green, newRGB.blue);
 	}
 
-	function handleHSVChange (newHSV: HSV) {
+	function handleHSVChange(newHSV: HSV) {
 		hsvValue.current = newHSV;
 		updateColorSample();
 		rgbValue.current = hsv2rgb(newHSV);
@@ -157,7 +159,7 @@ const ColorSelector: ColorSelectorComponent = ({
 		onChangeHSV(newHSV.hue, newHSV.saturation);
 	}
 
-	function handleColorTemperatureChange (temperature: Temperature) {
+	function handleColorTemperatureChange(temperature: Temperature) {
 		temperatureValue.current = temperature;
 		updateColorSample();
 		rgbValue.current = colorTemperature2rgb(temperature);
@@ -165,31 +167,25 @@ const ColorSelector: ColorSelectorComponent = ({
 		onChangeTemperature(temperature);
 	}
 
-	function renderColorSelector () {
+	function renderColorSelector() {
 		if (colorMode === `hsv`) {
-			return <SelectHSV
-				onChange={handleHSVChange}
-				defaultValue={hsvValue.current}
-			/>
+			return <SelectHSV onChange={handleHSVChange} defaultValue={hsvValue.current} />;
 		} else if (colorMode === `rgb`) {
-			return <SelectRGB
-				onChange={handleRGBChange}
-				defaultValue={rgbValue.current}
-			/>
+			return <SelectRGB onChange={handleRGBChange} defaultValue={rgbValue.current} />;
 		} else if (colorMode === `temperature`) {
-			return <SelectTemperature
-				onChange={handleColorTemperatureChange}
-				defaultValue={temperatureValue.current}
-			/>
+			return (
+				<SelectTemperature
+					onChange={handleColorTemperatureChange}
+					defaultValue={temperatureValue.current}
+				/>
+			);
 		} else throw new Error(`Unknown color mode setting`);
 	}
 
 	return (
 		<Root>
 			<ColorSample ref={colorSampleRef} />
-			<ColorSelectorsContainer>
-				{renderColorSelector()}
-			</ColorSelectorsContainer>
+			<ColorSelectorsContainer>{renderColorSelector()}</ColorSelectorsContainer>
 		</Root>
 	);
 };

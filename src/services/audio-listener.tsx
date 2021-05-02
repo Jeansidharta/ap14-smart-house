@@ -46,14 +46,13 @@ const Selector = styled.div`
 	left: 0;
 `;
 
-type AudioListenerServiceProps = React.PropsWithoutRef<{
-}>;
+type AudioListenerServiceProps = React.PropsWithoutRef<{}>;
 
 type AudioListenerServiceComponent = React.FunctionComponent<AudioListenerServiceProps>;
 
 const sleep = (time: number) => new Promise(resolve => setTimeout(resolve, time));
 
-function createProcessor (stream: MediaStream) {
+function createProcessor(stream: MediaStream) {
 	const audioContext = new AudioContext();
 	const track = audioContext.createMediaStreamSource(stream);
 	const processor = audioContext.createScriptProcessor(1024, 1, 1);
@@ -62,7 +61,7 @@ function createProcessor (stream: MediaStream) {
 	return processor;
 }
 
-function getVolume (event: AudioProcessingEvent) {
+function getVolume(event: AudioProcessingEvent) {
 	const buf = event.inputBuffer.getChannelData(0);
 	let sum = 0;
 	for (let i = 0; i < buf.length; i++) {
@@ -71,7 +70,7 @@ function getVolume (event: AudioProcessingEvent) {
 	return Math.floor(Math.sqrt(sum / buf.length) * 100 * 2);
 }
 
-const AudioListenerService: AudioListenerServiceComponent = ({  }) => {
+const AudioListenerService: AudioListenerServiceComponent = ({}) => {
 	const { isListening, setIsListening } = useMusicListener();
 	const [sendCommand] = useSendCommand();
 	const { targetLamps } = useLamps();
@@ -92,17 +91,17 @@ const AudioListenerService: AudioListenerServiceComponent = ({  }) => {
 	}, [isListening]);
 
 	useMouseDrag(rootRef, {
-		onMouseChange: (event) => {
+		onMouseChange: event => {
 			const { bottom } = rootRef.current!.getBoundingClientRect();
 			const style = selectorRef.current!.style;
 
 			const y = Math.min(100, Math.max(0, bottom - event.y));
 			style.bottom = y + 'px';
 			thresholdRef.current = y;
-		}
+		},
 	});
 
-	async function aboveThreshold () {
+	async function aboveThreshold() {
 		if (Date.now() - lastThresholdPass.current < 200) return;
 		lastThresholdPass.current = Date.now();
 		await sendCommand(targetLamps, `set_power`, [`on`, `sudden`, 30, 0]);
@@ -124,7 +123,7 @@ const AudioListenerService: AudioListenerServiceComponent = ({  }) => {
 		}
 
 		try {
-			setUserMediaStream(await navigator.mediaDevices.getUserMedia ({ audio: true }));
+			setUserMediaStream(await navigator.mediaDevices.getUserMedia({ audio: true }));
 		} catch (e) {
 			if (e.message === 'Permission denied') {
 				toast.error('Permission to access your microphone was denied.');
@@ -140,7 +139,7 @@ const AudioListenerService: AudioListenerServiceComponent = ({  }) => {
 		if (!userMediaStream || !isListening) return;
 		const processor = createProcessor(userMediaStream);
 
-		function audioProcess (event: AudioProcessingEvent) {
+		function audioProcess(event: AudioProcessingEvent) {
 			const volume = getVolume(event);
 			const style = meterBarRef.current!.style;
 			style.height = volume + 'px';
@@ -153,7 +152,7 @@ const AudioListenerService: AudioListenerServiceComponent = ({  }) => {
 
 		return () => {
 			processor.removeEventListener('audioprocess', audioProcess);
-		}
+		};
 	}, [userMediaStream, targetLamps, isListening]);
 
 	if (!isListening) return null;
@@ -164,6 +163,6 @@ const AudioListenerService: AudioListenerServiceComponent = ({  }) => {
 			<Selector ref={selectorRef} />
 		</Root>
 	);
-}
+};
 
 export default AudioListenerService;

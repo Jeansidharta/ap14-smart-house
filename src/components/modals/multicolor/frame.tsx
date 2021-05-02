@@ -42,18 +42,18 @@ const FrameIndex = styled.h2`
 `;
 
 type FrameProps = React.PropsWithoutRef<{
-	initialFrameData: FrameData,
-	onChangeFrameData?: (newFrameData: Partial<FrameData>) => void,
-	onDeleteFrame?: () => void,
-	onCopyFrame?: () => void,
-	index: number,
+	initialFrameData: FrameData;
+	onChangeFrameData?: (newFrameData: Partial<FrameData>) => void;
+	onDeleteFrame?: () => void;
+	onCopyFrame?: () => void;
+	index: number;
 }>;
 
 type FrameComponent = React.FunctionComponent<FrameProps>;
 
 type ColorMode = 'hsv' | 'rgb' | 'temperature' | 'sleep' | null;
 
-function colorMode2Number (colorMode: ColorMode) {
+function colorMode2Number(colorMode: ColorMode) {
 	if (colorMode === `rgb`) return 1;
 	else if (colorMode === `temperature`) return 2;
 	else if (colorMode === `hsv`) return 3;
@@ -61,7 +61,7 @@ function colorMode2Number (colorMode: ColorMode) {
 	else return null;
 }
 
-function number2ColorMode (number: 1 | 2 | 3 | 7 | null): ColorMode {
+function number2ColorMode(number: 1 | 2 | 3 | 7 | null): ColorMode {
 	if (number === 1) return `rgb`;
 	else if (number === 2) return `temperature`;
 	else if (number === 3) return `hsv`;
@@ -83,7 +83,7 @@ const Frame: FrameComponent = ({
 	);
 	const [value, setValue] = React.useState<number>(0);
 
-	function generateFrameData (): Partial<FrameData> {
+	function generateFrameData(): Partial<FrameData> {
 		return {
 			brightness,
 			duration,
@@ -101,7 +101,7 @@ const Frame: FrameComponent = ({
 		setDuration(newDuration);
 	}, 100);
 
-	function handleChangeColorMode (newValue: ColorMode) {
+	function handleChangeColorMode(newValue: ColorMode) {
 		setColorMode(newValue);
 	}
 
@@ -113,19 +113,19 @@ const Frame: FrameComponent = ({
 		onChangeFrameData(generateFrameData());
 	}, [duration, brightness, colorMode, value]);
 
-	function renderColorSelector () {
-		function handleChangeHSV (hue: number, saturation: number) {
+	function renderColorSelector() {
+		function handleChangeHSV(hue: number, saturation: number) {
 			const [r, g, b] = hsv2rgb(hue, saturation, 100);
 			handleChangeRGB(r, g, b);
 		}
-		function handleChangeColorTemperature (temperature: number) {
+		function handleChangeColorTemperature(temperature: number) {
 			handleChangeValue(temperature);
 		}
-		function handleChangeRGB (r: number, g: number, b: number) {
+		function handleChangeRGB(r: number, g: number, b: number) {
 			handleChangeValue(r * 0x10000 + g * 0x100 + b);
 		}
-		function getDefaultValue () {
-			function number2RGB (number: number) {
+		function getDefaultValue() {
+			function number2RGB(number: number) {
 				const red = Math.floor(number / 0x10000);
 				const green = Math.floor((number - red * 0x10000) / 0x100);
 				const blue = Math.floor(number - red * 0x10000 - green * 0x100);
@@ -146,13 +146,15 @@ const Frame: FrameComponent = ({
 		if (colorMode === `sleep` || colorMode === null) {
 			return null;
 		} else {
-			return <ColorSelector
-				onChangeHSV={handleChangeHSV}
-				onChangeTemperature={handleChangeColorTemperature}
-				onChangeRGB={handleChangeRGB}
-				colorMode={colorMode}
-				defaultValue={getDefaultValue()}
-			/>;
+			return (
+				<ColorSelector
+					onChangeHSV={handleChangeHSV}
+					onChangeTemperature={handleChangeColorTemperature}
+					onChangeRGB={handleChangeRGB}
+					colorMode={colorMode}
+					defaultValue={getDefaultValue()}
+				/>
+			);
 		}
 	}
 
@@ -165,17 +167,20 @@ const Frame: FrameComponent = ({
 			/>
 			<TextField
 				fullWidth
-				label='duration (ms)'
+				label="duration (ms)"
 				onChange={handleDurationChange}
 				defaultValue={React.useMemo(() => initialFrameData.duration, [])}
-				type='number'
+				type="number"
 				inputProps={{ min: `50` }}
 			/>
 			<Select
 				fullWidth
 				onChangeValue={handleChangeColorMode}
-				defaultValue={React.useMemo(() => number2ColorMode(initialFrameData.mode || null)?.toString(), [])}
-				label='Modo de cor'
+				defaultValue={React.useMemo(
+					() => number2ColorMode(initialFrameData.mode || null)?.toString(),
+					[],
+				)}
+				label="Modo de cor"
 				options={[
 					{ text: `RGB`, value: `rgb` },
 					{ text: `HSV`, value: `hsv` },
@@ -186,7 +191,7 @@ const Frame: FrameComponent = ({
 			{renderColorSelector()}
 			<IconButtonsContainer>
 				<IconButton onClick={onCopyFrame}>
-					<FileCopyOutlined fontSize='small' />
+					<FileCopyOutlined fontSize="small" />
 				</IconButton>
 				<IconButton onClick={onDeleteFrame}>
 					<Close />

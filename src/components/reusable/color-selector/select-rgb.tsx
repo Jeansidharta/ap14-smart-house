@@ -7,33 +7,30 @@ const MAX_GREEN = 255;
 const MAX_BLUE = 255;
 
 type SelectRGBProps = React.PropsWithoutRef<{
-	defaultValue?: RGB,
-	onChange?: (rgb: RGB) => void,
+	defaultValue?: RGB;
+	onChange?: (rgb: RGB) => void;
 }>;
 
 type SelectRGBComponent = React.FunctionComponent<SelectRGBProps>;
 
-const SelectRGB: SelectRGBComponent = ({
-	defaultValue,
-	onChange = () => {},
-}) => {
+const SelectRGB: SelectRGBComponent = ({ defaultValue, onChange = () => {} }) => {
 	const rgbValue = React.useRef<RGB>(defaultValue || { blue: 0, green: 0, red: 0 });
 
 	const getRedFunc = React.useMemo(() => (x: number) => [x * MAX_RED, 0, 0] as const, []);
 	const getGreenFunc = React.useMemo(() => (x: number) => [0, x * MAX_GREEN, 0] as const, []);
 	const getBlueFunc = React.useMemo(() => (x: number) => [0, 0, x * MAX_BLUE] as const, []);
 
-	function handleRedChange (red: number) {
+	function handleRedChange(red: number) {
 		rgbValue.current.red = Math.max(0, Math.min(MAX_RED, Math.round(red * MAX_RED)));
 		onChange({ ...rgbValue.current });
 	}
 
-	function handleGreenChange (green: number) {
+	function handleGreenChange(green: number) {
 		rgbValue.current.green = Math.max(0, Math.min(MAX_GREEN, Math.round(green * MAX_GREEN)));
 		onChange({ ...rgbValue.current });
 	}
 
-	function handleBlueChange (blue: number) {
+	function handleBlueChange(blue: number) {
 		rgbValue.current.blue = Math.max(0, Math.min(MAX_BLUE, Math.round(blue * MAX_BLUE)));
 		onChange({ ...rgbValue.current });
 	}
@@ -57,6 +54,6 @@ const SelectRGB: SelectRGBComponent = ({
 			/>
 		</>
 	);
-}
+};
 
 export default SelectRGB;

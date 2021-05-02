@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import type { Coords } from '../../../libs/hooks/use-mouse-drag';
 import { useMouseDrag } from '../../../libs/hooks/use-mouse-drag';
 
-const Root = styled.div`
-`;
+const Root = styled.div``;
 
 const Canvas = styled.canvas`
 	cursor: pointer;
@@ -30,24 +29,20 @@ const Slider = styled.div`
 const CANVAS_HEIGHT = 1;
 
 type StripColorProps = React.PropsWithoutRef<{
-	onChange?: (newValue: number) => void,
-	getColor: (percentX: number) => readonly [number, number, number],
-	defaultValue?: number,
+	onChange?: (newValue: number) => void;
+	getColor: (percentX: number) => readonly [number, number, number];
+	defaultValue?: number;
 }>;
 
 type StripColorComponent = React.FunctionComponent<StripColorProps>;
 
-const StripColor: StripColorComponent = ({
-	onChange = () => {},
-	getColor,
-	defaultValue,
-}) => {
+const StripColor: StripColorComponent = ({ onChange = () => {}, getColor, defaultValue }) => {
 	const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 	const sliderRef = React.useRef<HTMLDivElement | null>(null);
 
 	useMouseDrag(canvasRef, { onMouseChange: handleMouseChange });
 
-	function handleMouseChange ({ x: clientX }: Coords) {
+	function handleMouseChange({ x: clientX }: Coords) {
 		const canvas = canvasRef.current!;
 		const { left, width } = canvas.getBoundingClientRect();
 		const x = Math.max(Math.min(Math.round(clientX - left), width), 0);
@@ -58,7 +53,9 @@ const StripColor: StripColorComponent = ({
 
 	React.useEffect(() => {
 		if (!defaultValue) return;
-		const x = Math.floor(defaultValue * Math.floor(canvasRef.current!.getBoundingClientRect().width));
+		const x = Math.floor(
+			defaultValue * Math.floor(canvasRef.current!.getBoundingClientRect().width),
+		);
 		sliderRef.current!.style.left = `${x}px`;
 	}, []);
 
@@ -71,7 +68,7 @@ const StripColor: StripColorComponent = ({
 
 		const imageData = ctx.createImageData(canvas.width, CANVAS_HEIGHT);
 		const { data } = imageData;
-		for (let x = 0; x < canvas.width; x ++) {
+		for (let x = 0; x < canvas.width; x++) {
 			const dataIndex = x * 4;
 			const [red, green, blue] = getColor(x / canvas.width);
 			data[dataIndex + 0] = Math.max(Math.min(Math.round(red), 255), 0);

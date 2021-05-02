@@ -22,12 +22,11 @@ const ListItemContainer = styled.div`
 	row-gap: 16px;
 `;
 
-type ShoppingProps = React.PropsWithoutRef<{
-}>;
+type ShoppingProps = React.PropsWithoutRef<{}>;
 
 type ShoppingComponent = React.FunctionComponent<ShoppingProps>;
 
-const Shopping: ShoppingComponent = ({  }) => {
+const Shopping: ShoppingComponent = ({}) => {
 	const [shoppingList, loadingList] = useGetData<ShoppingListItem[]>(SHOPPING_LIST_API + '/list');
 
 	return (
@@ -38,14 +37,14 @@ const Shopping: ShoppingComponent = ({  }) => {
 			<Root>
 				<Title>Lista de compras</Title>
 				<ListItemContainer>
-					{ loadingList && <Spinner /> }
-					{ !loadingList && shoppingList && shoppingList.map(item => (
-						<ListItem key={item.id} item={item} />
-					)) }
+					{loadingList && <Spinner />}
+					{!loadingList &&
+						shoppingList &&
+						shoppingList.map(item => <ListItem key={item.id} item={item} />)}
 				</ListItemContainer>
 			</Root>
 		</>
 	);
-}
+};
 
 export default Shopping;

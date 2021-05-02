@@ -22,11 +22,10 @@ const Tab = styled.div<{ selected: boolean }>`
 	justify-content: center;
 	align-items: center;
 	transition: 200ms;
-	${props => props.selected ? `` : ``}
+	${props => (props.selected ? `` : ``)}
 `;
 
-type FooterProps = React.PropsWithoutRef<{
-}>;
+type FooterProps = React.PropsWithoutRef<{}>;
 
 type FooterComponent = React.FunctionComponent<FooterProps>;
 
@@ -35,12 +34,12 @@ const Footer: FooterComponent = () => {
 
 	return (
 		<Root>
-			<Link href='/'>
+			<Link href="/">
 				<Tab selected={router.pathname === `/`}>
 					<DeveloperMode onClick={() => router.push(`/`)} />
 				</Tab>
 			</Link>
-			<Link href='/raw'>
+			<Link href="/raw">
 				<Tab selected={router.pathname === `/raw`}>
 					<List />
 				</Tab>

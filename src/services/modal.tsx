@@ -27,12 +27,12 @@ type ModalComponent = React.FunctionComponent;
 const Modal: ModalComponent = () => {
 	const { _element, _options, closeModal } = useModal();
 
-	function handleBackdropClick (event: React.MouseEvent<HTMLDivElement>) {
+	function handleBackdropClick(event: React.MouseEvent<HTMLDivElement>) {
 		event.stopPropagation();
 		if (_options.backdropClickClose) closeModal();
 	}
 
-	function handleElementContainerClick (event: React.MouseEvent<HTMLDivElement>) {
+	function handleElementContainerClick(event: React.MouseEvent<HTMLDivElement>) {
 		event.stopPropagation();
 	}
 

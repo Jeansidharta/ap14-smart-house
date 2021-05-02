@@ -1,11 +1,11 @@
 import React from 'react';
 
-export function usePostData<T> (baseUrl: string) {
+export function usePostData<T>(baseUrl: string) {
 	const [loading, setLoading] = React.useState(false);
 	const [error, setError] = React.useState<null | Error>(null);
 	const [data, setData] = React.useState<null | T>(null);
 
-	async function postData (url: string, body: Object) {
+	async function postData(url: string, body: Object) {
 		let response: Response;
 		setLoading(true);
 		try {
