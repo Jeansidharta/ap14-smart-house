@@ -10,8 +10,8 @@ const Root = styled.div`
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	height: 100%;
 	padding: 16px;
+	min-height: 650px;
 `;
 
 type ControlPageProps = React.PropsWithoutRef<{}>;

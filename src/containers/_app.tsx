@@ -4,7 +4,7 @@ import Header from '../components/layout/header';
 
 const Root = styled.div`
 	height: 100%;
-	overflow: hidden;
+	overflow-y: auto;
 	display: flex;
 	flex-direction: column;
 	background-color: #eeeeee;
