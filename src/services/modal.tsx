@@ -13,10 +13,11 @@ const Backdrop = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 16px;
+	padding: 32px 16px;
 `;
 
 const ElementContainer = styled.div`
+	overflow-y: auto;
 	max-height: 100%;
 	max-width: 100%;
 `;

@@ -15,13 +15,14 @@ const Root = styled.div`
 	background-color: white;
 	padding: 16px;
 	border-radius: 8px;
-	width: calc(100vw - 32px);
+	width: 100%;
 	max-width: 400px;
-	overflow: auto;
-	max-height: calc(100vh - 32px);
 	display: grid;
 	justify-items: center;
 	row-gap: 8px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 `;
 
 const AddFrameButton = styled(ButtonBase)`
