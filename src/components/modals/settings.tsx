@@ -37,6 +37,10 @@ const SettingsModal: SettingsModalComponent = () => {
 		updateSettings({ showOnOff });
 	}
 
+	function handleShowRandomColorButtonChange(showRandomColorButton: boolean) {
+		updateSettings({ showRandomColorButton });
+	}
+
 	return (
 		<Root>
 			<Title>Configurações</Title>
@@ -56,6 +60,11 @@ const SettingsModal: SettingsModalComponent = () => {
 					defaultChecked={React.useMemo(() => settings.showOnOff, [])}
 					onChangeValue={handleRedundantButtonChange}
 					label="Usar botão redundante de on/off?"
+				/>
+				<Checkbox
+					defaultChecked={React.useMemo(() => settings.showRandomColorButton, [])}
+					onChangeValue={handleShowRandomColorButtonChange}
+					label="Mostrar botão de cor aleatória?"
 				/>
 			</Form>
 		</Root>

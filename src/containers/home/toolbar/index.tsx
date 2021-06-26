@@ -77,6 +77,11 @@ const Toolbar: ToolbarComponent = () => {
 		await sendCommand(targetLamps, `set_power`, [`on`, `sudden`, 30, 0]);
 	}
 
+	const handleRandomColorClick = useDebounce(async () => {
+		const hue = Math.floor(Math.random() * 359);
+		await sendCommand(targetLamps, `set_hsv`, [hue, 100]);
+	}, 1000);
+
 	if (targetLamps.length === 0) return null;
 
 	return (
@@ -108,6 +113,16 @@ const Toolbar: ToolbarComponent = () => {
 					</Button>
 				</OnOffContainer>
 			)}
+			{settings.showRandomColorButton &&
+				<Button
+					backgroundColor="pink"
+					fullWidth
+					style={{ margin: '8px 0' }}
+					onClick={handleRandomColorClick}
+				>
+					Cor aleatória
+				</Button>
+			}
 		</Root>
 	);
 };

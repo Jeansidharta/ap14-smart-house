@@ -4,6 +4,7 @@ import { useLocalStorage } from '../libs/hooks/use-local-storage';
 export type Settings = {
 	colorMode: 'hsv' | 'rgb' | 'temperature';
 	showOnOff: boolean;
+	showRandomColorButton: boolean;
 };
 
 type SettingsContext = {
@@ -14,6 +15,7 @@ type SettingsContext = {
 const defaultSettings: Settings = {
 	colorMode: `temperature`,
 	showOnOff: false,
+	showRandomColorButton: false,
 };
 
 const context = React.createContext<SettingsContext>((null as unknown) as SettingsContext);
