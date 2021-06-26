@@ -8,7 +8,8 @@ import SelectHSV from './select-hsv';
 import SelectTemperature from './select-temperature';
 
 const Root = styled.div`
-	display: flex;
+	display: grid;
+	grid-template-columns: max-content auto;
 `;
 
 const ColorSample = styled.div`

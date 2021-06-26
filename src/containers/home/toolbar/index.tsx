@@ -108,10 +108,6 @@ const Toolbar: ToolbarComponent = () => {
 					</Button>
 				</OnOffContainer>
 			)}
-			{/* <TutsTuts
-				minFreq={0.2}
-				maxFreq={5}
-			/> */}
 		</Root>
 	);
 };
