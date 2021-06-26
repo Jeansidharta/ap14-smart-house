@@ -2,6 +2,7 @@ import React from 'react';
 import { LAMP_API } from '../constants/api-url';
 import { useLocalStorage } from '../libs/hooks/use-local-storage';
 import { LampState } from '../models/lamp-state';
+import hsvToRgb from 'hsv-rgb';
 
 type DictLamps = Record<number, LampState>;
 type DictSelectedLamps = Record<number, number>;
@@ -16,6 +17,7 @@ type LampsContext = {
 	isLampSetAsTarget: (id: number) => boolean;
 	updateLampData: (newStates: { id: number; state: LampState }[]) => void;
 	fetchLamps: () => Promise<void>;
+	mediumTargetLampsColor: [number, number, number];
 };
 
 const context = React.createContext<LampsContext>(null as any);
@@ -76,6 +78,25 @@ const LampsProvider = ({ ...props }) => {
 		return allLamps[lampId];
 	}
 
+	const targetLampsArray = Object.values(targetLamps);
+
+	const mediumTargetLampsColor = (() => {
+		const sumColor = [0, 0, 0] as [number, number, number];
+		for (const lampId of targetLampsArray) {
+			const lamp = findLampById(lampId);
+			if (!lamp) continue;
+			const [r, g, b] = hsvToRgb(lamp.hue, lamp.saturation, 100);
+			sumColor[0] += r;
+			sumColor[1] += g;
+			sumColor[2] += b;
+		}
+		return [
+			Math.floor(sumColor[0] / targetLampsArray.length),
+			Math.floor(sumColor[1] / targetLampsArray.length),
+			Math.floor(sumColor[2] / targetLampsArray.length),
+		] as [number, number, number];
+	})();
+
 	return (
 		<context.Provider
 			value={{
@@ -85,9 +106,10 @@ const LampsProvider = ({ ...props }) => {
 				setTargetLamps,
 				isLampSetAsTarget,
 				findLampById,
-				targetLamps: Object.values(targetLamps),
+				targetLamps: targetLampsArray,
 				updateLampData,
 				fetchLamps,
+				mediumTargetLampsColor,
 			}}
 			{...props}
 		/>

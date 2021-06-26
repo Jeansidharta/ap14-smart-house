@@ -34,7 +34,7 @@ const Toolbar: ToolbarComponent = () => {
 	const {
 		settings: { colorMode },
 	} = useSettings();
-	const { targetLamps } = useLamps();
+	const { targetLamps, mediumTargetLampsColor } = useLamps();
 	const [sendCommand] = useSendCommand();
 	const oldBrightness = React.useRef(0);
 	const { settings } = useSettings();
@@ -115,7 +115,7 @@ const Toolbar: ToolbarComponent = () => {
 			)}
 			{settings.showRandomColorButton &&
 				<Button
-					backgroundColor="pink"
+					backgroundColor={`rgb(${mediumTargetLampsColor[0]}, ${mediumTargetLampsColor[1]}, ${mediumTargetLampsColor[2]})`}
 					fullWidth
 					style={{ margin: '8px 0' }}
 					onClick={handleRandomColorClick}

@@ -51,7 +51,7 @@ type HeaderComponent = React.FunctionComponent<HeaderProps>;
 
 const Header: HeaderComponent = () => {
 	const [longPressTimeoutHandler, setLongPressTimeoutHandler] = React.useState<number | null>(null);
-	const { fetchLamps } = useLamps();
+	const { fetchLamps, mediumTargetLampsColor } = useLamps();
 	const { openModal } = useModal();
 
 	function handleOptionsOpen() {
@@ -80,7 +80,7 @@ const Header: HeaderComponent = () => {
 	}
 
 	return (
-		<Root>
+		<Root style={{ backgroundColor: `rgb(${mediumTargetLampsColor[0]}, ${mediumTargetLampsColor[1]}, ${mediumTargetLampsColor[2]})` }}>
 			<LeftSide>
 				<Link href="/">
 					<LightsButton />

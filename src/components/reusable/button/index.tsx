@@ -56,8 +56,8 @@ type ButtonProps = React.PropsWithoutRef<{
 	 */
 	fullWidth?: boolean;
 	isLoading?: boolean;
-}> &
-	React.ComponentProps<'button'>;
+	rootRef?: React.RefObject<HTMLButtonElement> | null;
+}> & Omit<React.ComponentProps<'button'>, 'ref'>;
 
 type ButtonComponent = React.FunctionComponent<ButtonProps>;
 
@@ -68,7 +68,7 @@ const Button: ButtonComponent = ({
 	hoverScaleOffset = 0.1,
 	backgroundColor = (theme: DefaultTheme) => theme.colors.action.main,
 	textColor = `rgba(0, 0, 0, 0.8)`,
-	ref,
+	rootRef,
 	isLoading,
 	...props
 }) => {
@@ -78,6 +78,7 @@ const Button: ButtonComponent = ({
 			hoverScaleOffset={hoverScaleOffset}
 			textColor={textColor}
 			backgroundColor={backgroundColor}
+			ref={rootRef}
 			{...props}
 		>
 			{children}
