@@ -124,7 +124,7 @@ const AudioListenerService: AudioListenerServiceComponent = ({}) => {
 
 		try {
 			setUserMediaStream(await navigator.mediaDevices.getUserMedia({ audio: true }));
-		} catch (e) {
+		} catch (e: any) {
 			if (e.message === 'Permission denied') {
 				toast.error('Permission to access your microphone was denied.');
 			} else {
