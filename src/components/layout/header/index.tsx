@@ -5,6 +5,7 @@ import MoreVert from '@material-ui/icons/MoreVert';
 import Replay from '@material-ui/icons/Replay';
 import EmojiObjects from '@material-ui/icons/EmojiObjects';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
+import Keyboard from '@material-ui/icons/Keyboard';
 import { useModal } from '../../../contexts/modal';
 import SettingsModal from '../../modals/settings';
 import { useLamps } from '../../../contexts/lamps';
@@ -40,6 +41,11 @@ const LightsButton = styled(EmojiObjects)`
 	cursor: pointer;
 `;
 
+const CommandsButton = styled(Keyboard)`
+	margin: 1rem 0.5rem;
+	cursor: pointer;
+`;
+
 const ShoppingButton = styled(ShoppingCart)`
 	margin: 1rem 0.5rem;
 	cursor: pointer;
@@ -68,7 +74,7 @@ const Header: HeaderComponent = () => {
 	}
 
 	function handleReloadDown() {
-		const handler = (setTimeout(longPress, LONG_PRESS_DELAY) as unknown) as number;
+		const handler = setTimeout(longPress, LONG_PRESS_DELAY) as unknown as number;
 		setLongPressTimeoutHandler(handler);
 	}
 
@@ -80,10 +86,17 @@ const Header: HeaderComponent = () => {
 	}
 
 	return (
-		<Root style={{ backgroundColor: `rgb(${mediumTargetLampsColor[0]}, ${mediumTargetLampsColor[1]}, ${mediumTargetLampsColor[2]})` }}>
+		<Root
+			style={{
+				backgroundColor: `rgb(${mediumTargetLampsColor[0]}, ${mediumTargetLampsColor[1]}, ${mediumTargetLampsColor[2]})`,
+			}}
+		>
 			<LeftSide>
 				<Link href="/">
 					<LightsButton />
+				</Link>
+				<Link href="/commands">
+					<CommandsButton />
 				</Link>
 				<Link href="/shopping">
 					<ShoppingButton />
