@@ -40,7 +40,7 @@ type CommandsPageProps = React.PropsWithoutRef<{}>;
 type CommandsPageComponent = React.FunctionComponent<CommandsPageProps>;
 
 const CommandsPage: CommandsPageComponent = ({}) => {
-	const { websocketConnection, websocketState } = useWebsocket('ws://192.168.0.234:3091', {
+	const { websocketConnection, websocketState } = useWebsocket('wss://pc.sidharta.xyz:3091', {
 		autoreconnect: 1000,
 	});
 	const [message, setMessage] = React.useState<string>('');
@@ -111,11 +111,11 @@ const CommandsPage: CommandsPageComponent = ({}) => {
 			</CommandForm>
 			{message && (
 				<Terminal>
-					{message.split('\n').map(segment => (
-						<>
+					{message.split('\n').map((segment, index) => (
+						<React.Fragment key={index}>
 							{segment}
 							<br />
-						</>
+						</React.Fragment>
 					))}
 				</Terminal>
 			)}
