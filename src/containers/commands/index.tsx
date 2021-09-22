@@ -7,7 +7,6 @@ import { toastifyProblems } from '../../libs/toastify-problems';
 import { toast } from 'react-toastify';
 import { useWebsocket } from '../../libs/hooks/use-websocket';
 import ConnectionFeedback from './connection-feedback';
-import { TextField } from '@material-ui/core';
 
 const Root = styled.div`
 	padding: 32px;
@@ -27,10 +26,6 @@ const CommandForm = styled.form`
 	background-color: ${props => props.theme.colors.white.full};
 	padding: 16px;
 	border-radius: 16px;
-`;
-
-const HostForm = styled(CommandForm)`
-	justify-content: space-between;
 `;
 
 const Terminal = styled.div`
@@ -101,12 +96,11 @@ const CommandsPage: CommandsPageComponent = ({}) => {
 		return () => websocketConnection!.removeEventListener('message', onMessage);
 	}, [websocketConnection, websocketState]);
 
-	function handleHostSubmit() {}
-
 	return (
 		<Root>
 			<CommandForm onSubmit={handleCommandSubmit}>
 				<h1>Send CLI command</h1>
+				<ConnectionFeedback connectionState={websocketState} />
 				<Select
 					name="form_command"
 					fullWidth

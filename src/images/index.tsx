@@ -12,8 +12,6 @@ import type { FlattenSimpleInterpolation } from 'styled-components';
 import styled from 'styled-components';
 import ImageURLs from './image-urls';
 
-const hasWebpCounterpartRegex = /\.(png|jpe?g)$/;
-
 const Picture = styled.picture<{ css?: FlattenSimpleInterpolation }>`
 	width: 100%;
 	height: 100%;
@@ -51,13 +49,8 @@ type BaseImageProps = React.PropsWithChildren<{
  */
 const BaseImage = React.forwardRef<HTMLPictureElement, BaseImageProps>(
 	({ imageData: { src }, alt, fit = `contain`, ...props }, ref) => {
-		const webpSrc = src.match(hasWebpCounterpartRegex)
-			? src.replace(hasWebpCounterpartRegex, `.webp`)
-			: ``;
-
 		return (
 			<Picture {...props} ref={ref}>
-				{webpSrc && <source srcSet={webpSrc} type="image/webp" />}
 				<Image src={src} alt={alt} fit={fit} />
 			</Picture>
 		);
