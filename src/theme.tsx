@@ -74,6 +74,13 @@ declare module 'styled-components' {
 			/** Useful if you have lots of gray colors in your app, and want to have
 			 * consistency between them. */
 			gray: GradientColor;
+			white: {
+				full: string;
+				background: string;
+			};
+			black: {
+				full: string;
+			};
 		};
 		/** Font-related stuff. Things like font-family, font-weight or font-size. */
 		font: {
@@ -149,6 +156,13 @@ const theme: DefaultTheme = {
 			main: EMPTY_COLOR,
 			dark: EMPTY_COLOR,
 			darker: EMPTY_COLOR,
+		},
+		white: {
+			full: 'white',
+			background: '#eeeeee',
+		},
+		black: {
+			full: 'black',
 		},
 
 		// Material UI's default success colors.
