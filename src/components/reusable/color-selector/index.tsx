@@ -13,7 +13,7 @@ const Root = styled.div`
 `;
 
 const ColorSample = styled.div`
-	width: 10px;
+	width: 20px;
 	height: 100%;
 	margin-right: 8px;
 	border: 1px solid rgba(0, 0, 0, 0.3);
@@ -21,6 +21,9 @@ const ColorSample = styled.div`
 
 const ColorSelectorsContainer = styled.div`
 	width: 100%;
+	display: flex;
+	flex-direction: column;
+	row-gap: 16px;
 `;
 
 function hsv2rgb(hsv: HSV) {

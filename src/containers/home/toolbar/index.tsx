@@ -16,6 +16,7 @@ const Root = styled.div`
 	margin: 1rem 0;
 	display: flex;
 	flex-direction: column;
+	row-gap: 32px;
 `;
 
 const OnOffContainer = styled.div`
@@ -113,7 +114,7 @@ const Toolbar: ToolbarComponent = () => {
 					</Button>
 				</OnOffContainer>
 			)}
-			{settings.showRandomColorButton &&
+			{settings.showRandomColorButton && (
 				<Button
 					backgroundColor={`rgb(${mediumTargetLampsColor[0]}, ${mediumTargetLampsColor[1]}, ${mediumTargetLampsColor[2]})`}
 					fullWidth
@@ -122,7 +123,7 @@ const Toolbar: ToolbarComponent = () => {
 				>
 					Cor aleatória
 				</Button>
-			}
+			)}
 		</Root>
 	);
 };

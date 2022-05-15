@@ -8,16 +8,18 @@ const Root = styled.div``;
 const Canvas = styled.canvas`
 	cursor: pointer;
 	width: 100%;
-	height: 10px;
+	height: 20px;
 `;
 
 const CanvasContainer = styled.div`
 	position: relative;
+	display: flex;
+	aligh-itens: center;
 `;
 
 const Slider = styled.div`
-	width: 2px;
-	height: 15px;
+	width: 5px;
+	height: 150%;
 	left: 0;
 	top: 50%;
 	transform: translate(-50%, -50%);
