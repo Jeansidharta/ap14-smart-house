@@ -9,8 +9,10 @@ import {
 	LAMP_ID_TV,
 	LAMP_ID_MIDDLE,
 	LAMP_ID_WINDOW,
+	LAMP_ID_STRIP_JEAN,
 } from '../../../constants/lamp-ids';
 import SVGLampIcon from './svg-lamp-icon';
+import { SVGStripLight } from './svg-strip-light';
 
 const Root = styled.div``;
 
@@ -33,6 +35,7 @@ const HouseSVGImage: HouseSVGImageComponent = () => {
 	const { findLampById, addTargetLamp, removeTargetLamp, isLampSetAsTarget } = useLamps();
 
 	function handleClick(lampId: number) {
+		console.log('Lamp clicked', lampId);
 		if (!findLampById(lampId)) return toast.error(`Esta lâmpada está desligada`);
 		if (isLampSetAsTarget(lampId)) removeTargetLamp(lampId);
 		else return addTargetLamp(lampId);
@@ -63,6 +66,7 @@ const HouseSVGImage: HouseSVGImageComponent = () => {
 						viewBox="0 0 1000 1000"
 						width="1000"
 						height="1000"
+						style={{ pointerEvents: 'none' }}
 					>
 						<g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)">
 							<path d="M4768.3,3105.9c-826.9-70.8-1611.6-534-2057.6-1215.4c-476.6-725.4-589.5-1602.1-315.8-2423.2c90-269.9,273.7-631.6,545.5-1070c403.9-648.9,505.3-853.7,591.4-1171.4c70.8-258.4,91.9-430.7,95.7-742.6l1.9-277.5H4998h1368.5l-1.9,124.4c-5.8,246.9,30.6,624,78.5,819.2c86.1,352.2,193.3,576.1,587.6,1209.7c380.9,612.5,543.6,953.2,637.4,1345.6c181.8,748.4,42.1,1542.7-382.8,2185.9C6737.9,2713.6,5752.2,3190.2,4768.3,3105.9z" />
@@ -77,6 +81,7 @@ const HouseSVGImage: HouseSVGImageComponent = () => {
 						viewBox="0 0 1000 1000"
 						width="1000"
 						height="1000"
+						style={{ pointerEvents: 'none' }}
 					>
 						<g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)">
 							<path d="M4710.9,4436.2v-583.8H4998h287.1v583.8V5020H4998h-287.1V4436.2z" />
@@ -95,6 +100,24 @@ const HouseSVGImage: HouseSVGImageComponent = () => {
 						fill="black"
 					>
 						<path d="M170.975,49.667c-1.143-1.672-2.298-3.205-3.433-4.553c-8.974-10.66-24.952-19.393-42.742-23.36c-11.391-2.542-24.952-14.857-29.21-19.383c-2.644-2.822-7.118-3.252-10.324-0.602c-1.741,1.44-2.647,3.658-2.648,5.918l-0.005,10.175l-0.005,9.994c0,0,0,0,0,0l-0.06,124.317c-4.072-1.647-8.464-2.516-12.995-2.518c-19.083,0-34.617,15.526-34.626,34.61c-0.009,19.094,15.517,34.635,34.611,34.645c0.001,0,0.015,0,0.016,0c19.085,0,34.619-15.526,34.627-34.611v0c0,0,0,0,0,0l0.054-112.369c3.936,1.326,8.534,2.349,13.901,2.827c20.538,1.829,34.369,5.939,43.527,12.933c6.839,5.223,7.11,7.762,7.215,8.324c0,0.013,0,0.026,0,0.039c0.011,0.786,0.699,1.396,1.485,1.396l6.119,0.004v0v0l2.8,0.001c2.596,0.001,4.701-2.102,4.702-4.697V92.71C183.992,77.021,179.493,62.137,170.975,49.667z M69.553,211.41L69.553,211.41L69.553,211.41L69.553,211.41z" />
+					</svg>
+					<svg
+						id="lampstand"
+						xmlns="http://www.w3.org/2000/svg"
+						width="44"
+						height="81"
+						viewBox="28 0 44 81"
+						stroke="black"
+						fill="none"
+						style={{ cursor: 'pointer', pointerEvents: 'none' }}
+					>
+						<path
+							strokeWidth="2"
+							strokeLinecap="round"
+							fill="black"
+							d=" M 40 0 h 20 L 70 20 h -40 z M 43 22 v 13 M 50 22 v 58 M 40 80 h 20"
+						/>
+						<circle r="3" cx="43" cy="35" fill="black" />
 					</svg>
 				</defs>
 				{/* Paredes externas */}
@@ -124,6 +147,12 @@ const HouseSVGImage: HouseSVGImageComponent = () => {
 					color={calculateRoomColor(LAMP_ID_JEAN)}
 				/>
 				<rect y="100" x="0" width="40" height="60" />
+				<SVGStripLight
+					onSelect={() => handleClick(LAMP_ID_STRIP_JEAN)}
+					lampId={LAMP_ID_STRIP_JEAN}
+					x={25}
+					y={145}
+				/>
 				<SVGLampIcon lampId={LAMP_ID_JEAN} x={13} y={125} />
 
 				{/* Parede corredor */}

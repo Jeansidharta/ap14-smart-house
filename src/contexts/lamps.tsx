@@ -47,7 +47,7 @@ const LampsProvider = ({ ...props }) => {
 	}
 
 	React.useEffect(() => {
-		fetchLamps();
+		fetchLamps().catch(e => console.log(e));
 	}, []);
 
 	function addTargetLamp(lampId: number) {

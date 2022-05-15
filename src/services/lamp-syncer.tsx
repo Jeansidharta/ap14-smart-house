@@ -16,7 +16,10 @@ const LampSyncerService: LampSyncerServiceComponent = ({}) => {
 	React.useEffect(() => {
 		if (!lampStateSyncer.shouldSync) return;
 
-		const intervalHandler = setInterval(fetchLamps, lampStateSyncer.syncInterval * 1000);
+		const intervalHandler = setInterval(
+			() => fetchLamps().catch(e => console.log(e)),
+			lampStateSyncer.syncInterval * 1000,
+		);
 		return () => clearInterval(intervalHandler);
 	}, [lampStateSyncer.shouldSync, lampStateSyncer.syncInterval]);
 
