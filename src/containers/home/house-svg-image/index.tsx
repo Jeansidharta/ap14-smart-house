@@ -10,6 +10,7 @@ import {
 	LAMP_ID_MIDDLE,
 	LAMP_ID_WINDOW,
 	LAMP_ID_STRIP_JEAN,
+	LAMP_ID_HALL,
 } from '../../../constants/lamp-ids';
 import SVGLampIcon from './svg-lamp-icon';
 import { SVGStripLight } from './svg-strip-light';
@@ -123,7 +124,7 @@ const HouseSVGImage: HouseSVGImageComponent = () => {
 				{/* Paredes externas */}
 				<rect y="0" x="0" width="100" height="160" />
 
-				{/* Quarto Rafa */}
+				{/* ----------------------- Quarto Rafa ----------------------- */}
 				<RoomRect
 					fill="white"
 					y="1"
@@ -136,7 +137,7 @@ const HouseSVGImage: HouseSVGImageComponent = () => {
 				<rect y="0" x="0" width="40" height="60" />
 				<SVGLampIcon lampId={LAMP_ID_RAFA} x={13} y={22} />
 
-				{/* Quarto Jean */}
+				{/* ----------------------- Quarto Jean ----------------------- */}
 				<RoomRect
 					fill="white"
 					y="101"
@@ -155,13 +156,22 @@ const HouseSVGImage: HouseSVGImageComponent = () => {
 				/>
 				<SVGLampIcon lampId={LAMP_ID_JEAN} x={13} y={125} />
 
-				{/* Parede corredor */}
+				{/* ------------------------ Corredor ------------------------  */}
+				{/* Parede Corredor Sala */}
 				<line x1="40" y1="80" x2="40" y2="100" />
-
-				{/* Parede banheiro */}
+				{/* Parede Corredor Banheiro */}
 				<line x1="20" y1="60" x2="20" y2="100" />
+				<RoomRect
+					fill="white"
+					y="61"
+					x="21"
+					width="18"
+					height="38"
+					onClick={() => handleClick(LAMP_ID_HALL)}
+					color={calculateRoomColor(LAMP_ID_HALL)}
+				/>
 
-				{/* Sala */}
+				{/* --------------------------- Sala --------------------------- */}
 				<RoomRect
 					fill="white"
 					stroke="none"
@@ -195,6 +205,7 @@ const HouseSVGImage: HouseSVGImageComponent = () => {
 				<SVGLampIcon lampId={LAMP_ID_WINDOW} x={65} y={125} />
 				<SVGLampIcon lampId={LAMP_ID_MIDDLE} x={65} y={70} />
 				<SVGLampIcon lampId={LAMP_ID_TV} x={65} y={15} />
+				<SVGLampIcon lampId={LAMP_ID_HALL} x={25} y={75} />
 			</Svg>
 		</Root>
 	);
