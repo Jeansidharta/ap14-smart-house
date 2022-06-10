@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { RGB } from '.';
 import StripColor from '../strip-color';
 
@@ -6,14 +6,10 @@ const MAX_RED = 255;
 const MAX_GREEN = 255;
 const MAX_BLUE = 255;
 
-type SelectRGBProps = React.PropsWithoutRef<{
+const SelectRGB: FC<{
 	defaultValue?: RGB;
 	onChange?: (rgb: RGB) => void;
-}>;
-
-type SelectRGBComponent = React.FunctionComponent<SelectRGBProps>;
-
-const SelectRGB: SelectRGBComponent = ({ defaultValue, onChange = () => {} }) => {
+}> = ({ defaultValue, onChange = () => {} }) => {
 	const rgbValue = React.useRef<RGB>(defaultValue || { blue: 0, green: 0, red: 0 });
 
 	const getRedFunc = React.useMemo(() => (x: number) => [x * MAX_RED, 0, 0] as const, []);

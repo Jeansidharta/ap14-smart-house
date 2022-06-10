@@ -1,31 +1,27 @@
-import { FormControl, Select as MUISelect, InputLabel, MenuItem } from '@material-ui/core';
-import React from 'react';
+import { FormControl, Select as MUISelect, InputLabel, MenuItem } from '@mui/material';
+import React, { FC } from 'react';
 
 type Option =
 	| { text: string; value: string | number | null; id?: undefined }
 	| { text: string; value: unknown; id: string }
 	| string;
 
-type SelectProps = React.ComponentProps<typeof MUISelect> &
-	React.PropsWithoutRef<{
+const Select: FC<
+	React.ComponentProps<typeof MUISelect> & {
 		options: readonly Option[];
 		onChangeValue?: (newValue: never) => void;
 		label?: string;
 		fullWidth?: boolean;
 		className?: string;
 		defaultValue?: string;
-	}>;
-
-type SelectComponent = React.FunctionComponent<SelectProps>;
-
-const Select: SelectComponent = ({
+	}
+> = ({
 	options,
 	onChangeValue = () => {},
 	label,
 	className,
 	fullWidth = false,
 	defaultValue = ``,
-	ref,
 	...props
 }) => {
 	const [selectedId, setSelectedId] = React.useState<string>(defaultValue);
@@ -35,7 +31,7 @@ const Select: SelectComponent = ({
 		if (!option) throw new Error(`wtf, my option disappeared`);
 
 		const { value, id } = parseOption(option);
-		onChangeValue((value as unknown) as never);
+		onChangeValue(value as unknown as never);
 		setSelectedId(id.toString());
 	}
 

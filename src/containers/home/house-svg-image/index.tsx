@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { useLamps } from '../../../contexts/lamps';
 import { toast } from 'react-toastify';
@@ -28,11 +28,7 @@ const RoomRect = styled.rect<{ color: string }>`
 	cursor: pointer;
 `;
 
-type HouseSVGImageProps = React.PropsWithoutRef<{}>;
-
-type HouseSVGImageComponent = React.FunctionComponent<HouseSVGImageProps>;
-
-const HouseSVGImage: HouseSVGImageComponent = () => {
+const HouseSVGImage: FC<{}> = () => {
 	const { findLampById, addTargetLamp, removeTargetLamp, isLampSetAsTarget } = useLamps();
 
 	function handleClick(lampId: number) {

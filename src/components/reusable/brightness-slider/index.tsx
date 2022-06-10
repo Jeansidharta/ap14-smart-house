@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { Slider } from '@material-ui/core';
-import BrightnessHigh from '@material-ui/icons/BrightnessHigh';
-import BrightnessLow from '@material-ui/icons/BrightnessLow';
+import { Slider } from '@mui/material';
+import BrightnessHigh from '@mui/icons-material/BrightnessHigh';
+import BrightnessLow from '@mui/icons-material/BrightnessLow';
 
 const Root = styled.div`
 	display: grid;
@@ -12,15 +12,11 @@ const Root = styled.div`
 	align-items: center;
 `;
 
-type BrightnessSliderProps = React.PropsWithoutRef<{
+const BrightnessSlider: FC<{
 	onChange?: (newBrightness: number) => void;
 	defaultValue?: number;
-}>;
-
-type BrightnessSliderComponent = React.FunctionComponent<BrightnessSliderProps>;
-
-const BrightnessSlider: BrightnessSliderComponent = ({ onChange = () => {}, defaultValue }) => {
-	function handleChangeBrightness(_event: React.ChangeEvent<{}>, newValue: number | number[]) {
+}> = ({ onChange = () => {}, defaultValue }) => {
+	function handleChangeBrightness(_event: Event, newValue: number | number[]) {
 		if (newValue instanceof Array) {
 			console.warn(`wtf did I just receive`);
 			return;

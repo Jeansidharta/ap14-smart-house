@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import MoreVert from '@material-ui/icons/MoreVert';
-import Replay from '@material-ui/icons/Replay';
-import EmojiObjects from '@material-ui/icons/EmojiObjects';
-import ShoppingCart from '@material-ui/icons/ShoppingCart';
-import Keyboard from '@material-ui/icons/Keyboard';
+import MoreVert from '@mui/icons-material/MoreVert';
+import Replay from '@mui/icons-material/Replay';
+import EmojiObjects from '@mui/icons-material/EmojiObjects';
+import ShoppingCart from '@mui/icons-material/ShoppingCart';
+import Keyboard from '@mui/icons-material/Keyboard';
 import { useModal } from '../../../contexts/modal';
 import SettingsModal from '../../modals/settings';
 import { useLamps } from '../../../contexts/lamps';
@@ -51,11 +51,7 @@ const ShoppingButton = styled(ShoppingCart)`
 	cursor: pointer;
 `;
 
-type HeaderProps = React.PropsWithoutRef<{}>;
-
-type HeaderComponent = React.FunctionComponent<HeaderProps>;
-
-const Header: HeaderComponent = () => {
+const Header: FC<{}> = () => {
 	const [longPressTimeoutHandler, setLongPressTimeoutHandler] = React.useState<number | null>(null);
 	const { fetchLamps, mediumTargetLampsColor } = useLamps();
 	const { openModal } = useModal();

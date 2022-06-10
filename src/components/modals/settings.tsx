@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import type { Settings } from '../../contexts/settings';
 import { useSettings } from '../../contexts/settings';
@@ -22,11 +22,7 @@ const Title = styled.h1`
 	text-align: center;
 `;
 
-type SettingsModalProps = React.PropsWithoutRef<{}>;
-
-type SettingsModalComponent = React.FunctionComponent<SettingsModalProps>;
-
-const SettingsModal: SettingsModalComponent = () => {
+const SettingsModal: FC<{}> = () => {
 	const { updateSettings, settings } = useSettings();
 
 	function handleColorModeChange(colorMode: Settings['colorMode']) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import type { Coords } from '../../../libs/hooks/use-mouse-drag';
 import { useMouseDrag } from '../../../libs/hooks/use-mouse-drag';
@@ -30,15 +30,11 @@ const Slider = styled.div`
 
 const CANVAS_HEIGHT = 1;
 
-type StripColorProps = React.PropsWithoutRef<{
+const StripColor: FC<{
 	onChange?: (newValue: number) => void;
 	getColor: (percentX: number) => readonly [number, number, number];
 	defaultValue?: number;
-}>;
-
-type StripColorComponent = React.FunctionComponent<StripColorProps>;
-
-const StripColor: StripColorComponent = ({ onChange = () => {}, getColor, defaultValue }) => {
+}> = ({ onChange = () => {}, getColor, defaultValue }) => {
 	const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 	const sliderRef = React.useRef<HTMLDivElement | null>(null);
 

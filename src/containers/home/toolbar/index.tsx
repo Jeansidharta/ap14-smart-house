@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import BrightnessSlider from '../../../components/reusable/brightness-slider';
 import Button from '../../../components/reusable/button';
@@ -27,11 +27,7 @@ const OnOffContainer = styled.div`
 	width: 100%;
 `;
 
-type ToolbarProps = React.PropsWithoutRef<{}>;
-
-type ToolbarComponent = React.FunctionComponent<ToolbarProps>;
-
-const Toolbar: ToolbarComponent = () => {
+const Toolbar: FC<{}> = () => {
 	const {
 		settings: { colorMode },
 	} = useSettings();

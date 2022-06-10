@@ -1,11 +1,11 @@
-import { TextField } from '@material-ui/core';
-import React from 'react';
+import { TextField } from '@mui/material';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import type { FrameData } from '.';
 import BrightnessSlider from '../../reusable/brightness-slider';
 import Select from '../../reusable/select';
-import FileCopyOutlined from '@material-ui/icons/FileCopyOutlined';
-import Close from '@material-ui/icons/Close';
+import FileCopyOutlined from '@mui/icons-material/FileCopyOutlined';
+import Close from '@mui/icons-material/Close';
 import ColorSelector from '../../reusable/color-selector';
 import { useDebounce } from '../../../libs/hooks/use-debounce';
 import hsv2rgb from 'hsv-rgb';
@@ -41,16 +41,6 @@ const FrameIndex = styled.h2`
 	font-size: 18px;
 `;
 
-type FrameProps = React.PropsWithoutRef<{
-	initialFrameData: FrameData;
-	onChangeFrameData?: (newFrameData: Partial<FrameData>) => void;
-	onDeleteFrame?: () => void;
-	onCopyFrame?: () => void;
-	index: number;
-}>;
-
-type FrameComponent = React.FunctionComponent<FrameProps>;
-
 type ColorMode = 'hsv' | 'rgb' | 'temperature' | 'sleep' | null;
 
 function colorMode2Number(colorMode: ColorMode) {
@@ -69,7 +59,13 @@ function number2ColorMode(number: 1 | 2 | 3 | 7 | null): ColorMode {
 	else return null;
 }
 
-const Frame: FrameComponent = ({
+const Frame: FC<{
+	initialFrameData: FrameData;
+	onChangeFrameData?: (newFrameData: Partial<FrameData>) => void;
+	onDeleteFrame?: () => void;
+	onCopyFrame?: () => void;
+	index: number;
+}> = ({
 	initialFrameData,
 	onChangeFrameData = () => {},
 	onDeleteFrame = () => {},

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import type { DefaultTheme } from 'styled-components';
 import styled from 'styled-components';
 import Spinner from '../spinner';
@@ -40,29 +40,29 @@ const Spacing = styled.div`
 	width: 8px;
 `;
 
-type ButtonProps = React.PropsWithoutRef<{
-	/**
-	 * How much will the button's size increase/decrease when the user hovers/clicks
-	 * on it.
-	 */
-	hoverScaleOffset?: number;
-
-	backgroundColor?: ColorDescriptor;
-
-	textColor?: ColorDescriptor;
-
-	/**
-	 * If true, the button's width will be set to `100%`.
-	 */
-	fullWidth?: boolean;
-	isLoading?: boolean;
-	rootRef?: React.RefObject<HTMLButtonElement> | null;
-}> & Omit<React.ComponentProps<'button'>, 'ref'>;
-
-type ButtonComponent = React.FunctionComponent<ButtonProps>;
-
 /** This is the application's default button. */
-const Button: ButtonComponent = ({
+const Button: FC<
+	PropsWithChildren<
+		{
+			/**
+			 * How much will the button's size increase/decrease when the user hovers/clicks
+			 * on it.
+			 */
+			hoverScaleOffset?: number;
+
+			backgroundColor?: ColorDescriptor;
+
+			textColor?: ColorDescriptor;
+
+			/**
+			 * If true, the button's width will be set to `100%`.
+			 */
+			fullWidth?: boolean;
+			isLoading?: boolean;
+			rootRef?: React.RefObject<HTMLButtonElement> | null;
+		} & Omit<React.ComponentProps<'button'>, 'ref'>
+	>
+> = ({
 	children,
 	fullWidth = false,
 	hoverScaleOffset = 0.1,

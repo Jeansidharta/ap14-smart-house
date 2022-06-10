@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import rawHsv2rgb from 'hsv-rgb';
 import rawRgb2hsv from 'rgb-hsv';
@@ -91,9 +91,7 @@ function isDefaultTypeTemperature(
 	return typeof defaultValue === 'number';
 }
 
-type ColorSelectorComponent = React.FunctionComponent<ColorSelectorProps>;
-
-const ColorSelector: ColorSelectorComponent = ({
+const ColorSelector: FC<ColorSelectorProps> = ({
 	onChangeHSV = () => {},
 	onChangeRGB = () => {},
 	onChangeTemperature = () => {},

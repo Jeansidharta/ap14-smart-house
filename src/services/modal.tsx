@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { useModal } from '../contexts/modal';
 
@@ -22,9 +22,7 @@ const ElementContainer = styled.div`
 	max-width: 100%;
 `;
 
-type ModalComponent = React.FunctionComponent;
-
-const Modal: ModalComponent = () => {
+const Modal: FC<{}> = () => {
 	const { _element, _options, closeModal } = useModal();
 
 	function handleBackdropClick(event: React.MouseEvent<HTMLDivElement>) {

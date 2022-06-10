@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
 const Root = styled.label`
@@ -11,19 +11,16 @@ const Input = styled.input``;
 
 const TextArea = styled(Input).attrs({ as: `textarea` })``;
 
-type TextInputProps = React.PropsWithoutRef<{
-	/** The text that indicates the field's name */
-	label: string;
-	numberOfLines?: number;
-}> &
-	React.ComponentProps<'label'>;
-
-type TextInputComponent = React.FunctionComponent<TextInputProps>;
-
 /**
  * This is the application's default text input component
  */
-const TextInput: TextInputComponent = ({ label, ref, numberOfLines = 1, ...props }) => {
+const TextInput: FC<
+	{
+		/** The text that indicates the field's name */
+		label: string;
+		numberOfLines?: number;
+	} & Omit<React.ComponentProps<'label'>, 'ref'>
+> = ({ label, numberOfLines = 1, ...props }) => {
 	return (
 		<Root {...props}>
 			{label}

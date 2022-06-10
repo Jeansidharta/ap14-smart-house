@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useLamps } from '../../../contexts/lamps';
 
 import hsv2Rgb from 'hsv-rgb';
@@ -7,15 +7,11 @@ import { colorTemperature2rgb } from 'color-temperature';
 const TOTAL_BRIGHTNESS_STAGES = 30;
 const TICK_SIZE = 0.05;
 
-type SVGLampIconProps = React.PropsWithoutRef<{
+const SVGLampIcon: FC<{
 	x: number;
 	y: number;
 	lampId: number;
-}>;
-
-type SVGLampIconComponent = React.FunctionComponent<SVGLampIconProps>;
-
-const SVGLampIcon: SVGLampIconComponent = ({ lampId, x, y }) => {
+}> = ({ lampId, x, y }) => {
 	const { findLampById } = useLamps();
 
 	const lamp = findLampById(lampId);

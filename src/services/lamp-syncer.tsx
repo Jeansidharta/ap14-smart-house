@@ -1,15 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { useLampStateSyncer } from '../contexts/lamp-state-syncer';
 import { useLamps } from '../contexts/lamps';
 
 const Root = styled.div``;
 
-type LampSyncerServiceProps = React.PropsWithoutRef<{}>;
-
-type LampSyncerServiceComponent = React.FunctionComponent<LampSyncerServiceProps>;
-
-const LampSyncerService: LampSyncerServiceComponent = ({}) => {
+const LampSyncerService: FC<{}> = ({}) => {
 	const { lampStateSyncer } = useLampStateSyncer();
 	const { fetchLamps } = useLamps();
 

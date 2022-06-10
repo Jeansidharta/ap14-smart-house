@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { useLampStateSyncer } from '../../../contexts/lamp-state-syncer';
 
@@ -30,11 +30,7 @@ const Button = styled.button<{ selected: boolean }>`
 			: ''}
 `;
 
-type LampSyncTimeoutModalProps = React.PropsWithoutRef<{}>;
-
-type LampSyncTimeoutModalComponent = React.FunctionComponent<LampSyncTimeoutModalProps>;
-
-const LampSyncTimeoutModal: LampSyncTimeoutModalComponent = () => {
+const LampSyncTimeoutModal: FC<{}> = () => {
 	const { updateShouldSync, lampStateSyncer, setLampStateSyncer } = useLampStateSyncer();
 
 	function handleClick(syncInterval: number) {

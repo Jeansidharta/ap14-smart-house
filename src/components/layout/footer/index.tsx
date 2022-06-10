@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 
-import List from '@material-ui/icons/List';
-import DeveloperMode from '@material-ui/icons/DeveloperMode';
+import List from '@mui/icons-material/List';
+import DeveloperMode from '@mui/icons-material/DeveloperMode';
 
 const Root = styled.div`
 	width: 100%;
@@ -25,11 +25,7 @@ const Tab = styled.div<{ selected: boolean }>`
 	${props => (props.selected ? `` : ``)}
 `;
 
-type FooterProps = React.PropsWithoutRef<{}>;
-
-type FooterComponent = React.FunctionComponent<FooterProps>;
-
-const Footer: FooterComponent = () => {
+const Footer: FC<{}> = () => {
 	const router = useRouter();
 
 	return (

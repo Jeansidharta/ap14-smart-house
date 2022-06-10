@@ -1,5 +1,5 @@
 // Framework
-import React from 'react';
+import React, { FC } from 'react';
 import Head from 'next/head';
 
 // Misc
@@ -11,18 +11,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Services from '../services';
 
-type MyAppProps = React.PropsWithoutRef<{
-	// The following rule is being ignored because this type is not important and
-	// Is very hard to describe
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MyApp: FC<{
 	Component: any;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	pageProps: any;
-}>;
-
-type MyAppComponent = React.FunctionComponent<MyAppProps>;
-
-const MyApp: MyAppComponent = ({ Component, pageProps }) => {
+}> = ({ Component, pageProps }) => {
 	React.useEffect(() => {
 		if (`serviceWorker` in navigator) {
 			navigator.serviceWorker.register(`/sw.js`).then(() => {

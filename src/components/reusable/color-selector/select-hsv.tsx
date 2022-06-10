@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import StripColor from '../strip-color';
 import hsv2rgb from 'hsv-rgb';
 import { HSV } from '.';
@@ -7,14 +7,10 @@ const MAX_HUE = 359;
 const MAX_SATURATION = 100;
 const MAX_VALUE = 100;
 
-type SelectHSVProps = React.PropsWithoutRef<{
+const SelectHSV: FC<{
 	defaultValue?: HSV;
 	onChange?: (rgb: HSV) => void;
-}>;
-
-type SelectHSVComponent = React.FunctionComponent<SelectHSVProps>;
-
-const SelectHSV: SelectHSVComponent = ({ defaultValue, onChange = () => {} }) => {
+}> = ({ defaultValue, onChange = () => {} }) => {
 	const [hue, setHue] = React.useState(defaultValue?.hue || 0);
 	const [saturation, setSaturation] = React.useState(defaultValue?.saturation || 0);
 

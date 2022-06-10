@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import Toolbar from './toolbar';
 import FloatingMenu from './floating-menu';
@@ -14,11 +14,7 @@ const Root = styled.div`
 	min-height: 650px;
 `;
 
-type ControlPageProps = React.PropsWithoutRef<{}>;
-
-type ControlPageComponent = React.FunctionComponent<ControlPageProps>;
-
-const ControlPage: ControlPageComponent = () => {
+const ControlPage: FC<{}> = () => {
 	return (
 		<Root>
 			<Head>

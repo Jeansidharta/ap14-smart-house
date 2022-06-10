@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import Select from '../../components/reusable/select';
@@ -35,11 +35,7 @@ const Terminal = styled.div`
 	color: ${props => props.theme.colors.white.full};
 `;
 
-type CommandsPageProps = React.PropsWithoutRef<{}>;
-
-type CommandsPageComponent = React.FunctionComponent<CommandsPageProps>;
-
-const CommandsPage: CommandsPageComponent = ({}) => {
+const CommandsPage: FC<{}> = ({}) => {
 	const { websocketConnection, websocketState } = useWebsocket('wss://pc.sidharta.xyz:3091', {
 		autoreconnect: 1000,
 	});

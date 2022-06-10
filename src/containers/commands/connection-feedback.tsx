@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { WEBSOCKET_CONNECTION_STATE_NAME } from '../../libs/hooks/use-websocket';
 
@@ -10,13 +10,9 @@ const Root = styled.div`
 	box-shadow: ${props => props.theme.shadows.button.small.normal};
 `;
 
-type ConnectionFeedbackProps = React.PropsWithoutRef<{
+const ConnectionFeedback: FC<{
 	connectionState: WEBSOCKET_CONNECTION_STATE_NAME;
-}>;
-
-type ConnectionFeedbackComponent = React.FunctionComponent<ConnectionFeedbackProps>;
-
-const ConnectionFeedback: ConnectionFeedbackComponent = ({ connectionState }) => {
+}> = ({ connectionState }) => {
 	const theme = useTheme();
 
 	const feedbackResolver: Record<

@@ -9,6 +9,7 @@
 
 import React from 'react';
 import type { FlattenSimpleInterpolation } from 'styled-components';
+import type { StaticImageData } from 'next/image';
 import styled from 'styled-components';
 import ImageURLs from './image-urls';
 

@@ -1,11 +1,11 @@
-import { TextField } from '@material-ui/core';
-import React from 'react';
+import { TextField } from '@mui/material';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import ButtonBase from '../../reusable/button';
 import Checkbox from '../../reusable/checkbox';
 import Select from '../../reusable/select';
 import Frame from './frame';
-import Add from '@material-ui/icons/Add';
+import Add from '@mui/icons-material/Add';
 import { useModal } from '../../../contexts/modal';
 import { useSendCommand } from '../../../libs/hooks/use-send-command';
 import { useLamps } from '../../../contexts/lamps';
@@ -70,10 +70,6 @@ const Title = styled.h1`
 	margin: 0;
 `;
 
-type MulticolorModalProps = React.PropsWithoutRef<{}>;
-
-type MulticolorModalComponent = React.FunctionComponent<MulticolorModalProps>;
-
 export type FrameData = {
 	duration?: number;
 	mode?: 1 | 2 | 3 | 7;
@@ -81,7 +77,7 @@ export type FrameData = {
 	brightness: number;
 };
 
-const MulticolorModal: MulticolorModalComponent = () => {
+const MulticolorModal: FC<{}> = () => {
 	const { closeModal } = useModal();
 	const [sendCommand, { loading: loadingCommand }] = useSendCommand();
 	const [framesData, setFramesData] = React.useState<(FrameData & { key: string })[]>([]);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { useLamps } from '../contexts/lamps';
@@ -46,10 +46,6 @@ const Selector = styled.div`
 	left: 0;
 `;
 
-type AudioListenerServiceProps = React.PropsWithoutRef<{}>;
-
-type AudioListenerServiceComponent = React.FunctionComponent<AudioListenerServiceProps>;
-
 const sleep = (time: number) => new Promise(resolve => setTimeout(resolve, time));
 
 function createProcessor(stream: MediaStream) {
@@ -70,7 +66,7 @@ function getVolume(event: AudioProcessingEvent) {
 	return Math.floor(Math.sqrt(sum / buf.length) * 100 * 2);
 }
 
-const AudioListenerService: AudioListenerServiceComponent = ({}) => {
+const AudioListenerService: FC<{}> = ({}) => {
 	const { isListening, setIsListening } = useMusicListener();
 	const [sendCommand] = useSendCommand();
 	const { targetLamps } = useLamps();

@@ -1,5 +1,5 @@
-import { Slider, Switch } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import { Slider, Switch } from '@mui/material';
+import React, { useEffect, useState, FC } from 'react';
 import styled from 'styled-components';
 import { useLamps } from '../../../contexts/lamps';
 import { useSendCommand } from '../../../libs/hooks/use-send-command';
@@ -13,14 +13,10 @@ const SliderContainer = styled.div`
 	column-gap: 1rem;
 `;
 
-type TutsTutsProps = React.PropsWithoutRef<{
+const TutsTuts: FC<{
 	minFreq: number;
 	maxFreq: number;
-}>;
-
-type TutsTutsComponent = React.FunctionComponent<TutsTutsProps>;
-
-const TutsTuts: TutsTutsComponent = ({ maxFreq, minFreq }) => {
+}> = ({ maxFreq, minFreq }) => {
 	const { targetLamps } = useLamps();
 	const [sendCommand] = useSendCommand();
 	const [isTutsTutsOn, setIsTutsTutsOn] = useState(false);
@@ -41,7 +37,7 @@ const TutsTuts: TutsTutsComponent = ({ maxFreq, minFreq }) => {
 		triggerTutsTutsInterval(isTutsTutsOn, checked, tutsFrequencia);
 	}
 
-	function handleTutsFrequencia(_event: React.ChangeEvent<{}>, newValue: number | number[]) {
+	function handleTutsFrequencia(_event: Event, newValue: number | number[]) {
 		if (newValue instanceof Array) {
 			console.warn(`wtf did I just receive`);
 			return;
@@ -81,7 +77,7 @@ const TutsTuts: TutsTutsComponent = ({ maxFreq, minFreq }) => {
 				};
 			}
 			const newIntervalHandle = setInterval(intervalHandler, tutsFrequencia);
-			setIntervalHandle((newIntervalHandle as unknown) as number);
+			setIntervalHandle(newIntervalHandle as unknown as number);
 		} else {
 			setIntervalHandle(null);
 		}

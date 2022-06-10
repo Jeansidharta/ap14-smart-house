@@ -11,19 +11,13 @@ export default class MyDocument extends Document {
 		try {
 			ctx.renderPage = () =>
 				originalRenderPage({
-					enhanceApp: App => props => (
-						<>{StyledComponentsSheet.collectStyles(<App {...props} />)}</>
-					),
+					enhanceApp: App => props =>
+						<>{StyledComponentsSheet.collectStyles(<App {...props} />)}</>,
 				});
 			const initialProps = await Document.getInitialProps(ctx);
 			return {
 				...initialProps,
-				styles: (
-					<>
-						{initialProps.styles}
-						{StyledComponentsSheet.getStyleElement()}
-					</>
-				),
+				styles: [initialProps.styles, StyledComponentsSheet.getStyleElement()],
 			};
 		} finally {
 			StyledComponentsSheet.seal();

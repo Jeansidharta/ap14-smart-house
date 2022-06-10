@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { ShoppingListItem } from '../../models/shopping-list';
 
-import Clear from '@material-ui/icons/Clear';
+import Clear from '@mui/icons-material/Clear';
 import { useMouseDrag } from '../../libs/hooks/use-mouse-drag';
 
 const Root = styled.div`

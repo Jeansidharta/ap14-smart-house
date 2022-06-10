@@ -1,16 +1,14 @@
-import { FormControlLabel, Checkbox as MUICheckbox } from '@material-ui/core';
-import React from 'react';
+import { FormControlLabel, Checkbox as MUICheckbox } from '@mui/material';
+import React, { FC, PropsWithChildren } from 'react';
 
-type CheckboxProps = React.PropsWithChildren<{
-	onChangeValue?: (value: boolean) => void;
-	label: string;
-	value?: boolean;
-}> &
-	React.ComponentProps<typeof MUICheckbox>;
-
-type CheckboxComponent = React.FunctionComponent<CheckboxProps>;
-
-const Checkbox: CheckboxComponent = ({ onChangeValue = () => {}, label, value, ...props }) => {
+const Checkbox: FC<
+	PropsWithChildren<{
+		onChangeValue?: (value: boolean) => void;
+		label: string;
+		value?: boolean;
+	}> &
+		React.ComponentProps<typeof MUICheckbox>
+> = ({ onChangeValue = () => {}, label, value, ...props }) => {
 	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
 		const value = event.target.checked;
 		onChangeValue(value);
