@@ -86,7 +86,7 @@ export type FrameData = {
 
 const MulticolorModal: FC<{}> = () => {
 	const { closeModal } = useModal();
-	const [sendCommand, { loading: loadingCommand }] = useSendCommand();
+	const sendCommand = useSendCommand();
 	const [framesData, setFramesData] = React.useState<(FrameData & { key: string })[]>([]);
 	const [count, setCount] = React.useState<number>(1);
 	const [isCountInfinite, setIsCountInfinite] = React.useState<boolean>(true);
@@ -242,9 +242,7 @@ const MulticolorModal: FC<{}> = () => {
 			</FramesContainer>
 			<ButtonsContainer>
 				<CancelButton onClick={handleCancel}>Fechar</CancelButton>
-				<SubmitButton onClick={handleSubmit} isLoading={loadingCommand}>
-					Enviar
-				</SubmitButton>
+				<SubmitButton onClick={handleSubmit}>Enviar</SubmitButton>
 			</ButtonsContainer>
 		</Root>
 	);

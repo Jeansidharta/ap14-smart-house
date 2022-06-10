@@ -32,7 +32,7 @@ const Toolbar: FC<{}> = () => {
 		settings: { colorMode },
 	} = useSettings();
 	const { targetLamps, mediumTargetLampsColor } = useLamps();
-	const [sendCommand] = useSendCommand();
+	const sendCommand = useSendCommand();
 	const oldBrightness = React.useRef(0);
 	const { settings } = useSettings();
 	const { musicMode } = useMusicMode();

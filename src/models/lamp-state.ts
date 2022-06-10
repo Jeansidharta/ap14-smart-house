@@ -15,4 +15,10 @@ export type LampState = {
 	flowing: boolean;
 	flowParams?: [number, number, number, number][];
 	isMusicModeOn: boolean;
+	smartSwitch: boolean;
+	initPowerOption: number;
+	lanControl: boolean;
+	delayOff: boolean;
+	saveState: number;
+	brightWithZero: number;
 };

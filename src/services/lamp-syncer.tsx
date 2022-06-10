@@ -1,25 +1,29 @@
-import React, { FC } from 'react';
-import styled from 'styled-components';
-import { useLampStateSyncer } from '../contexts/lamp-state-syncer';
+import { FC, useEffect } from 'react';
 import { useLamps } from '../contexts/lamps';
-
-const Root = styled.div``;
+import { useWebsocket } from '../contexts/websocket';
+import { LampState } from '../models/lamp-state';
 
 const LampSyncerService: FC<{}> = ({}) => {
-	const { lampStateSyncer } = useLampStateSyncer();
-	const { fetchLamps } = useLamps();
+	const { websocketEventEmitter, isWebsocketConnected, sendMessage } = useWebsocket();
+	const { updateLampData } = useLamps();
 
-	React.useEffect(() => {
-		if (!lampStateSyncer.shouldSync) return;
+	useEffect(() => {
+		function updateLampsData(state: LampState) {
+			updateLampData([{ id: state.id!, state }]);
+		}
 
-		const intervalHandler = setInterval(
-			() => fetchLamps().catch(e => console.log(e)),
-			lampStateSyncer.syncInterval * 1000,
-		);
-		return () => clearInterval(intervalHandler);
-	}, [lampStateSyncer.shouldSync, lampStateSyncer.syncInterval]);
+		websocketEventEmitter.on('lamp-state-arrived', updateLampsData);
+		return () => {
+			websocketEventEmitter.off('lamp-state-arrived', updateLampsData);
+		};
+	}, [websocketEventEmitter, updateLampData]);
 
-	return <Root></Root>;
+	useEffect(() => {
+		if (!isWebsocketConnected) return;
+		sendMessage({ type: 'request-all-lamps' });
+	}, [isWebsocketConnected, websocketEventEmitter]);
+
+	return null;
 };
 
 export default LampSyncerService;

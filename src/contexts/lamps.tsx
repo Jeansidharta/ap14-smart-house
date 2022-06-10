@@ -38,13 +38,15 @@ const LampsProvider = ({ ...props }) => {
 		setAllLamps(lampsDict);
 	}
 
-	function updateLampData(newStates: { id: number; state: LampState }[]) {
-		const newAllLamps = { ...allLamps };
-		newStates.forEach(({ id, state }) => {
-			newAllLamps[id] = state;
-		});
-		setAllLamps(newAllLamps);
-	}
+	const updateLampData = React.useCallback(
+		(newStates: { id: number; state: LampState }[]) => {
+			setAllLamps(allLamps => ({
+				...allLamps,
+				...Object.fromEntries(newStates.map(({ state, id }) => [id, state])),
+			}));
+		},
+		[setAllLamps],
+	);
 
 	React.useEffect(() => {
 		fetchLamps().catch(e => console.log(e));

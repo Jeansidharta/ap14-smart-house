@@ -18,7 +18,7 @@ const TutsTuts: FC<{
 	maxFreq: number;
 }> = ({ maxFreq, minFreq }) => {
 	const { targetLamps } = useLamps();
-	const [sendCommand] = useSendCommand();
+	const sendCommand = useSendCommand();
 	const [isTutsTutsOn, setIsTutsTutsOn] = useState(false);
 	const [tutsTutsAreIndependent, setTutsTutsAreIndependent] = useState(false);
 	const [tutsFrequencia, setTutsFrequencia] = useState(1000);

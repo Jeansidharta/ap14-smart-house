@@ -19,10 +19,10 @@ export function useDebounce<T extends (...args: never[]) => unknown>(
 			lastExecution.current = Date.now();
 		} else {
 			clearTimeout(timeoutHandler.current);
-			timeoutHandler.current = (setTimeout(() => {
+			timeoutHandler.current = setTimeout(() => {
 				func(...args);
 				lastExecution.current = Date.now();
-			}, time - timeDiff) as unknown) as number;
+			}, time - timeDiff) as unknown as number;
 		}
 	};
 }

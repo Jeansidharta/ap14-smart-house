@@ -68,7 +68,7 @@ function getVolume(event: AudioProcessingEvent) {
 
 const AudioListenerService: FC<{}> = ({}) => {
 	const { isListening, setIsListening } = useMusicListener();
-	const [sendCommand] = useSendCommand();
+	const sendCommand = useSendCommand();
 	const { targetLamps } = useLamps();
 	const [userMediaStream, setUserMediaStream] = React.useState<MediaStream | null>(null);
 
