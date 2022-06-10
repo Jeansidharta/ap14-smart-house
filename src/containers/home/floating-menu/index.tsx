@@ -29,7 +29,7 @@ const FloatingMenu: FC<{}> = () => {
 	}
 
 	function handleOpenMulticolor() {
-		openModal(<MulticolorModal />);
+		openModal(<MulticolorModal />, { backdropClickClose: false, escKeyClose: false });
 		setIsOpen(false);
 	}
 

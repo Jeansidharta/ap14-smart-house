@@ -6,6 +6,7 @@ import Checkbox from '../../reusable/checkbox';
 import Select from '../../reusable/select';
 import Frame from './frame';
 import Add from '@mui/icons-material/Add';
+import Delete from '@mui/icons-material/Delete';
 import { useModal } from '../../../contexts/modal';
 import { useSendCommand } from '../../../libs/hooks/use-send-command';
 import { useLamps } from '../../../contexts/lamps';
@@ -25,10 +26,10 @@ const Root = styled.div`
 	align-items: center;
 `;
 
-const AddFrameButton = styled(ButtonBase)`
-	align-self: flex-end;
-	font-size: 16px;
+const FrameActionButton = styled(ButtonBase)`
+	font-size: 14px;
 	margin-top: 8px;
+	width: max-content;
 `;
 
 const ButtonsContainer = styled.div`
@@ -70,6 +71,12 @@ const Title = styled.h1`
 	margin: 0;
 `;
 
+const FrameActionButtonContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+`;
+
 export type FrameData = {
 	duration?: number;
 	mode?: 1 | 2 | 3 | 7;
@@ -103,6 +110,10 @@ const MulticolorModal: FC<{}> = () => {
 
 	function handleAddFrame() {
 		setFramesData([...framesData, { duration: 5000, key: randomKey(), brightness: 100 }]);
+	}
+
+	function handleClearFrame() {
+		setFramesData([]);
 	}
 
 	function handleDeleteFrame(frameIndex: number) {
@@ -169,7 +180,6 @@ const MulticolorModal: FC<{}> = () => {
 				</>,
 			);
 		await sendCommand(targetLamps, 'start_cf', makeData());
-		closeModal();
 		return;
 	}
 
@@ -221,12 +231,17 @@ const MulticolorModal: FC<{}> = () => {
 						index={index}
 					/>
 				))}
-				<AddFrameButton onClick={handleAddFrame}>
-					<Add /> Add frame
-				</AddFrameButton>
+				<FrameActionButtonContainer>
+					<FrameActionButton onClick={handleClearFrame}>
+						<Delete /> Clear frames
+					</FrameActionButton>
+					<FrameActionButton onClick={handleAddFrame}>
+						<Add /> Add frame
+					</FrameActionButton>
+				</FrameActionButtonContainer>
 			</FramesContainer>
 			<ButtonsContainer>
-				<CancelButton onClick={handleCancel}>Cancelar</CancelButton>
+				<CancelButton onClick={handleCancel}>Fechar</CancelButton>
 				<SubmitButton onClick={handleSubmit} isLoading={loadingCommand}>
 					Enviar
 				</SubmitButton>
