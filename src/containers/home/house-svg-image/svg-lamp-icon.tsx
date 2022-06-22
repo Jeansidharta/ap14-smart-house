@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useLamps } from '../../../contexts/lamps';
 
 import hsv2Rgb from 'hsv-rgb';
@@ -6,6 +6,10 @@ import { colorTemperature2rgb } from 'color-temperature';
 
 const TOTAL_BRIGHTNESS_STAGES = 30;
 const TICK_SIZE = 0.05;
+
+function number2hex(num: number) {
+	return num.toString(16).padStart(2, '0');
+}
 
 const SVGLampIcon: FC<{
 	x: number;
@@ -16,11 +20,7 @@ const SVGLampIcon: FC<{
 
 	const lamp = findLampById(lampId);
 
-	function calculateLampColor() {
-		function number2hex(num: number) {
-			return num.toString(16).padStart(2, '0');
-		}
-
+	const lampColor = useMemo(() => {
 		if (!lamp) return 'transparent';
 		let color: string;
 		if (lamp.colorMode === 'rgb') color = lamp.rgb.toString(16).padStart(6, '0');
@@ -32,9 +32,9 @@ const SVGLampIcon: FC<{
 			color = `${number2hex(red)}${number2hex(green)}${number2hex(blue)}`;
 		}
 		return '#' + color;
-	}
+	}, [lamp]);
 
-	function calculateLampBrightnessStage() {
+	const brightnessStage = useMemo(() => {
 		if (!lamp) return 0;
 
 		if (!lamp.isPowerOn) return 0;
@@ -45,10 +45,9 @@ const SVGLampIcon: FC<{
 		}
 
 		return TOTAL_BRIGHTNESS_STAGES;
-	}
+	}, [lamp]);
 
-	function renderTicks() {
-		const brightnessStage = calculateLampBrightnessStage();
+	const ticks = useMemo(() => {
 		const ticks: React.ReactNode[] = [];
 		for (let i = 0; i < brightnessStage; i++) {
 			ticks.push(
@@ -64,18 +63,18 @@ const SVGLampIcon: FC<{
 			);
 		}
 		return ticks;
-	}
+	}, [brightnessStage]);
 
-	function renderMusicNote() {
+	const musicNote = useMemo(() => {
 		if (!lamp || !lamp.isMusicModeOn) return null;
 		return <use href="#music-note" x={x + 2.5} y={y + 11} width="5" height="5" />;
-	}
+	}, [lamp]);
 
 	return (
 		<>
-			<use fill={calculateLampColor()} href="#light" x={x} y={y} width="10" height="10" />
-			{renderMusicNote()}
-			{renderTicks()}
+			<use fill={lampColor} href="#light" x={x} y={y} width="10" height="10" />
+			{musicNote}
+			{ticks}
 		</>
 	);
 };

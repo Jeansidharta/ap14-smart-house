@@ -49,7 +49,7 @@ const MyApp: FC<{
 				<meta property="og:description" content="My page description" />
 				{/* <meta property='og:url' content={deployedUrl + '/'} /> */}'{/* PWA stuff */}
 				<meta name="apple-mobile-web-app-capable" content="yes" />
-				<link rel="apple-touch-icon" href="single-page-icon.png" />
+				<link rel="apple-touch-icon" href="house.png" />
 				<meta name="apple-mobile-web-app-title" content="Ap 14 remote" />
 				<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 				<link rel="manifest" href="manifest.json" />

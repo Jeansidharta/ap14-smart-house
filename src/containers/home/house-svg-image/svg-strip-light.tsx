@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useLamps } from '../../../contexts/lamps';
 
 import hsv2Rgb from 'hsv-rgb';
@@ -6,6 +6,10 @@ import { colorTemperature2rgb } from 'color-temperature';
 
 const TOTAL_BRIGHTNESS_STAGES = 10;
 const TICK_SIZE = 0.05;
+
+function number2hex(num: number) {
+	return num.toString(16).padStart(2, '0');
+}
 
 export const SVGStripLight: FC<{
 	x: number;
@@ -17,31 +21,34 @@ export const SVGStripLight: FC<{
 
 	const lamp = findLampById(lampId);
 
-	function calculateLampColor() {
-		function number2hex(num: number) {
-			return num.toString(16).padStart(2, '0');
-		}
-
+	const lampColor = useMemo(() => {
 		if (!lamp) return 'transparent';
-		if (lamp.colorMode === 'rgb') {
-			return `#${lamp.rgb.toString(16).padStart(6, '0')}`;
-		} else if (lamp.colorMode === 'hsv') {
+		let color: string;
+		if (lamp.colorMode === 'rgb') color = lamp.rgb.toString(16).padStart(6, '0');
+		else if (lamp.colorMode === 'hsv') {
 			const [red, green, blue] = hsv2Rgb(lamp.hue, lamp.saturation, 100);
-			return `#${number2hex(red)}${number2hex(green)}${number2hex(blue)}`;
+			color = `${number2hex(red)}${number2hex(green)}${number2hex(blue)}`;
 		} else {
 			const { blue, green, red } = colorTemperature2rgb(lamp.colorTemperature);
-			return `#${number2hex(red)}${number2hex(green)}${number2hex(blue)}`;
+			color = `${number2hex(red)}${number2hex(green)}${number2hex(blue)}`;
 		}
-	}
+		return '#' + color;
+	}, [lamp]);
 
-	function calculateLampBrightnessStage() {
+	const brightnessStage = useMemo(() => {
 		if (!lamp) return 0;
-		if (!lamp.isPowerOn) return 0;
-		return Math.floor((lamp.bright / 100) * TOTAL_BRIGHTNESS_STAGES);
-	}
 
-	function renderTicks() {
-		const brightnessStage = calculateLampBrightnessStage();
+		if (!lamp.isPowerOn) return 0;
+
+		for (let i = 0; i < TOTAL_BRIGHTNESS_STAGES; i++) {
+			const stageThreshold = (100 / TOTAL_BRIGHTNESS_STAGES) * i;
+			if (stageThreshold > lamp.bright) return i;
+		}
+
+		return TOTAL_BRIGHTNESS_STAGES;
+	}, [lamp]);
+
+	const ticks = useMemo(() => {
 		const ticks: React.ReactNode[] = [];
 		for (let i = 0; i < brightnessStage; i++) {
 			ticks.push(
@@ -57,12 +64,12 @@ export const SVGStripLight: FC<{
 			);
 		}
 		return ticks;
-	}
+	}, [brightnessStage]);
 
-	function renderMusicNote() {
+	const musicNote = useMemo(() => {
 		if (!lamp || !lamp.isMusicModeOn) return null;
 		return <use href="#music-note" x={x + 2.5} y={y + 11} width="5" height="5" />;
-	}
+	}, [lamp]);
 
 	return (
 		<>
@@ -76,9 +83,9 @@ export const SVGStripLight: FC<{
 				fill="white"
 				style={{ cursor: 'pointer' }}
 			/>
-			{renderMusicNote()}
-			{renderTicks()}
-			<use fill={calculateLampColor()} href="#lampstand" x={x} y={y} width="10" height="10" />
+			{musicNote}
+			{ticks}
+			<use fill={lampColor} href="#lampstand" x={x} y={y} width="10" height="10" />
 		</>
 	);
 };
