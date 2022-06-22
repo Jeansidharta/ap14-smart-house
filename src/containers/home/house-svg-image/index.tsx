@@ -11,6 +11,7 @@ import {
 	LAMP_ID_WINDOW,
 	LAMP_ID_STRIP_JEAN,
 	LAMP_ID_HALL,
+	LAMP_ID_STRIP_SALA,
 } from '../../../constants/lamp-ids';
 import SVGLampIcon from './svg-lamp-icon';
 import { SVGStripLight } from './svg-strip-light';
@@ -197,6 +198,12 @@ const HouseSVGImage: FC<{}> = () => {
 					height="48"
 					onClick={() => handleClick(LAMP_ID_WINDOW)}
 					color={calculateRoomColor(LAMP_ID_WINDOW)}
+				/>
+				<SVGStripLight
+					onSelect={() => handleClick(LAMP_ID_STRIP_SALA)}
+					lampId={LAMP_ID_STRIP_SALA}
+					x={85}
+					y={10}
 				/>
 				<SVGLampIcon lampId={LAMP_ID_WINDOW} x={65} y={125} />
 				<SVGLampIcon lampId={LAMP_ID_MIDDLE} x={65} y={70} />
